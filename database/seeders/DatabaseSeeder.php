@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
           'status' => 'active'
         ]);
 
-        \App\Models\User::factory(30)->create();
+        //\App\Models\User::factory(30)->create();
 
         foreach (['privacy_policy', 'about_app', 'terms_of_use', 'delete_account']  as $name){
           Documentation::create(['name' => $name]);
