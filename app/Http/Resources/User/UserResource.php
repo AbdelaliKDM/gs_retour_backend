@@ -26,7 +26,7 @@ class UserResource extends JsonResource
       'role' => $this->role,
       'status' => $this->status,
       'device_token' => $this->device_token,
-      //'truck' => new TruckResource($this->truck)
+      'truck' => new TruckResource($this->truck)
     ];
   }
 }
