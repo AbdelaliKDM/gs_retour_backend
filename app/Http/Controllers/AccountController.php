@@ -33,6 +33,7 @@ class AccountController extends Controller
         'image' => 'sometimes|mimetypes:image/*',
         "id_card" => 'sometimes|mimetypes:image/*',
         "id_card_selfie" => 'sometimes|mimetypes:image/*',
+        "role" => 'sometimes|in:driver,renter'
       ]);
 
       try {
@@ -40,6 +41,10 @@ class AccountController extends Controller
         $user = auth()->user();
 
         $user->update($request->only('name', 'email', 'phone'));
+
+        if(empty($user->role) && $request->has('role')){
+          $user->role = $request->role;
+        }
 
         $user->image = $this->handleFileUpload(
           $request->file('image'),

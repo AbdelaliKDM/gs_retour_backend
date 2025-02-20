@@ -23,7 +23,7 @@ return new class extends Migration {
       $table->string('image')->nullable()->default(NULL);
       $table->string('id_card')->nullable()->default(NULL);
       $table->string('id_card_selfie')->nullable()->default(NULL);
-      $table->enum('role', ['admin', 'driver', 'renter'])->default('renter');
+      $table->enum('role', ['admin', 'driver', 'renter'])->nullable()->default(NULL);
       $table->enum('status', ['active', 'inactive', 'suspended', 'deleted'])->nullable()->default('inactive');
       $table->string('device_token')->nullable()->default(NULL);
       $table->rememberToken();
