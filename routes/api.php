@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TruckController;
 use App\Http\Controllers\AccountController;
@@ -38,17 +39,29 @@ Route::prefix('v1')->group(function () {
   });
 
   #truck routes
-  Route::prefix('truck')->middleware('auth:sanctum')->group(function () {
-      Route::get('/get', [TruckController::class, 'get'])->middleware('api.role:driver');
-      Route::post('/create', [TruckController::class, 'create'])->middleware('api.role:renter');
-      Route::post('/update', [TruckController::class, 'update'])->middleware('api.role:driver');
+  Route::prefix('truck')->middleware('auth:sanctum')->middleware('api.role:driver')->group(function () {
+      Route::get('/get', [TruckController::class, 'get']);
+      Route::post('/create', [TruckController::class, 'create']);
+      Route::post('/update', [TruckController::class, 'update']);
   });
 
   Route::prefix('truck/image')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
     Route::post('/get', [TruckImageController::class, 'get']);
     Route::post('/create', [TruckImageController::class, 'create']);
     Route::post('/delete', [TruckImageController::class, 'delete']);
+
   });
+
+   #trip routes
+   Route::prefix('trip')->middleware('auth:sanctum')->group(function () {
+    Route::get('/get', [TripController::class, 'get']);
+    Route::middleware('api.role:driver')->group(function () {
+      Route::post('/create', [TripController::class, 'create']);
+      Route::post('/update', [TripController::class, 'update']);
+      Route::post('/delete', [TripController::class, 'delete']);
+      Route::post('/restore', [TripController::class, 'restore']);
+    });
+});
 
   //public routes
   Route::post('documentation/get', [DocumentationController::class, 'get']);
