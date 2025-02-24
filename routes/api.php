@@ -54,7 +54,7 @@ Route::prefix('v1')->group(function () {
 
    #trip routes
    Route::prefix('trip')->middleware('auth:sanctum')->group(function () {
-    Route::get('/get', [TripController::class, 'get']);
+    Route::post('/get', [TripController::class, 'get']);
     Route::middleware('api.role:driver')->group(function () {
       Route::post('/create', [TripController::class, 'create']);
       Route::post('/update', [TripController::class, 'update']);
