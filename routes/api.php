@@ -5,13 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TruckController;
+use App\Http\Controllers\WilayaController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\TruckTypeController;
 use App\Http\Controllers\TruckImageController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\ShipmentTypeController;
 use App\Http\Controllers\DocumentationController;
 
 /*
@@ -39,7 +43,7 @@ Route::prefix('v1')->group(function () {
   });
 
   #truck routes
-  Route::prefix('truck')->middleware('auth:sanctum')->middleware('api.role:driver')->group(function () {
+  Route::prefix('truck')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
       Route::get('/get', [TruckController::class, 'get']);
       Route::post('/create', [TruckController::class, 'create']);
       Route::post('/update', [TruckController::class, 'update']);
@@ -61,7 +65,25 @@ Route::prefix('v1')->group(function () {
       Route::post('/delete', [TripController::class, 'delete']);
       Route::post('/restore', [TripController::class, 'restore']);
     });
-});
+  });
+
+  #shipment routes
+  Route::prefix('shipment')->middleware('auth:sanctum')->group(function () {
+    Route::post('/get', [ShipmentController::class, 'get']);
+    Route::middleware('api.role:renter')->group(function () {
+      Route::post('/create', [ShipmentController::class, 'create']);
+      Route::post('/update', [ShipmentController::class, 'update']);
+      Route::post('/delete', [ShipmentController::class, 'delete']);
+      Route::post('/restore', [ShipmentController::class, 'restore']);
+    });
+  });
+
+  #order routes
+  Route::prefix('order')->middleware('auth:sanctum')->group(function () {
+    Route::post('/create', [OrderController::class, 'create']);
+    Route::post('/update', [OrderController::class, 'update']);
+    Route::post('/get', [OrderController::class, 'get']);
+  });
 
   //public routes
   Route::post('documentation/get', [DocumentationController::class, 'get']);
@@ -69,7 +91,8 @@ Route::prefix('v1')->group(function () {
   Route::post('category/get', [CategoryController::class, 'get']);
   Route::post('subcategory/get', [SubcategoryController::class, 'get']);
   Route::post('truck/type/get', [TruckTypeController::class, 'get']);
-
+  Route::post('shipment/type/get', [ShipmentTypeController::class, 'get']);
+  Route::post('wilaya/get', [WilayaController::class, 'get']);
   //admin routes
 
   Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
@@ -101,6 +124,13 @@ Route::prefix('v1')->group(function () {
         Route::post('/update', [TruckTypeController::class, 'update']);
         Route::post('/delete', [TruckTypeController::class, 'delete']);
         Route::post('/restore', [TruckTypeController::class, 'restore']);
+      });
+
+      Route::prefix('shipment/type')->group(function () {
+        Route::post('/create', [ShipmentTypeController::class, 'create']);
+        Route::post('/update', [ShipmentTypeController::class, 'update']);
+        Route::post('/delete', [ShipmentTypeController::class, 'delete']);
+        Route::post('/restore', [ShipmentTypeController::class, 'restore']);
       });
 
   });

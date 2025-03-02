@@ -15,8 +15,8 @@ return new class extends Migration {
     Schema::create('users', function (Blueprint $table) {
       $table->id();
       $table->string('name')->nullable()->default(NULL);
-      $table->string('email')->nullable()->default(NULL);
-      $table->string('phone')->nullable()->default(NULL);
+      $table->string('email')->nullable()->unique()->default(NULL);
+      $table->string('phone')->nullable()->unique()->default(NULL);
       $table->timestamp('email_verified_at')->nullable()->default(NULL);
       $table->timestamp('phone_verified_at')->nullable()->default(NULL);
       $table->string('password')->nullable()->default(NULL);
@@ -30,12 +30,10 @@ return new class extends Migration {
       $table->timestamps();
       $table->softDeletes();
 
-      $table->unique('email');
-      $table->unique('phone');
 
     });
 
-    DB::statement('ALTER TABLE users ADD CONSTRAINT check_email_or_phone CHECK (email IS NOT NULL OR phone IS NOT NULL)');
+    //DB::statement('ALTER TABLE users ADD CONSTRAINT check_email_or_phone CHECK (email IS NOT NULL OR phone IS NOT NULL)');
   }
 
   /**

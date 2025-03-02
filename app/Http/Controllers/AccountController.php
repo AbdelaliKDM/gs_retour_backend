@@ -81,7 +81,16 @@ class AccountController extends Controller
 
         $user = $request->user();
 
-        //$user->delete();
+        $user->update([
+          'email' => null,
+          'phone' => null,
+          'device_token' => null,
+          'status' => 'deleted'
+        ]);
+
+        $user->tokens()->delete();
+
+        $user->delete();
 
         return $this->successResponse();
 

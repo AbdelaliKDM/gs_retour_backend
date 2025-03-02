@@ -65,7 +65,7 @@ class Truck extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function truck_type()
+  public function truckType()
   {
     return $this->belongsTo(TruckType::class);
   }
@@ -80,7 +80,7 @@ class Truck extends Model
     return $this->belongsToThrough(Category::class, [Subcategory::class, TruckType::class]);
   }
 
-  public function truck_images()
+  public function truckImages()
   {
     return $this->hasMany(TruckImage::class);
   }

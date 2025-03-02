@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Trip extends Model
 {
-  use HasFactory, SoftDeletes;
+  use HasFactory, SoftDeletes, SoftCascadeTrait;
     protected $fillable = [
         'driver_id',
         'truck_id',
@@ -22,15 +23,7 @@ class Trip extends Model
         'distance',
         'starts_at'
     ];
-
-    protected $casts = [
-        'starts_at' => 'datetime',
-        'starting_point_longitude' => 'decimal:7',
-        'starting_point_latitude' => 'decimal:7',
-        'arrival_point_longitude' => 'decimal:7',
-        'arrival_point_latitude' => 'decimal:7',
-        'distance' => 'decimal:2'
-    ];
+    protected $softCascade = ['statuses','orders'];
 
     public function driver(): BelongsTo
     {
@@ -60,5 +53,13 @@ class Trip extends Model
     public function statuses()
     {
       return $this->hasMany(TripStatus::class);
+    }
+
+    public function orders(){
+      return $this->hasMany(Order::class)->whereNot('created_by', $this->driver_id);
+    }
+
+    public function shipments(){
+      return $this->hasMany(Shipment::class);
     }
 }

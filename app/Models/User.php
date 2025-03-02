@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use HasApiTokens, HasFactory, Notifiable, Authorizable, SoftDeletes;
+  use HasApiTokens, HasFactory, Notifiable, Authorizable, SoftDeletes, SoftCascadeTrait;
 
   /**
    * The attributes that are mass assignable.
@@ -57,6 +58,8 @@ class User extends Authenticatable
     'status' => 'string',
   ];
 
+  protected $softCascade = ['truck','trips','shipments'];
+
   public function getImageUrlAttribute()
   {
     return $this->image && Storage::disk('upload')->exists($this->image)
@@ -79,5 +82,15 @@ class User extends Authenticatable
   public function truck()
   {
     return $this->hasOne(Truck::class);
+  }
+
+  public function trips()
+  {
+    return $this->hasMany(Trip::class, 'driver_id');
+  }
+
+  public function shipments()
+  {
+    return $this->hasMany(Shipment::class, 'renter_id');
   }
 }

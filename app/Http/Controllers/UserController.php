@@ -141,7 +141,16 @@ class UserController extends Controller
 
       $user = User::findOrFail($request->id);
 
-      //$user->delete();
+      $user->update([
+        'email' => null,
+        'phone' => null,
+        'device_token' => null,
+        'status' => 'deleted'
+      ]);
+
+      $user->tokens()->delete();
+
+      $user->delete();
 
       return $this->successResponse();
 

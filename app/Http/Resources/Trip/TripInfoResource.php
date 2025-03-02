@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Trip;
 
-use App\Http\Resources\User\AvatarResource;
 use Illuminate\Http\Request;
+use App\Http\Resources\User\AvatarResource;
+use App\Http\Resources\Status\StatusCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Shipment\ShipmentCollection;
 
 class TripInfoResource extends JsonResource
 {
@@ -17,17 +19,18 @@ class TripInfoResource extends JsonResource
     {
         return [
           'id' => $this->id,
-          'driver' => new AvatarResource($this->driver),
           'starting_wilaya_id' => $this->starting_wilaya_id,
           'arrival_wilaya_id' => $this->arrival_wilaya_id,
           'starting_wilaya' => $this->startingWilaya->name,
           'arrival_wilaya' => $this->arrivalWilaya->name,
-          'truck_type' => $this->truck->truck_type->name,
+          'truck_type' => $this->truck->truckType->name,
           'status' => $this->status->name,
-          'history' => $this->statuses,
           'distance' => $this->distance,
           'starts_at' => $this->starts_at,
-          'created_at' => $this->created_at
+          'created_at' => $this->created_at,
+          'driver' => new AvatarResource($this->driver),
+          'history' => new StatusCollection($this->statuses),
+          'shipments' => new ShipmentCollection($this->shipments)
         ];
     }
 }

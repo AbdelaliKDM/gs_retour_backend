@@ -67,7 +67,7 @@ class TruckImageController extends Controller
 
     try {
 
-      $truck_images = auth()->user()->truck->truck_images()->latest();
+      $truck_images = auth()->user()->truck->truckImages()->latest();
 
       if ($request->has('all')) {
         $truck_images = new TruckImageCollection($truck_images->get());

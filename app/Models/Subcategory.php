@@ -19,11 +19,6 @@ class Subcategory extends Model
     'image',
 ];
 
-protected $dates = ['deleted_at'];
-
-protected $casts = [
-  'category_id' => 'integer'
-];
 public function getImageUrlAttribute()
   {
     return $this->image && Storage::disk('upload')->exists($this->image)

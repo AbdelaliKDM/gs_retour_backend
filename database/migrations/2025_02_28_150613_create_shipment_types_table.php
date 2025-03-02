@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trip_statuses', function (Blueprint $table) {
+        Schema::create('shipment_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trip_id')->constrained();
-            $table->enum('name', ['pending','ongoing','canceled','paused','completed']);
+            $table->string('name_ar');
+            $table->string('name_en');
+            $table->string('name_fr');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trip_statuses');
+        Schema::dropIfExists('shipment_types');
     }
 };

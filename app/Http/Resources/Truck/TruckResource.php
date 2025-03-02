@@ -16,7 +16,7 @@ class TruckResource extends JsonResource
   {
     return [
       'id' => $this->id,
-      'truck_type_id' => $this->truck_type->id,
+      'truck_type_id' => $this->truck_type_id,
       'subcategory_id' => $this->subcategory->id,
       'category_id' => $this->category->id,
       'serial_number' => $this->serial_number,
@@ -28,7 +28,7 @@ class TruckResource extends JsonResource
       'next_inspection_date' => $this->next_inspection_date,
       'affiliated_with_agency' => $this->affiliated_with_agency,
       'agency_document' => $this->agency_document_url,
-      'images' => $this->truck_images()->get()->pluck('url')->toArray()
+      'images' => $this->truckImages()->get()->pluck('url')->toArray()
     ];
   }
 }

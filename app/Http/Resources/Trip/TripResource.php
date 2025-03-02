@@ -20,7 +20,7 @@ class TripResource extends JsonResource
           'arrival_wilaya_id' => $this->arrival_wilaya_id,
           'starting_wilaya' => $this->startingWilaya->name,
           'arrival_wilaya' => $this->arrivalWilaya->name,
-          'truck_type' => $this->truck->truck_type->name,
+          'truck_type' => $this->truck->truckType->name,
           'status' => $this->status->name,
           'distance' => $this->distance,
           'starts_at' => $this->starts_at,
