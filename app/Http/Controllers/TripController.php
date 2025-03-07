@@ -127,7 +127,7 @@ class TripController extends Controller
 
     try {
       if ($request->has('id')) {
-        $trip = Trip::findOrFail($request->id);
+        $trip = auth()->user()->trips()->find($request->id);
         return $this->successResponse(data: new TripInfoResource($trip));
       }
 

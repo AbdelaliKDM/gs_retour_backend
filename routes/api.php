@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\WilayaController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\TruckTypeController;
 use App\Http\Controllers\TruckImageController;
@@ -83,6 +85,12 @@ Route::prefix('v1')->group(function () {
     Route::post('/create', [OrderController::class, 'create']);
     Route::post('/update', [OrderController::class, 'update']);
     Route::post('/get', [OrderController::class, 'get']);
+  });
+
+  #order routes
+  Route::prefix('favorite')->middleware('auth:sanctum')->group(function () {
+    Route::post('/toggle', [FavoriteController::class, 'toggle']);
+    Route::get('/get', [FavoriteController::class, 'get']);
   });
 
   //public routes

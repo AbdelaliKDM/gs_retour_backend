@@ -129,26 +129,42 @@ class ShipmentController extends Controller
       'shipment_type_id' => 'sometimes|exists:shipment_types,id',
       'starting_wilaya_id' => 'sometimes|exists:wilayas,id',
       'arrival_wilaya_id' => 'sometimes|exists:wilayas,id',
-      'status' => 'sometimes|in:pending,shipped,delivered'
+      'status' => 'sometimes|in:pending,shipped,delivered',
+      'has_trip' => 'sometimes|in:yes,no'
     ]);
 
     try {
       if ($request->has('id')) {
-        $shipment = Shipment::findOrFail($request->id);
+        $shipment = auth()->user()->shipments()->find($request->id);
         return $this->successResponse(data: new ShipmentInfoResource($shipment));
       }
 
       if ($request->has('renter_id')) {
-        if (auth()->id() != $request->renter_id) {
-          throw new Exception('Unauthorized action.');
-        }
+
         $shipments = Shipment::where('renter_id', $request->renter_id);
-      } elseif ($request->has('trip_id')) {
-        if (auth()->user()->trips()->where('id', $request->trip_id)->doesntExist()) {
-          throw new Exception('Unauthorized action.');
+
+        if(auth()->id() == $request->renter_id){
+          if($request->has_trip == 'yes'){
+            $shipments = $shipments->whereNotNull('trip_id');
+          }
+
+          if($request->has_trip == 'no'){
+            $shipments = $shipments->whereNull('trip_id');
+          }
+        }else{
+          $shipments = $shipments->whereNull('trip_id');
         }
-        $shipments = Shipment::where('trip_id', $request->trip_id);
-      } else {
+
+
+      } elseif ($request->has('trip_id')) {
+        $shipments = Shipment::whereHas('trip', function($query) use ($request){
+          $query->where([
+            'id' => $request->trip_id,
+            'driver_id' => auth()->id()
+          ]);
+        });
+      }
+      else {
         $shipments = Shipment::whereNull('trip_id');
       }
 

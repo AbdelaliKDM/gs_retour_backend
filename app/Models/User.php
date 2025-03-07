@@ -58,7 +58,7 @@ class User extends Authenticatable
     'status' => 'string',
   ];
 
-  protected $softCascade = ['truck','trips','shipments'];
+  protected $softCascade = ['truck', 'trips', 'shipments'];
 
   public function getImageUrlAttribute()
   {
@@ -92,5 +92,10 @@ class User extends Authenticatable
   public function shipments()
   {
     return $this->hasMany(Shipment::class, 'renter_id');
+  }
+
+  public function favorites()
+  {
+    return $this->hasMany(Favorite::class);
   }
 }

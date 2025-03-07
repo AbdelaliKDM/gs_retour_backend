@@ -19,6 +19,7 @@ class ShipmentInfoResource extends JsonResource
     {
         return [
           'id' => $this->id,
+          'trip_id' => $this->trip_id,
           'starting_wilaya_id' => $this->starting_wilaya_id,
           'arrival_wilaya_id' => $this->arrival_wilaya_id,
           'starting_wilaya' => $this->startingWilaya->name,
