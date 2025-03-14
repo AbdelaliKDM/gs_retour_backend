@@ -19,18 +19,19 @@ class ShipmentResource extends JsonResource
         'trip_id' => $this->trip_id,
         'starting_wilaya_id' => $this->starting_wilaya_id,
         'arrival_wilaya_id' => $this->arrival_wilaya_id,
-        'starting_wilaya' => $this->startingWilaya->name,
-        'arrival_wilaya' => $this->arrivalWilaya->name,
-        'truck_type' => $this->truckType->name,
-        'shipment_type' => $this->shipmentType->name,
-        'status' => $this->status->name,
+        'starting_wilaya' => $this->starting_wilaya_name,
+        'arrival_wilaya' => $this->arrival_wilaya_name,
+        'truck_type' => $this->truck_type_name,
+        'shipment_type' => $this->shipment_type_name,
+        'status' => $this->current_status,
         'distance' => $this->distance,
         'price' => $this->price,
         'weight' => $this->weight,
         'waiting_hours' => $this->waiting_hours,
         'waiting_duration' => $this->waiting_duration,
         'shipping_date' => $this->shipping_date,
-        'created_at' => $this->created_at
+        'created_at' => $this->created_at,
+        'is_favored' => $this->is_favored,
       ];
     }
 }

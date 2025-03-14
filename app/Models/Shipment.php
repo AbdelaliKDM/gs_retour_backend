@@ -38,6 +38,32 @@ class Shipment extends Model
     return Carbon::now()->subHours($this->waiting_hours)->longAbsoluteDiffForHumans();
   }
 
+  public function getIsFavoredAttribute(){
+    return $this->favorites()->where('user_id', auth()->id())->exists()
+    ? true
+    : false;
+  }
+  public function getTruckTypeNameAttribute()
+  {
+    return $this->truckType->name;
+  }
+  public function getShipmentTypeNameAttribute()
+  {
+    return $this->shipmentType->name;
+  }
+  public function getStartingWilayaNameAttribute()
+  {
+    return $this->startingWilaya->name;
+  }
+  public function getArrivalWilayaNameAttribute()
+  {
+    return $this->arrivalWilaya->name;
+  }
+  public function getCurrentStatusAttribute()
+  {
+    return $this->status->name;
+  }
+
   public function renter()
   {
     return $this->belongsTo(User::class, 'renter_id');
@@ -54,7 +80,6 @@ class Shipment extends Model
   {
     return $this->belongsTo(Wilaya::class, 'starting_wilaya_id');
   }
-
   public function arrivalWilaya()
   {
     return $this->belongsTo(Wilaya::class, 'arrival_wilaya_id');
@@ -71,7 +96,17 @@ class Shipment extends Model
 
   public function orders()
   {
+    return $this->hasMany(Order::class);
+  }
+
+  public function incoming_orders()
+  {
     return $this->hasMany(Order::class)->whereNot('created_by', $this->renter_id);
+  }
+
+  public function outgoing_orders()
+  {
+    return $this->hasMany(Order::class)->where('created_by', $this->renter_id);
   }
 
   public function trips()

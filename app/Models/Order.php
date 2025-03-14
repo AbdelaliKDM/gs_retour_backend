@@ -17,6 +17,12 @@ class Order extends Model
       'status',
   ];
 
+  public function getTypeAttribute(){
+    return $this->created_by == auth()->id()
+    ? 'outgoing'
+    : 'incoming';
+  }
+
   protected static function booted()
     {
         static::creating(function ($order) {

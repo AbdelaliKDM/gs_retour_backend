@@ -64,10 +64,15 @@ class TripController extends Controller
 
     try {
       $trip = Trip::findOrFail($request->id);
+
+      if(auth()->id() != $trip->driver_id){
+        throw new Exception('Unauthorized action.');
+      }
+
       $trip->update($request->except('status'));
 
       if ($request->has('status')) {
-        $trip->statuses()->create(['name' => $request->status]);
+        $trip->updateStatus($request->status);
       }
 
       return $this->successResponse(data: new TripResource($trip));

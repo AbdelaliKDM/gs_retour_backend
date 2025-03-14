@@ -84,6 +84,7 @@ Route::prefix('v1')->group(function () {
   Route::prefix('order')->middleware('auth:sanctum')->group(function () {
     Route::post('/create', [OrderController::class, 'create']);
     Route::post('/update', [OrderController::class, 'update']);
+    Route::post('/delete', [OrderController::class, 'delete']);
     Route::post('/get', [OrderController::class, 'get']);
   });
 

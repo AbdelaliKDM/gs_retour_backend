@@ -18,7 +18,8 @@ class OrderResource extends JsonResource
     {
       $data = [
         'id' => $this->id,
-        'status' => $this->status
+        'status' => $this->status,
+        'type' => $this->type
       ];
 
       if($request->has('trip_id')){

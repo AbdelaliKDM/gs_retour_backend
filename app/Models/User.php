@@ -98,4 +98,11 @@ class User extends Authenticatable
   {
     return $this->hasMany(Favorite::class);
   }
+
+  public function ongoing_trip()
+  {
+    return $this->trips()->whereHas('status', function($query) {
+      $query->where('name', 'ongoing');
+    });
+  }
 }
