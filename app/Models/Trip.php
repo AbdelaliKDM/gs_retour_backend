@@ -70,7 +70,7 @@ class Trip extends Model
 
   public function status()
   {
-    return $this->hasOne(TripStatus::class);
+    return $this->hasOne(TripStatus::class)->latestOfMany();
   }
 
   public function statuses()
