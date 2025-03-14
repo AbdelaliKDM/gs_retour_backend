@@ -86,7 +86,7 @@ class Shipment extends Model
   }
   public function status()
   {
-    return $this->hasOne(TripStatus::class)->latestOfMany();
+    return $this->hasOne(ShipmentStatus::class)->latestOfMany();
   }
 
   public function statuses()
