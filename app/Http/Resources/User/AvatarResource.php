@@ -14,11 +14,17 @@ class AvatarResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-      return [
+      $data = [
         'id' => $this->id,
         'name' => $this->name,
         'phone' => $this->phone,
         'image' => $this->image_url,
       ];
+
+      if($this->role == 'driver'){
+        $data['rating'] = $this->rating;
+      }
+
+      return $data;
     }
 }

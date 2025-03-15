@@ -79,6 +79,9 @@ class User extends Authenticatable
       ? Storage::disk('upload')->url($this->id_card_selfie)
       : null;
   }
+  public function getRatingAttribute(){
+    return $this->trips_reviews()->avg('rating');
+  }
   public function truck()
   {
     return $this->hasOne(Truck::class);
@@ -97,6 +100,14 @@ class User extends Authenticatable
   public function favorites()
   {
     return $this->hasMany(Favorite::class);
+  }
+
+  public function reviews(){
+    return $this->hasMany(Review::class);
+  }
+
+  public function trips_reviews(){
+    return $this->hasManyThrough(Review::class, Trip::class, 'driver_id');
   }
 
   public function ongoing_trip()

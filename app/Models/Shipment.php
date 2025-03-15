@@ -63,7 +63,10 @@ class Shipment extends Model
   {
     return $this->status->name;
   }
-
+  public function getOrdersCountAttribute()
+  {
+    return $this->incoming_orders()->count();
+  }
   public function renter()
   {
     return $this->belongsTo(User::class, 'renter_id');

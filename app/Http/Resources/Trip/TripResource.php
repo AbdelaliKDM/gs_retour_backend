@@ -26,6 +26,7 @@ class TripResource extends JsonResource
           'starts_at' => $this->starts_at,
           'created_at' => $this->created_at,
           'is_favored' => $this->is_favored,
+          'orders_count' => $this->orders_count,
         ];
     }
 }

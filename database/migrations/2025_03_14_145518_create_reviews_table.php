@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('trip_id')->constrained();
+            $table->double('rating');
+            $table->text('note')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

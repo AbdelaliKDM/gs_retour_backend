@@ -63,7 +63,9 @@ class FavoriteController extends Controller
       if ($user->role == 'renter') {
         $trips = Trip::whereHas('favorites', function($query) use ($user){
           $query->where('user_id', $user->id);
-        })->where('status', 'pending')->get();
+        })->whereHas('status', function($query){
+          $query->where('name', 'pending');
+        })->get();
 
         return $this->successResponse(data: new TripCollection($trips));
 

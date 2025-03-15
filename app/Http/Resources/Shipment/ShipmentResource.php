@@ -32,6 +32,7 @@ class ShipmentResource extends JsonResource
         'shipping_date' => $this->shipping_date,
         'created_at' => $this->created_at,
         'is_favored' => $this->is_favored,
+        'orders_count' => $this->orders_count,
       ];
     }
 }

@@ -26,10 +26,11 @@ class Trip extends Model
   ];
   protected $softCascade = ['statuses', 'orders'];
 
-  public function getIsFavoredAttribute(){
+  public function getIsFavoredAttribute()
+  {
     return $this->favorites()->where('user_id', auth()->id())->exists()
-    ? true
-    : false;
+      ? true
+      : false;
   }
   public function getTruckTypeNameAttribute()
   {
@@ -47,7 +48,10 @@ class Trip extends Model
   {
     return $this->status->name;
   }
-
+  public function getOrdersCountAttribute()
+  {
+    return $this->incoming_orders()->count();
+  }
   public function driver(): BelongsTo
   {
     return $this->belongsTo(User::class, 'driver_id');
@@ -113,41 +117,46 @@ class Trip extends Model
     return $this->morphMany(Favorite::class, 'favorable');
   }
 
+  public function reviews()
+  {
+    return $this->hasMany(Review::class);
+  }
+
   public function updateStatus($newStatus)
-{
+  {
     $currentStatus = $this->current_status;
 
     $allowedTransitions = [
-        'pending' => ['ongoing', 'canceled'],
-        'ongoing' => ['paused', 'completed'],
-        'paused' => ['ongoing','canceled'],
-        'canceled' => [],
-        'completed' => [],
+      'pending' => ['ongoing', 'canceled'],
+      'ongoing' => ['paused', 'completed'],
+      'paused' => ['ongoing', 'canceled'],
+      'canceled' => [],
+      'completed' => [],
     ];
 
     if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
-        throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
     }
 
-    if($currentStatus == 'pending' && $newStatus == 'ongoing'){
-      if(auth()->user()->ongoing_trip()->exists()){
+    if ($currentStatus == 'pending' && $newStatus == 'ongoing') {
+      if (auth()->user()->ongoing_trip()->exists()) {
         throw new Exception('The driver already have an ongoing trip.');
       }
 
-      if($this->pending_orders()->exists()){
+      if ($this->pending_orders()->exists()) {
         throw new Exception('The trip has pending orders.');
       }
 
-    }elseif($currentStatus == 'ongoing' && $newStatus == 'completed'){
-      if($this->pending_shipments()->exists()){
+    } elseif ($currentStatus == 'ongoing' && $newStatus == 'completed') {
+      if ($this->pending_shipments()->exists()) {
         throw new Exception('The trip has pending shipments.');
       }
-    }elseif($currentStatus == 'paused' && $newStatus == 'canceled'){
-      if($this->shipments()->exists()){
+    } elseif ($currentStatus == 'paused' && $newStatus == 'canceled') {
+      if ($this->shipments()->exists()) {
         throw new Exception('The trip has shipments.');
       }
     }
 
     return $this->statuses()->create(['name' => $newStatus]);
-}
+  }
 }
