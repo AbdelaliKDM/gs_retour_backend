@@ -110,7 +110,7 @@ class Trip extends Model
   public function pending_shipments()
   {
     return $this->hasMany(Shipment::class)->whereHas('status', function($query){
-      $query->whereNot('status', 'delivered');
+      $query->whereNot('name', 'delivered');
     });
   }
 
