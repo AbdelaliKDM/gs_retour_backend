@@ -12,8 +12,20 @@ class PaginatedReviewCollection extends ResourceCollection
      *
      * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    public $collects = ReviewResource::class;
+    public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+
+          'data' => $this->collection,
+          'meta' => [
+            'current_page' => $this->currentPage(),
+            'last_page' => $this->lastPage(),
+            'per_page' => $this->perPage(),
+            'total' => $this->total(),
+            'count' => $this->count(),
+          ]
+
+        ];
     }
 }
