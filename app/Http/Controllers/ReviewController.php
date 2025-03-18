@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\ApiResponse;
 use Exception;
 use App\Models\Trip;
 use App\Models\User;
@@ -14,6 +15,8 @@ use App\Http\Resources\Review\PaginatedReviewCollection;
 
 class ReviewController extends Controller
 {
+
+  use ApiResponse;
   public function create(Request $request)
   {
     $this->validateRequest($request, [
