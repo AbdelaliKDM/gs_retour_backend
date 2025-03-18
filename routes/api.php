@@ -73,9 +73,9 @@ Route::prefix('v1')->group(function () {
   #shipment routes
   Route::prefix('shipment')->middleware('auth:sanctum')->group(function () {
     Route::post('/get', [ShipmentController::class, 'get']);
+    Route::post('/update', [ShipmentController::class, 'update']);
     Route::middleware('api.role:renter')->group(function () {
       Route::post('/create', [ShipmentController::class, 'create']);
-      Route::post('/update', [ShipmentController::class, 'update']);
       Route::post('/delete', [ShipmentController::class, 'delete']);
       Route::post('/restore', [ShipmentController::class, 'restore']);
     });
