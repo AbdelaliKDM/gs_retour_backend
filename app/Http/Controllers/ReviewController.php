@@ -30,13 +30,11 @@ class ReviewController extends Controller
 
       $trip = Trip::find($request->trip_id);
 
-      $renterHasNoShipments =$trip->shipments()->where(['renter_id' => auth()->id(), 'status' => 'delivered'])->doesntExist();
-
       if($trip->current_status != 'completed'){
         throw new Exception('Trip is not completed');
       }
 
-      if($renterHasNoShipments){
+      if($trip->shipments()->where('renter_id' , auth()->id())->doesntExist()){
         throw new Exception('You do not have delivered shipments in this trip.');
       }
 
