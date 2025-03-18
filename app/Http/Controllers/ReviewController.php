@@ -18,8 +18,8 @@ class ReviewController extends Controller
   {
     $this->validateRequest($request, [
       'trip_id' => 'required|exists:trips,id',
-      'rating' => 'required|numeric|min:0',
-      'note' => 'required|numeric|min:0'
+      'rating' => 'required|numeric|min:0|max:5',
+      'note' => 'sometimes|string'
     ]);
 
     try {
@@ -50,8 +50,8 @@ class ReviewController extends Controller
   {
     $this->validateRequest($request, [
       'id' => 'required|exists:reviews,id',
-      'rating' => 'required|numeric|min:0',
-      'note' => 'required|numeric|min:0'
+      'rating' => 'sometimes|numeric|min:0|max:5',
+      'note' => 'sometimes|string'
     ]);
 
     try {
