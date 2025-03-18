@@ -36,7 +36,7 @@ class TripInfoResource extends JsonResource
           'orders_count' => $this->orders_count,
           'driver' => new AvatarResource($this->driver),
           'history' => new StatusCollection($this->statuses),
-          'shipments' => new ShipmentCollection($this->shipments)
+          //'shipments' => new ShipmentCollection($this->shipments)
         ];
     }
 }

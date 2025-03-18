@@ -65,7 +65,7 @@ class TripController extends Controller
     try {
       $trip = Trip::findOrFail($request->id);
 
-      if(auth()->id() != $trip->driver_id){
+      if (auth()->id() != $trip->driver_id) {
         throw new Exception('Unauthorized action.');
       }
 
@@ -87,7 +87,7 @@ class TripController extends Controller
     try {
       $trip = Trip::findOrFail($request->id);
 
-      if($trip->driver_id != auth()->id()){
+      if ($trip->driver_id != auth()->id()) {
         throw new Exception('Unauthorized action.');
       }
 
@@ -105,7 +105,7 @@ class TripController extends Controller
     try {
       $trip = Trip::withTrashed()->findOrFail($request->id);
 
-      if($trip->driver_id != auth()->id()){
+      if ($trip->driver_id != auth()->id()) {
         throw new Exception('Unauthorized action.');
       }
 
@@ -132,53 +132,58 @@ class TripController extends Controller
 
     try {
       if ($request->has('id')) {
-        $trip = auth()->user()->trips()->find($request->id);
+        $trip = Trip::find($request->id);
+        if (auth()->id() != $trip->driver_id &&
+          $trip->shipments()->where('renter_id', auth()->id())->doesntExist())
+        {
+          throw new Exception('You do not have permission to access this trip info.');
+        }
         return $this->successResponse(data: new TripInfoResource($trip));
       }
 
       $trips = Trip::latest();
 
-      if($request->driver_id != auth()->id()){
-        $trips->whereHas('status', function($query) use ($request){
-          $query->where('name','pending');
+      if ($request->driver_id != auth()->id()) {
+        $trips->whereHas('status', function ($query) use ($request) {
+          $query->where('name', 'pending');
         });
       }
 
-      if($request->has('driver_id')){
+      if ($request->has('driver_id')) {
         $trips = $trips->where('driver_id', $request->driver_id);
       }
 
-      if($request->has('starting_wilaya_id')){
+      if ($request->has('starting_wilaya_id')) {
         $trips = $trips->where('starting_wilaya_id', $request->starting_wilaya_id);
       }
 
-      if($request->has('arrival_wilaya_id')){
+      if ($request->has('arrival_wilaya_id')) {
         $trips = $trips->where('arrival_wilaya_id', $request->arrival_wilaya_id);
       }
 
       if ($request->has('category_id')) {
-        $trips = $trips->whereHas('truck', function($query) use ($request) {
-            $query->whereHas('truckType', function($subQuery) use ($request) {
-                $subQuery->whereHas('subcategory', function($subSubQuery) use ($request) {
-                    $subSubQuery->where('category_id', $request->category_id);
-                });
+        $trips = $trips->whereHas('truck', function ($query) use ($request) {
+          $query->whereHas('truckType', function ($subQuery) use ($request) {
+            $subQuery->whereHas('subcategory', function ($subSubQuery) use ($request) {
+              $subSubQuery->where('category_id', $request->category_id);
             });
+          });
         });
-    }
+      }
 
-    if ($request->has('subcategory_id')) {
-        $trips = $trips->whereHas('truck', function($query) use ($request) {
-            $query->whereHas('truckType', function($subQuery) use ($request) {
-                $subQuery->where('subcategory_id', $request->subcategory_id);
-            });
+      if ($request->has('subcategory_id')) {
+        $trips = $trips->whereHas('truck', function ($query) use ($request) {
+          $query->whereHas('truckType', function ($subQuery) use ($request) {
+            $subQuery->where('subcategory_id', $request->subcategory_id);
+          });
         });
-    }
+      }
 
-    if ($request->has('truck_type_id')) {
-        $trips = $trips->whereHas('truck', function($query) use ($request) {
-            $query->where('truck_type_id', $request->truck_type_id);
+      if ($request->has('truck_type_id')) {
+        $trips = $trips->whereHas('truck', function ($query) use ($request) {
+          $query->where('truck_type_id', $request->truck_type_id);
         });
-    }
+      }
 
       if ($request->has('all')) {
         $trips = new TripCollection($trips->get());

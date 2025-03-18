@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Trip;
 use App\Models\Shipment;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Resources\Shipment\ShipmentResource;
 use App\Http\Resources\Shipment\ShipmentCollection;
 use App\Http\Resources\Shipment\ShipmentInfoResource;
@@ -69,7 +71,7 @@ class ShipmentController extends Controller
       } elseif (auth()->id() == $shipment->trip?->driver_id) {
 
         if ($request->has('status')) {
-          $shipment->statusHistory()->create(['name' => $request->status]);
+          $shipment->updateStatus($request->status);
         }
 
       } else {
@@ -123,8 +125,8 @@ class ShipmentController extends Controller
   {
     $this->validateRequest($request, [
       'id' => 'sometimes|exists:shipments,id',
-      'renter_id' => 'sometimes|exists:users,id',
       'trip_id' => 'sometimes|exists:trips,id',
+      'renter_id' => 'sometimes|exists:users,id',
       'truck_type_id' => 'sometimes|exists:truck_types,id',
       'shipment_type_id' => 'sometimes|exists:shipment_types,id',
       'starting_wilaya_id' => 'sometimes|exists:wilayas,id',
@@ -135,7 +137,12 @@ class ShipmentController extends Controller
 
     try {
       if ($request->has('id')) {
-        $shipment = auth()->user()->shipments()->find($request->id);
+        $shipment = Shipment::find($request->id);
+
+        if(auth()->id() != $shipment->renter_id && auth()->id() != $shipment->trip?->driver_id){
+          throw new Exception('You do not have permission to access this shipment info.');
+        }
+
         return $this->successResponse(data: new ShipmentInfoResource($shipment));
       }
 
@@ -157,12 +164,13 @@ class ShipmentController extends Controller
 
 
       } elseif ($request->has('trip_id')) {
-        $shipments = Shipment::whereHas('trip', function($query) use ($request){
-          $query->where([
-            'id' => $request->trip_id,
-            'driver_id' => auth()->id()
-          ]);
-        });
+        $trip = Trip::find($request->trip_id);
+
+        if(auth()->id() != $trip->driver_id){
+          throw new Exception('You do not have permission to access this trip shipments.');
+        }
+
+        $shipments = Shipment::where('trip_id', $request->trip_id);
       }
       else {
         $shipments = Shipment::whereNull('trip_id');

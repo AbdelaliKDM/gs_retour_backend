@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -125,5 +126,26 @@ class Shipment extends Model
   public function favorites()
   {
     return $this->morphMany(Favorite::class, 'favorable');
+  }
+
+  public function updateStatus($newStatus)
+  {
+    $currentStatus = $this->current_status;
+
+    $allowedTransitions = [
+      'pending' => ['shipped'],
+      'shipped' => ['delivered'],
+      'delivered' => [],
+    ];
+
+    if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
+    }
+
+    if ($this->trip?->current_status != 'ongoing') {
+      throw new Exception('The trip status is not ongoing.');
+    }
+
+    return $this->statuses()->create(['name' => $newStatus]);
   }
 }

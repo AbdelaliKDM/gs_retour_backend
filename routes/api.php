@@ -8,6 +8,7 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TruckController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WilayaController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\SettingController;
@@ -88,11 +89,22 @@ Route::prefix('v1')->group(function () {
     Route::post('/get', [OrderController::class, 'get']);
   });
 
-  #order routes
+  #favorite routes
   Route::prefix('favorite')->middleware('auth:sanctum')->group(function () {
     Route::post('/toggle', [FavoriteController::class, 'toggle']);
     Route::get('/get', [FavoriteController::class, 'get']);
   });
+
+#review routes
+Route::prefix('review')->middleware('auth:sanctum')->group(function () {
+  Route::post('/get', [ReviewController::class, 'get']);
+  Route::middleware('api.role:renter')->group(function () {
+    Route::post('/create', [ReviewController::class, 'create']);
+    Route::post('/update', [ReviewController::class, 'update']);
+    Route::post('/delete', [ReviewController::class, 'delete']);
+    Route::post('/restore', [ReviewController::class, 'restore']);
+  });
+});
 
   //public routes
   Route::post('documentation/get', [DocumentationController::class, 'get']);
