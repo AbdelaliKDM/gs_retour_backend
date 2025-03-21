@@ -20,8 +20,8 @@ class DriverResource extends JsonResource
           'name' => $this->name,
           'phone' => $this->phone,
           'image' => $this->image_url,
-          //'rating' => $this->rating,
-          'distance' => $this->distance,
+          'rating' => $this->rating,
+          'distance' => number_format($this->distance/1000, 2),
           'trip' => new TripResource($this->trip)
         ];
     }

@@ -36,6 +36,16 @@ class Trip extends Model
   {
     return $this->truck->truckType->name;
   }
+
+  public function getSubcatgoryNameAttribute()
+  {
+    return $this->truck->truckType?->subcategory?->name;
+  }
+
+  public function getCategoryNameAttribute()
+  {
+    return $this->truck->truckType?->subcategory?->category?->name;
+  }
   public function getStartingWilayaNameAttribute()
   {
     return $this->startingWilaya->name;

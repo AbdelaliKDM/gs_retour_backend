@@ -28,6 +28,8 @@ class TripInfoResource extends JsonResource
           'arrival_point_longitude' => $this->arrival_point_longitude,
           'arrival_point_latitude' => $this->arrival_point_latitude,
           'truck_type' => $this->truck_type_name,
+          'category' => $this->category_name,
+          'subcategory' => $this->subcategory_name,
           'status' => $this->current_status,
           'distance' => $this->distance,
           'starts_at' => $this->starts_at,
