@@ -203,7 +203,9 @@ class UserController extends Controller
 
 
     $users = User::whereIn('id', array_keys($distanceCases))
-      //->whereHas('trip')
+      ->whereNot('id', auth()->id())
+      ->where('role', 'driver')
+      ->whereHas('trip')
       ->select('*', DB::raw("CASE " . implode(' ', $distanceCases) . " END as distance"))
       ->orderBy('distance')
       ->with('trip')
