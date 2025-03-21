@@ -45,6 +45,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/delete', [AccountController::class, 'delete']);
   });
 
+  Route::prefix('driver')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+    Route::post('/nearby', [UserController::class, 'nearby']);
+});
+
   #truck routes
   Route::prefix('truck')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
       Route::get('/get', [TruckController::class, 'get']);

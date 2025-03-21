@@ -116,4 +116,11 @@ class User extends Authenticatable
       $query->where('name', 'ongoing');
     });
   }
+
+  public function trip()
+  {
+    return $this->hasOne(Trip::class, 'driver_id')->whereHas('status', function($query) {
+      $query->where('name', 'ongoing');
+    })->latestOfMany();
+  }
 }
