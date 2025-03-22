@@ -16,6 +16,8 @@ class DriverResource extends JsonResource
     public function toArray(Request $request): array
     {
       $trip = new TripResource($this->trip);
-      return $trip->toArray($request);
+      $trip = $trip->toArray($request);
+      $trip['driver'] = new AvatarResource($this);
+      return $trip;
     }
 }
