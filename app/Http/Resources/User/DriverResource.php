@@ -15,14 +15,6 @@ class DriverResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return[
-          'id' => $this->id,
-          'name' => $this->name,
-          'phone' => $this->phone,
-          'image' => $this->image_url,
-          'rating' => $this->rating,
-          'distance' => number_format($this->distance/1000, 2),
-          'trip' => new TripResource($this->trip)
-        ];
+        return new TripResource($this->trip);
     }
 }
