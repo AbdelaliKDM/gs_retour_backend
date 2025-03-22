@@ -66,7 +66,7 @@ class Shipment extends Model
   }
   public function getOrdersCountAttribute()
   {
-    return $this->incoming_orders()->count();
+    return $this->incoming_orders()->where('status' , 'pending')->count();
   }
   public function renter()
   {
