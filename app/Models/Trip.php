@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
@@ -57,6 +58,9 @@ class Trip extends Model
   public function getCurrentStatusAttribute()
   {
     return $this->status->name;
+  }
+  public function getTotalPriceAttribute(){
+    return $this->shipments()->sum('price');
   }
   public function getOrdersCountAttribute()
   {
@@ -134,6 +138,11 @@ class Trip extends Model
     return $this->hasMany(Review::class);
   }
 
+  public function transaction()
+  {
+    return $this->hasOne(Transaction::class);
+  }
+
   public function updateStatus($newStatus)
   {
     $currentStatus = $this->current_status;
@@ -163,6 +172,9 @@ class Trip extends Model
       if ($this->pending_shipments()->exists()) {
         throw new Exception('The trip has pending shipments.');
       }
+
+      $this->createTransaction();
+
     } elseif ($currentStatus == 'paused' && $newStatus == 'canceled') {
       if ($this->shipments()->exists()) {
         throw new Exception('The trip has shipments.');
@@ -170,5 +182,22 @@ class Trip extends Model
     }
 
     return $this->statuses()->create(['name' => $newStatus]);
+  }
+
+  public function createTransaction(){
+    $driver = $this->driver;
+
+    $month = Carbon::now()->firstOfMonth();
+
+    $invoice = $driver->invoices()->firstOrCreate(['month' => $month]);
+
+    $tax_ratio = Setting::getTaxRatio();
+
+    $this->transaction()->create([
+      'invoice_id' => $invoice->id,
+      'total_amount' => $this->total_price,
+      'tax_amount' => $this->total_price * ($tax_ratio / 100)
+    ]);
+
   }
 }

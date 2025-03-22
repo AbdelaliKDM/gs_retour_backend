@@ -9,8 +9,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TruckController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\WilayaController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
@@ -18,6 +21,7 @@ use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\TruckTypeController;
 use App\Http\Controllers\TruckImageController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ShipmentTypeController;
 use App\Http\Controllers\DocumentationController;
 
@@ -47,13 +51,13 @@ Route::prefix('v1')->group(function () {
 
   Route::prefix('driver')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
     Route::post('/nearby', [UserController::class, 'nearby']);
-});
+  });
 
   #truck routes
   Route::prefix('truck')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
-      Route::get('/get', [TruckController::class, 'get']);
-      Route::post('/create', [TruckController::class, 'create']);
-      Route::post('/update', [TruckController::class, 'update']);
+    Route::get('/get', [TruckController::class, 'get']);
+    Route::post('/create', [TruckController::class, 'create']);
+    Route::post('/update', [TruckController::class, 'update']);
   });
 
   Route::prefix('truck/image')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
@@ -63,8 +67,8 @@ Route::prefix('v1')->group(function () {
 
   });
 
-   #trip routes
-   Route::prefix('trip')->middleware('auth:sanctum')->group(function () {
+  #trip routes
+  Route::prefix('trip')->middleware('auth:sanctum')->group(function () {
     Route::post('/get', [TripController::class, 'get']);
     Route::middleware('api.role:driver')->group(function () {
       Route::post('/create', [TripController::class, 'create']);
@@ -99,16 +103,33 @@ Route::prefix('v1')->group(function () {
     Route::get('/get', [FavoriteController::class, 'get']);
   });
 
-#review routes
-Route::prefix('review')->middleware('auth:sanctum')->group(function () {
-  Route::post('/get', [ReviewController::class, 'get']);
-  Route::middleware('api.role:renter')->group(function () {
-    Route::post('/create', [ReviewController::class, 'create']);
-    Route::post('/update', [ReviewController::class, 'update']);
-    Route::post('/delete', [ReviewController::class, 'delete']);
-    Route::post('/restore', [ReviewController::class, 'restore']);
+  #review routes
+  Route::prefix('review')->middleware('auth:sanctum')->group(function () {
+    Route::post('/get', [ReviewController::class, 'get']);
+    Route::middleware('api.role:renter')->group(function () {
+      Route::post('/create', [ReviewController::class, 'create']);
+      Route::post('/update', [ReviewController::class, 'update']);
+      Route::post('/delete', [ReviewController::class, 'delete']);
+      Route::post('/restore', [ReviewController::class, 'restore']);
+    });
   });
-});
+
+  #wallet routes
+  Route::prefix('wallet')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+    Route::get('/get', [WalletController::class, 'get']);
+    Route::post('/charge', [WalletController::class, 'charge']);
+  });
+
+    #invoice routes
+    Route::prefix('invoice')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+      Route::post('/get', [InvoiceController::class, 'get']);
+      Route::post('/pay', [InvoiceController::class, 'pay']);
+  });
+
+    #wallet routes
+    Route::prefix('transaction')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+      Route::post('/get', [TransactionController::class, 'get']);
+  });
 
   //public routes
   Route::post('documentation/get', [DocumentationController::class, 'get']);
@@ -122,41 +143,45 @@ Route::prefix('review')->middleware('auth:sanctum')->group(function () {
 
   Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
 
-      Route::post('documentation/update', [DocumentationController::class, 'update']);
-      Route::post('setting/update', [SettingController::class, 'update']);
+    Route::post('documentation/update', [DocumentationController::class, 'update']);
+    Route::post('setting/update', [SettingController::class, 'update']);
 
-      Route::prefix('user')->middleware('auth:sanctum')->group(function () {
-        Route::post('/update', [UserController::class, 'update']);
-        Route::post('/delete', [UserController::class, 'delete']);
-      });
+    Route::prefix('user')->middleware('auth:sanctum')->group(function () {
+      Route::post('/update', [UserController::class, 'update']);
+      Route::post('/delete', [UserController::class, 'delete']);
+    });
 
-      Route::prefix('category')->group(function () {
-        Route::post('/create', [CategoryController::class, 'create']);
-        Route::post('/update', [CategoryController::class, 'update']);
-        Route::post('/delete', [CategoryController::class, 'delete']);
-        Route::post('/restore', [CategoryController::class, 'restore']);
-      });
+    Route::prefix('category')->group(function () {
+      Route::post('/create', [CategoryController::class, 'create']);
+      Route::post('/update', [CategoryController::class, 'update']);
+      Route::post('/delete', [CategoryController::class, 'delete']);
+      Route::post('/restore', [CategoryController::class, 'restore']);
+    });
 
-      Route::prefix('subcategory')->group(function () {
-        Route::post('/create', [SubcategoryController::class, 'create']);
-        Route::post('/update', [SubcategoryController::class, 'update']);
-        Route::post('/delete', [SubcategoryController::class, 'delete']);
-        Route::post('/restore', [SubcategoryController::class, 'restore']);
-      });
+    Route::prefix('subcategory')->group(function () {
+      Route::post('/create', [SubcategoryController::class, 'create']);
+      Route::post('/update', [SubcategoryController::class, 'update']);
+      Route::post('/delete', [SubcategoryController::class, 'delete']);
+      Route::post('/restore', [SubcategoryController::class, 'restore']);
+    });
 
-      Route::prefix('truck/type')->group(function () {
-        Route::post('/create', [TruckTypeController::class, 'create']);
-        Route::post('/update', [TruckTypeController::class, 'update']);
-        Route::post('/delete', [TruckTypeController::class, 'delete']);
-        Route::post('/restore', [TruckTypeController::class, 'restore']);
-      });
+    Route::prefix('truck/type')->group(function () {
+      Route::post('/create', [TruckTypeController::class, 'create']);
+      Route::post('/update', [TruckTypeController::class, 'update']);
+      Route::post('/delete', [TruckTypeController::class, 'delete']);
+      Route::post('/restore', [TruckTypeController::class, 'restore']);
+    });
 
-      Route::prefix('shipment/type')->group(function () {
-        Route::post('/create', [ShipmentTypeController::class, 'create']);
-        Route::post('/update', [ShipmentTypeController::class, 'update']);
-        Route::post('/delete', [ShipmentTypeController::class, 'delete']);
-        Route::post('/restore', [ShipmentTypeController::class, 'restore']);
-      });
+    Route::prefix('shipment/type')->group(function () {
+      Route::post('/create', [ShipmentTypeController::class, 'create']);
+      Route::post('/update', [ShipmentTypeController::class, 'update']);
+      Route::post('/delete', [ShipmentTypeController::class, 'delete']);
+      Route::post('/restore', [ShipmentTypeController::class, 'restore']);
+    });
+
+    Route::prefix('payment')->group(function () {
+      Route::post('/update', [PaymentController::class, 'update']);
+    });
 
   });
 

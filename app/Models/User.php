@@ -79,6 +79,11 @@ class User extends Authenticatable
       ? Storage::disk('upload')->url($this->id_card_selfie)
       : null;
   }
+
+  public function getBalanceAttribute(){
+    $wallet = $this->wallet ?? $this->wallet()->create(['balance' => 0]);
+    return $wallet->balance;
+  }
   public function getRatingAttribute(){
     return $this->trips_reviews()->avg('rating');
   }
@@ -86,7 +91,6 @@ class User extends Authenticatable
   {
     return $this->hasOne(Truck::class);
   }
-
   public function trips()
   {
     return $this->hasMany(Trip::class, 'driver_id');
@@ -122,5 +126,15 @@ class User extends Authenticatable
     return $this->hasOne(Trip::class, 'driver_id')->whereHas('status', function($query) {
       $query->where('name', 'ongoing');
     })->latestOfMany();
+  }
+
+  public function wallet()
+  {
+    return $this->hasOne(Wallet::class);
+  }
+
+  public function invoices()
+  {
+    return $this->hasMany(Invoice::class);
   }
 }

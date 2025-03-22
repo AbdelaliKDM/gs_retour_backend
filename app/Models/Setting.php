@@ -32,4 +32,8 @@ class Setting extends Model
         'images.*' => 'mimetypes:image/*'
       ];
     }
+
+    public static function getTaxRatio(){
+      return self::where('name','tax_ratio')->value('value') ?? 0;
+    }
 }

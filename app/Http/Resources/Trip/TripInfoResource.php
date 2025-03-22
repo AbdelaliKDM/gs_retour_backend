@@ -36,6 +36,7 @@ class TripInfoResource extends JsonResource
           'created_at' => $this->created_at,
           'is_favored' => $this->is_favored,
           'orders_count' => $this->orders_count,
+          'total_price' => $this->total_price,
           'driver' => new AvatarResource($this->driver),
           'history' => new StatusCollection($this->statuses),
           //'shipments' => new ShipmentCollection($this->shipments)
