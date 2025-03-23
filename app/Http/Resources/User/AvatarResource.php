@@ -26,7 +26,7 @@ class AvatarResource extends JsonResource
       }
 
       if($this->distance){
-        $data['distance'] = $this->distance;
+        $data['distance'] = number_format($this->distance/1000 , 2);
       }
 
       return $data;
