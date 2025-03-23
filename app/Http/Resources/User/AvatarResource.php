@@ -25,6 +25,10 @@ class AvatarResource extends JsonResource
         $data['rating'] = $this->rating;
       }
 
+      if($this->distance){
+        $data['distance'] = $this->distance;
+      }
+
       return $data;
     }
 }
