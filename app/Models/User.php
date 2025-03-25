@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Firebase;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use HasApiTokens, HasFactory, Notifiable, Authorizable, SoftDeletes, SoftCascadeTrait;
+  use HasApiTokens, HasFactory, /* Notifiable, */ Authorizable, SoftDeletes, SoftCascadeTrait, Firebase;
 
   /**
    * The attributes that are mass assignable.
@@ -34,6 +35,7 @@ class User extends Authenticatable
     'device_token',
     'email_verified_at',
     'phone_verified_at',
+    'suspended_for'
   ];
 
   /**
@@ -58,7 +60,7 @@ class User extends Authenticatable
     'status' => 'string',
   ];
 
-  protected $softCascade = ['truck', 'trips', 'shipments'];
+  protected $softCascade = ['truck', 'trips', 'shipments','reviews','favorites'];
 
   public function getImageUrlAttribute()
   {
@@ -136,5 +138,39 @@ class User extends Authenticatable
   public function invoices()
   {
     return $this->hasMany(Invoice::class);
+  }
+
+  public function notifications()
+  {
+    return $this->hasMany(Notification::class);
+  }
+
+  public function notify(Notice $notice)
+  {
+    Notification::create([
+      'user_id' => $this->id,
+      'notice_id' => $notice->id
+    ]);
+
+    if ($this->device_token) {
+      $this->send_to_device(
+        $notice->title(),
+        $notice->content(),
+        $this->device_token
+      );
+    }
+
+  }
+
+  public function updateStatus($status, $reason = null){
+
+    $this->update([
+      'status' => $status,
+      'suspended_for' => $reason
+    ]);
+
+    $notice = Notice::ProfileNotice($status, $reason ?? 'default');
+
+    $this->notify($notice);
   }
 }

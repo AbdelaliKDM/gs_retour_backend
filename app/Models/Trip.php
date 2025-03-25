@@ -143,6 +143,10 @@ class Trip extends Model
     return $this->hasOne(Transaction::class);
   }
 
+  public function renters(){
+    return $this->hasManyThrough(User::class, Shipment::class, 'trip_id','id','id','renter_id');
+  }
+
   public function updateStatus($newStatus)
   {
     $currentStatus = $this->current_status;
@@ -181,7 +185,14 @@ class Trip extends Model
       }
     }
 
-    return $this->statuses()->create(['name' => $newStatus]);
+
+    $this->statuses()->create(['name' => $newStatus]);
+
+    $notice = Notice::TripNotice($this->id, $newStatus);
+
+    $notice->send($this->renters());
+
+    return ;
   }
 
   public function createTransaction(){

@@ -117,14 +117,19 @@ class UserController extends Controller
       'name' => 'sometimes|string',
       'email' => ['sometimes', 'email', Rule::unique('users')->ignore($request->id)],
       'phone' => ['sometimes', new ValidPhoneNumber(), Rule::unique('users')->ignore($request->id)],
-      'status' => 'sometimes|in:active,suspended'
+      'status' => 'sometimes|in:active,suspended',
+      'reason' => 'sometimes|in:invoice,profile,truck',
     ]);
 
     try {
 
       $user = User::find($request->id);
 
-      $user->update($request->all());
+      $user->update($request->only('name','email','phone'));
+
+      if($request->has('status')){
+        $user->updateStatus($request->status, $request->reason);
+      }
 
       return $this->successResponse(data: new UserResource($user));
 

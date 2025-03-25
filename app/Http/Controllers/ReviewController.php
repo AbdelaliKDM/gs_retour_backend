@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\ApiResponse;
 use Exception;
 use App\Models\Trip;
 use App\Models\User;
+use App\Models\Notice;
 use App\Models\Review;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Resources\Review\ReviewResource;
@@ -39,6 +40,10 @@ class ReviewController extends Controller
       }
 
       $review = $user->reviews()->create($request->all());
+
+      $notice = Notice::ReviewNotice($review->trip_id, $review->rating);
+
+      $notice->send($review->trip->driver());
 
       return $this->successResponse(data: new ReviewResource($review));
 

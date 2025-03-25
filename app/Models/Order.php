@@ -2,49 +2,97 @@
 
 namespace App\Models;
 
-use Askedio\SoftCascade\Traits\SoftCascadeTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait;
+  use HasFactory, SoftDeletes, SoftCascadeTrait;
 
-    protected $fillable = [
-      'trip_id',
-      'shipment_id',
-      'status',
+  protected $fillable = [
+    'trip_id',
+    'shipment_id',
+    'status',
   ];
 
-  public function getTypeAttribute(){
+  public function getTypeAttribute()
+  {
     return $this->created_by == auth()->id()
-    ? 'outgoing'
-    : 'incoming';
+      ? 'outgoing'
+      : 'incoming';
   }
 
   protected static function booted()
-    {
-        static::creating(function ($order) {
-            $order->created_by = auth()->id();
-        });
-        static::updating(function ($order) {
-            $order->updated_by = auth()->id();
-        });
-        static::deleting(function ($order) {
-            if (!$order->isForceDeleting()) {
-                $order->deleted_by = auth()->id();
-                $order->saveQuietly();
-            }
-        });
+  {
+    static::creating(function ($order) {
+      $order->created_by = auth()->id();
+    });
+    static::updating(function ($order) {
+      $order->updated_by = auth()->id();
+    });
+    static::deleting(function ($order) {
+      if (!$order->isForceDeleting()) {
+        $order->deleted_by = auth()->id();
+        $order->saveQuietly();
+      }
+    });
+  }
+
+  public function trip()
+  {
+    return $this->belongsTo(Trip::class);
+  }
+  public function shipment()
+  {
+    return $this->belongsTo(Shipment::class);
+  }
+
+  public function updateStatus($newStatus)
+  {
+
+    $currentStatus = $this->status;
+
+    $allowedTransitions = [
+      'pending' => ['accepted', 'rejected'],
+      'accepted' => [],
+      'rejected' => [],
+    ];
+
+    if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
     }
 
-    public function trip()
-    {
-        return $this->belongsTo(Trip::class);
+    if (auth()->id() == $this->created_by) {
+      throw new Exception('Prohibited action.');
     }
-    public function shipment()
-    {
-        return $this->belongsTo(Shipment::class);
+
+    $shipment = $this->shipment;
+    $trip = $this->trip;
+
+    $isRenter = auth()->id() === $shipment->renter_id;
+    $isDriver = auth()->id() === $trip->driver_id;
+
+    if (!$isRenter && !$isDriver) {
+      throw new Exception('Unauthorized action.');
     }
+
+    $this->update(['status' => $newStatus]);
+
+
+    if ($newStatus == 'accepted') {
+      $shipment->update(['trip_id' => $trip->id]);
+      $shipment->orders()->whereNot('id', $this->id)->update(['status' => 'rejected']);
+    }
+
+    $notice = Notice::OrderNotice($this->id, $newStatus);
+
+    $user = $isRenter ? $trip->driver() : $shipment->renter();
+
+    $notice->send($user);
+
+    return ;
+  }
 }

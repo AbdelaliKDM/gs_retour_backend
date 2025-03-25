@@ -146,6 +146,12 @@ class Shipment extends Model
       throw new Exception('The trip status is not ongoing.');
     }
 
-    return $this->statuses()->create(['name' => $newStatus]);
+    $this->statuses()->create(['name' => $newStatus]);
+
+    $notice = Notice::ShipmentNotice($this->id, $newStatus);
+
+    $notice->send($this->renter());
+
+    return ;
   }
 }

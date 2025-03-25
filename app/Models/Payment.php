@@ -62,6 +62,12 @@ class Payment extends Model
         }
     }
 
-    return $this->update(['status' => $newStatus]);
+    $this->update(['status' => $newStatus]);
+
+    $notice = Notice::PaymentNotice($this->type, $newStatus);
+
+    $notice->send($this->payable->user());
+
+    return ;
   }
 }

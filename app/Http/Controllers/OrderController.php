@@ -59,30 +59,8 @@ class OrderController extends Controller
       try {
         $order = Order::findOrFail($request->id);
 
-        $shipment = $order->shipment;
-        $trip = $order->trip;
-
-        $isRenter = auth()->id() === $shipment->renter_id;
-        $isDriver = auth()->id() === $trip->driver_id;
-
-        if (!$isRenter && !$isDriver) {
-          throw new Exception('Unauthorized action.');
-        }
-
-        if (auth()->id() == $order->created_by) {
-          throw new Exception('Prohibited action.');
-        }
-
-        if ($order->status != 'pending') {
-          throw new Exception('Prohibited action.');
-        }
-
-
-        $order->update($request->all());
-
-        if($order->status == 'accepted'){
-          $shipment->update(['trip_id' => $trip->id]);
-          $shipment->orders()->whereNot('id',$order->id)->update(['status' => 'rejected']);
+        if($request->has('status')){
+          $order->updateStatus($request->status);
         }
 
         return $this->successResponse();

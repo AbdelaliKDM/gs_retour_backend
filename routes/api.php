@@ -8,6 +8,7 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TruckController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\WilayaController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\TruckTypeController;
 use App\Http\Controllers\TruckImageController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ShipmentTypeController;
 use App\Http\Controllers\DocumentationController;
 
@@ -120,15 +122,21 @@ Route::prefix('v1')->group(function () {
     Route::post('/charge', [WalletController::class, 'charge']);
   });
 
-    #invoice routes
-    Route::prefix('invoice')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
-      Route::post('/get', [InvoiceController::class, 'get']);
-      Route::post('/pay', [InvoiceController::class, 'pay']);
+  #invoice routes
+  Route::prefix('invoice')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+    Route::post('/get', [InvoiceController::class, 'get']);
+    Route::post('/pay', [InvoiceController::class, 'pay']);
   });
 
-    #wallet routes
-    Route::prefix('transaction')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
-      Route::post('/get', [TransactionController::class, 'get']);
+  #transaction routes
+  Route::prefix('transaction')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+    Route::post('/get', [TransactionController::class, 'get']);
+  });
+
+  #notification routes
+  Route::prefix('notification')->middleware('auth:sanctum')->group(function () {
+    Route::post('/read', [NotificationController::class, 'read']);
+    Route::get('/get', [NotificationController::class, 'get']);
   });
 
   //public routes
@@ -181,6 +189,13 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('payment')->group(function () {
       Route::post('/update', [PaymentController::class, 'update']);
+    });
+
+    Route::prefix('notice')->group(function () {
+      Route::post('/create', [NoticeController::class, 'create']);
+      Route::post('/update', [NoticeController::class, 'update']);
+      Route::post('/delete', [NoticeController::class, 'delete']);
+      Route::post('/send', [NoticeController::class, 'send']);
     });
 
   });
