@@ -25,6 +25,18 @@ class Order extends Model
       : 'incoming';
   }
 
+  public function getSenderAttribute()
+  {
+    return User::find($this->created_by);
+  }
+
+  public function getReceiverAttribute()
+  {
+    return $this->created_by == $this->trip->driver_id
+    ? $this->shipment->renter
+    : $this->trip->driver ;
+  }
+
   protected static function booted()
   {
     static::creating(function ($order) {
@@ -85,13 +97,12 @@ class Order extends Model
     if ($newStatus == 'accepted') {
       $shipment->update(['trip_id' => $trip->id]);
       $shipment->orders()->whereNot('id', $this->id)->update(['status' => 'rejected']);
+      $shipment->favorites()->delete();
     }
 
-    $notice = Notice::OrderNotice($this->id, $newStatus);
+    $notice = Notice::OrderNotice($this, $this->sender, $newStatus);
 
-    $user = $isRenter ? $trip->driver() : $shipment->renter();
-
-    $notice->send($user);
+    $notice->send($this->sender);
 
     return ;
   }

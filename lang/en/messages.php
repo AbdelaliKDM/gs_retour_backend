@@ -66,6 +66,10 @@ return [
   ],
 
   'order' => [
+    'created' => [
+      'title' => 'New Order Received',
+      'content' => 'You have received a new order (ID: :order_id). Please review and process it.',
+    ],
     'accepted' => [
       'title' => 'Order Accepted',
       'content' => 'Your order (ID: :order_id) has been accepted.',

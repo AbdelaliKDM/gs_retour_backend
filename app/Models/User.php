@@ -66,7 +66,7 @@ class User extends Authenticatable
   {
     return $this->image && Storage::disk('upload')->exists($this->image)
       ? Storage::disk('upload')->url($this->image)
-      : null;
+      : $this->image;
   }
 
   public function getCardUrlAttribute()

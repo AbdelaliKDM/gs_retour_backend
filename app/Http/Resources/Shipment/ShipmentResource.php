@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Shipment;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\User\AvatarResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ShipmentResource extends JsonResource
@@ -14,7 +15,7 @@ class ShipmentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-      return [
+      $data = [
         'id' => $this->id,
         'trip_id' => $this->trip_id,
         'starting_wilaya_id' => $this->starting_wilaya_id,
@@ -31,8 +32,15 @@ class ShipmentResource extends JsonResource
         'waiting_duration' => $this->waiting_duration,
         'shipping_date' => $this->shipping_date,
         'created_at' => $this->created_at,
+        'renter' => new AvatarResource($this->renter),
         'is_favored' => $this->is_favored,
         'orders_count' => $this->orders_count,
       ];
+
+      if($request->renter_id && $request->trip_id){
+        $data['is_ordered'] = $this->orders()->where('trip_id', $request->trip_id)->exists();
+      }
+
+      return $data;
     }
 }

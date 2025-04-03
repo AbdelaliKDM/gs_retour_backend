@@ -59,12 +59,13 @@ class Trip extends Model
   {
     return $this->status->name;
   }
-  public function getTotalPriceAttribute(){
+  public function getTotalPriceAttribute()
+  {
     return $this->shipments()->sum('price');
   }
   public function getOrdersCountAttribute()
   {
-    return $this->incoming_orders()->where('status' , 'pending')->count();
+    return $this->incoming_orders()->where('status', 'pending')->count();
   }
   public function driver(): BelongsTo
   {
@@ -123,7 +124,7 @@ class Trip extends Model
 
   public function pending_shipments()
   {
-    return $this->hasMany(Shipment::class)->whereHas('status', function($query){
+    return $this->hasMany(Shipment::class)->whereHas('status', function ($query) {
       $query->whereNot('name', 'delivered');
     });
   }
@@ -137,14 +138,18 @@ class Trip extends Model
   {
     return $this->hasMany(Review::class);
   }
-
+  public function review()
+  {
+    return $this->hasOne(Review::class)->where('user_id', auth()->id())->oldestOfMany();
+  }
   public function transaction()
   {
     return $this->hasOne(Transaction::class);
   }
 
-  public function renters(){
-    return $this->hasManyThrough(User::class, Shipment::class, 'trip_id','id','id','renter_id');
+  public function renters()
+  {
+    return $this->hasManyThrough(User::class, Shipment::class, 'trip_id', 'id', 'id', 'renter_id');
   }
 
   public function updateStatus($newStatus)
@@ -168,9 +173,14 @@ class Trip extends Model
         throw new Exception('The driver already have an ongoing trip.');
       }
 
-      if ($this->pending_orders()->exists()) {
+      /* if ($this->pending_orders()->exists()) {
         throw new Exception('The trip has pending orders.');
-      }
+      } */
+
+      $this->incoming_orders()->where('status','pending')->update(['status' => 'rejected']);
+      $this->outgoing_orders()->where('status','pending')->delete();;
+      $this->favorites()->delete();
+
 
     } elseif ($currentStatus == 'ongoing' && $newStatus == 'completed') {
       if ($this->pending_shipments()->exists()) {
@@ -192,10 +202,11 @@ class Trip extends Model
 
     $notice->send($this->renters());
 
-    return ;
+    return;
   }
 
-  public function createTransaction(){
+  public function createTransaction()
+  {
     $driver = $this->driver;
 
     $month = Carbon::now()->firstOfMonth();

@@ -20,7 +20,7 @@ class NotificationResource extends JsonResource
         'content' => $this->notice->content,
         'type' => $this->notice->type,
         'priority' => $this->notice->priority,
-        'meteadata' => json_decode($this->notice->metadata),
+        'metadata' => json_decode($this->notice->metadata),
         'created_at' => $this->created_at,
         'is_read' => boolval($this->is_read),
         'read_at' => $this->read_at,

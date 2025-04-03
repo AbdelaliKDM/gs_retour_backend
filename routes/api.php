@@ -3,29 +3,29 @@
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TripController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\TruckController;
-use App\Http\Controllers\NoticeController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\WalletController;
-use App\Http\Controllers\WilayaController;
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\ShipmentController;
-use App\Http\Controllers\TruckTypeController;
-use App\Http\Controllers\TruckImageController;
-use App\Http\Controllers\SubcategoryController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ShipmentTypeController;
-use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\TripController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\TruckController;
+use App\Http\Controllers\API\NoticeController;
+use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\API\WalletController;
+use App\Http\Controllers\API\WilayaController;
+use App\Http\Controllers\API\AccountController;
+use App\Http\Controllers\API\InvoiceController;
+use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\SettingController;
+use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\FavoriteController;
+use App\Http\Controllers\API\ShipmentController;
+use App\Http\Controllers\API\TruckTypeController;
+use App\Http\Controllers\API\TruckImageController;
+use App\Http\Controllers\API\SubcategoryController;
+use App\Http\Controllers\API\TransactionController;
+use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\ShipmentTypeController;
+use App\Http\Controllers\API\DocumentationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,6 +139,12 @@ Route::prefix('v1')->group(function () {
     Route::get('/get', [NotificationController::class, 'get']);
   });
 
+  #payment routes
+  Route::prefix('payment')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+    Route::post('/update', [PaymentController::class, 'update']);
+    Route::post('/get', [PaymentController::class, 'get']);
+  });
+
   //public routes
   Route::post('documentation/get', [DocumentationController::class, 'get']);
   Route::post('setting/get', [SettingController::class, 'get']);
@@ -147,68 +153,6 @@ Route::prefix('v1')->group(function () {
   Route::post('truck/type/get', [TruckTypeController::class, 'get']);
   Route::post('shipment/type/get', [ShipmentTypeController::class, 'get']);
   Route::post('wilaya/get', [WilayaController::class, 'get']);
-  //admin routes
-
-  Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
-
-    Route::post('documentation/update', [DocumentationController::class, 'update']);
-    Route::post('setting/update', [SettingController::class, 'update']);
-
-    Route::prefix('user')->middleware('auth:sanctum')->group(function () {
-      Route::post('/update', [UserController::class, 'update']);
-      Route::post('/delete', [UserController::class, 'delete']);
-    });
-
-    Route::prefix('category')->group(function () {
-      Route::post('/create', [CategoryController::class, 'create']);
-      Route::post('/update', [CategoryController::class, 'update']);
-      Route::post('/delete', [CategoryController::class, 'delete']);
-      Route::post('/restore', [CategoryController::class, 'restore']);
-    });
-
-    Route::prefix('subcategory')->group(function () {
-      Route::post('/create', [SubcategoryController::class, 'create']);
-      Route::post('/update', [SubcategoryController::class, 'update']);
-      Route::post('/delete', [SubcategoryController::class, 'delete']);
-      Route::post('/restore', [SubcategoryController::class, 'restore']);
-    });
-
-    Route::prefix('truck/type')->group(function () {
-      Route::post('/create', [TruckTypeController::class, 'create']);
-      Route::post('/update', [TruckTypeController::class, 'update']);
-      Route::post('/delete', [TruckTypeController::class, 'delete']);
-      Route::post('/restore', [TruckTypeController::class, 'restore']);
-    });
-
-    Route::prefix('shipment/type')->group(function () {
-      Route::post('/create', [ShipmentTypeController::class, 'create']);
-      Route::post('/update', [ShipmentTypeController::class, 'update']);
-      Route::post('/delete', [ShipmentTypeController::class, 'delete']);
-      Route::post('/restore', [ShipmentTypeController::class, 'restore']);
-    });
-
-    Route::prefix('payment')->group(function () {
-      Route::post('/update', [PaymentController::class, 'update']);
-    });
-
-    Route::prefix('notice')->group(function () {
-      Route::post('/create', [NoticeController::class, 'create']);
-      Route::post('/update', [NoticeController::class, 'update']);
-      Route::post('/delete', [NoticeController::class, 'delete']);
-      Route::post('/send', [NoticeController::class, 'send']);
-    });
-
-  });
-
-
-
-
-
-
-
-
-
-
 
 });
 

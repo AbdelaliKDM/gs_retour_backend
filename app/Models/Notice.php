@@ -139,23 +139,28 @@ class Notice extends Model
     ]);
   }
 
-  public static function OrderNotice(int $order_id, string $status): self
+  public static function OrderNotice(Order $order, User $user, string $status): self
   {
     $key = "messages.order.{$status}";
+
+    if($user->role == 'driver'){
+      $metadata = ['trip_id' => $order->trip_id];
+    }else{
+      $metadata = ['shipment_id' => $order->shipment_id];
+    }
+
+    $metadata['status'] = $status;
 
     return self::create([
       'title_en' => trans("{$key}.title", [], 'en'),
       'title_ar' => trans("{$key}.title", [], 'ar'),
       'title_fr' => trans("{$key}.title", [], 'fr'),
-      'content_en' => trans("{$key}.content", ['order_id' => $order_id], 'en'),
-      'content_ar' => trans("{$key}.content", ['order_id' => $order_id], 'ar'),
-      'content_fr' => trans("{$key}.content", ['order_id' => $order_id], 'fr'),
+      'content_en' => trans("{$key}.content", ['order_id' => $order->id], 'en'),
+      'content_ar' => trans("{$key}.content", ['order_id' => $order->id], 'ar'),
+      'content_fr' => trans("{$key}.content", ['order_id' => $order->id], 'fr'),
       'type' => 4,
       'priority' => 0,
-      'metadata' => json_encode([
-        'order_id' => $order_id,
-        'status' => $status
-      ])
+      'metadata' => json_encode($metadata)
     ]);
   }
 
