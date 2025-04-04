@@ -136,7 +136,7 @@ class ReviewController extends Controller
 
 
       $reviews = $trip->driver_id == $user->id
-        ? new ReviewCollection($trip->reviews)
+        ? new PaginatedReviewCollection($trip->reviews)
         : new ReviewResource($trip->review);
 
 
