@@ -27,7 +27,7 @@ class SettingController extends Controller
     ]);
 
 
-    return $this->successResponse(data: $this->calc_price($request->distance));
+    return $this->successResponse(data: floatval($this->calc_price($request->distance)));
   }
 
 
