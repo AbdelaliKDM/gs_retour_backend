@@ -153,7 +153,7 @@ Route::prefix('v1')->group(function () {
   Route::post('truck/type/get', [TruckTypeController::class, 'get']);
   Route::post('shipment/type/get', [ShipmentTypeController::class, 'get']);
   Route::post('wilaya/get', [WilayaController::class, 'get']);
-
+  Route::post('price/get', [SettingController::class, 'distance_price']);
 });
 
 

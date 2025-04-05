@@ -9,7 +9,7 @@
               <form class="form-horizontal" onsubmit="event.preventDefault()" action="#"
                   enctype="multipart/form-data" id="update-form">
 
-                  <input type="hidden" id="id" name="id">
+                  <input type="hidden" name="id">
 
                   <div class="card-body">
                     <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -19,9 +19,9 @@
                             class="d-block rounded uploaded-image" height="100" width="100" />
                         <div class="button-wrapper">
                           <label class="btn btn-primary" tabindex="0">
-                            <span class="d-none d-sm-block">{{ ('app.image.new') }}</span>
+                            <span class="d-none d-sm-block">{{ __('app.image.upload') }}</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
-                            <input class="image-input" type="file" id='image' name="image" hidden
+                            <input class="image-input" type="file" name="image" hidden
                                 accept="image/png, image/jpeg" />
                         </label>
                             <button type="button" class="btn btn-outline-secondary image-reset">
@@ -37,21 +37,21 @@
                   <hr class="my-3">
 
                   <div class="mb-3">
-                      <label for="name" class="form-label">{{ __("{$model}.labels.name_ar") }}</label>
-                      <input type="text" class="form-control" id="name_ar" name="name_ar">
+                      <label for="name_ar" class="form-label">{{ __("{$model}.labels.name_ar") }}</label>
+                      <input type="text" class="form-control" name="name_ar">
                   </div>
                   <div class="mb-3">
-                      <label for="name" class="form-label">{{ __("{$model}.labels.name_en") }}</label>
-                      <input type="text" class="form-control" id="name_en" name="name_en">
+                      <label for="name_en" class="form-label">{{ __("{$model}.labels.name_en") }}</label>
+                      <input type="text" class="form-control" name="name_en">
                   </div>
                   <div class="mb-3">
-                      <label for="name" class="form-label">{{ __("{$model}.labels.name_fr") }}</label>
-                      <input type="text" class="form-control" id="name_fr" name="name_fr">
+                      <label for="name_fr" class="form-label">{{ __("{$model}.labels.name_fr") }}</label>
+                      <input type="text" class="form-control" name="name_fr">
                   </div>
-                  <div class="mb-3" style="text-align: center">
-                      <button type="submit" id="update-submit" name="submit"
-                          class="btn btn-primary">{{ __('app.update') }}</button>
-                  </div>
+                  <div class="mb-3 text-center">
+                    <button type="submit" id="update-submit" name="submit"
+                        class="btn btn-primary">{{ __('app.update') }}</button>
+                </div>
 
               </form>
           </div>

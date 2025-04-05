@@ -121,13 +121,37 @@ class CategoryController extends Controller
   public function delete(Request $request)
   {
 
+    $this->validateRequest($request, [
+      'id' => 'required',
+      'confirm_delete' => 'sometimes'
+    ]);
+
     try {
 
       $category = Category::findOrFail($request->id);
 
-      $category->delete();
+      if($request->has('confirm_delete')){
 
-      return $this->successResponse();
+        $category->delete();
+
+        return $this->successResponse();
+
+      }else{
+
+          $subcategories = $category->subcategories()->count();
+          $truckTypes = $category->truckTypes()->count();
+          $trucks = $category->trucks()->count();
+
+          $data = [];
+
+        empty($subcategories) ?: $data[__('app.subcategories')] = $subcategories;
+        empty($truckTypes) ?: $data[__('app.truckTypes')] = $truckTypes;
+        empty($trucks) ?: $data[__('app.trucks')] = $trucks;
+
+        return $this->successResponse(data: $data);
+      }
+
+
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());

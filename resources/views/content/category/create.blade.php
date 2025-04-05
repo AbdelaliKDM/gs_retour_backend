@@ -17,7 +17,7 @@
                               class="d-block rounded uploaded-image" height="100" width="100" />
                           <div class="button-wrapper">
                             <label class="btn btn-primary" tabindex="0">
-                              <span class="d-none d-sm-block">{{ ('app.image.new') }}</span>
+                              <span class="d-none d-sm-block">{{ __('app.image.upload') }}</span>
                               <i class="bx bx-upload d-block d-sm-none"></i>
                               <input class="image-input" type="file" name="image" hidden
                                   accept="image/png, image/jpeg" />
@@ -49,7 +49,7 @@
                         <input type="text" class="form-control" name="name_fr"
                             placeholder="{{ __("{$model}.placeholders.name_fr") }}" autofocus>
                     </div>
-                    <div class="mb-3" style="text-align: center">
+                    <div class="mb-3 text-center">
                         <button type="submit" id="create-submit" name="submit"
                             class="btn btn-primary">{{ __('app.create') }}</button>
                     </div>

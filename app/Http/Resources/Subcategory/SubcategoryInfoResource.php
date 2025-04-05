@@ -16,6 +16,7 @@ class SubcategoryInfoResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'category_id' => $this->category_id,
             'name_en' => $this->name_en,
             'name_ar' => $this->name_ar,
             'name_fr' => $this->name_fr,

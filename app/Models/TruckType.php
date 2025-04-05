@@ -20,6 +20,10 @@ class TruckType extends Model
         'capacity'
     ];
 
+    protected $softCascade = [
+      'trucks',
+    ];
+
     public function getNameAttribute(){
       return match(session('locale')){
         'ar' => $this->name_ar,
@@ -35,5 +39,9 @@ class TruckType extends Model
 
     public function category(){
       return $this->belongsToThrough(Category::class, Subcategory::class);
+    }
+
+    public function trucks(){
+      return $this->hasMany(Truck::class);
     }
 }

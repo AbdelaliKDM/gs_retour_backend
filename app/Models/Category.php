@@ -18,8 +18,9 @@ class Category extends Model
       'image',
   ];
 
-  protected $dates = ['deleted_at'];
-
+  protected $softCascade = [
+    'subcategories',
+  ];
 
   public function getImageUrlAttribute()
     {
@@ -39,5 +40,13 @@ class Category extends Model
 
     public function subcategories(){
       return $this->hasMany(Subcategory::class);
+    }
+
+    public function truckTypes(){
+      return $this->through('subcategories')->has('truckTypes');
+    }
+
+    public function trucks(){
+      return $this->through('truckTypes')->has('trucks');
     }
 }

@@ -60,7 +60,13 @@ class User extends Authenticatable
     'status' => 'string',
   ];
 
-  protected $softCascade = ['truck', 'trips', 'shipments','reviews','favorites'];
+  protected $softCascade = [
+    'truck',
+    'trips',
+    'shipments',
+    'reviews',
+    'favorites'
+  ];
 
   public function getImageUrlAttribute()
   {
@@ -82,11 +88,13 @@ class User extends Authenticatable
       : null;
   }
 
-  public function getBalanceAttribute(){
+  public function getBalanceAttribute()
+  {
     $wallet = $this->wallet ?? $this->wallet()->create(['balance' => 0]);
     return $wallet->balance;
   }
-  public function getRatingAttribute(){
+  public function getRatingAttribute()
+  {
     return $this->trips_reviews()->avg('rating');
   }
   public function truck()
@@ -108,24 +116,26 @@ class User extends Authenticatable
     return $this->hasMany(Favorite::class);
   }
 
-  public function reviews(){
+  public function reviews()
+  {
     return $this->hasMany(Review::class);
   }
 
-  public function trips_reviews(){
+  public function trips_reviews()
+  {
     return $this->hasManyThrough(Review::class, Trip::class, 'driver_id');
   }
 
   public function ongoing_trip()
   {
-    return $this->trips()->whereHas('status', function($query) {
+    return $this->trips()->whereHas('status', function ($query) {
       $query->where('name', 'ongoing');
     });
   }
 
   public function trip()
   {
-    return $this->hasOne(Trip::class, 'driver_id')->whereHas('status', function($query) {
+    return $this->hasOne(Trip::class, 'driver_id')->whereHas('status', function ($query) {
       $query->where('name', 'ongoing');
     })->latestOfMany();
   }
@@ -162,7 +172,8 @@ class User extends Authenticatable
 
   }
 
-  public function updateStatus($status, $reason = null){
+  public function updateStatus($status, $reason = null)
+  {
 
     $this->update([
       'status' => $status,

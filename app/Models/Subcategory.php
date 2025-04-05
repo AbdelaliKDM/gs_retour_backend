@@ -19,6 +19,10 @@ class Subcategory extends Model
     'image',
 ];
 
+protected $softCascade = [
+  'truckTypes',
+];
+
 public function getImageUrlAttribute()
   {
     return $this->image && Storage::disk('upload')->exists($this->image)
@@ -37,5 +41,13 @@ public function getImageUrlAttribute()
 
   public function category(){
     return $this->belongsTo(Category::class);
+  }
+
+  public function truckTypes(){
+    return $this->hasMany(TruckType::class);
+  }
+
+  public function trucks(){
+    return $this->through('truckTypes')->has('trucks');
   }
 }

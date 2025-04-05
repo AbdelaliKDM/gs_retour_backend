@@ -2,37 +2,37 @@
   "menu": [
     {
       "url": "/",
-      "name": "Dashboard",
+      "name": "app.dashboard",
       "icon": "menu-icon tf-icons bx bxs-home-circle",
       "slug": "dashboard-analytics"
     },
     {
       "url": "/user/index",
-      "name": "Users",
+      "name": "app.users",
       "icon": "menu-icon tf-icons bx bxs-user",
       "slug": "user.index"
     },
     {
       "url": "/category/index",
-      "name": "Categories",
+      "name": "app.categories",
       "icon": "menu-icon tf-icons bx bxs-category",
       "slug": "category.index"
     },
     {
       "url": "/subcategory/index",
-      "name": "Subcategories",
+      "name": "app.subcategories",
       "icon": "menu-icon tf-icons bx bxs-shapes",
       "slug": "subcategory.index"
     },
     {
       "url": "/truck/type/index",
-      "name": "Truck types",
+      "name": "app.truckTypes",
       "icon": "menu-icon tf-icons bx bxs-truck",
       "slug": "truck.type.index"
     },
     {
       "url": "/shipment/type/index",
-      "name": "Shipment types",
+      "name": "app.shipmentTypes",
       "icon": "menu-icon tf-icons bx bxs-package",
       "slug": "shipment.type.index"
     }

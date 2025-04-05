@@ -194,7 +194,10 @@ class ShipmentController extends Controller
       }
 
       if ($request->has('status')) {
-        $shipments = $shipments->where('status', $request->status);
+
+        $shipments = $shipments->whereHas('status', function ($query) use ($request) {
+          $query->where('name', $request->status);
+        }) ;
       }
 
       if ($request->has('all')) {

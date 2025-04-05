@@ -39,6 +39,7 @@
 
     @include("content.{$model}.create")
     @include("content.{$model}.update")
+    @include("content.{$model}.delete")
 @endsection
 
 
@@ -162,8 +163,8 @@
             });
 
             $(document.body).on('click', '.update', function() {
-
                 var id = $(this).data('id');
+                var modal = $("#update-modal");
 
                 $.ajax({
                     url: '{{ url("{$model}/get") }}',
@@ -177,17 +178,18 @@
                     dataType: 'JSON',
                     success: function(response) {
                         if (response.status) {
-                            $("#id").val(response.data.id);
-                            $('#name_en').val(response.data.name_en);
-                            $('#name_ar').val(response.data.name_ar);
-                            $('#name_fr').val(response.data.name_fr);
+
+                            modal.find('input[name="id"]').val(response.data.id);
+                            modal.find('input[name="name_en"]').val(response.data.name_en);
+                            modal.find('input[name="name_ar"]').val(response.data.name_ar);
+                            modal.find('input[name="name_fr"]').val(response.data.name_fr);
 
                             if (response.data.image) {
-                                $('#update-modal').find('.uploaded-image').attr('src', response.data.image);
-                                $('#update-modal').find('.old-image').attr('src', response.data.image);
+                                modal.find('.uploaded-image').attr('src', response.data.image);
+                                modal.find('.old-image').attr('src', response.data.image);
                             }
 
-                            $("#update-modal").modal("show");
+                            modal.modal("show");
                         }
                     }
                 });
@@ -244,47 +246,103 @@
             $(document.body).on('click', '.delete', function() {
 
                 var id = $(this).data('id');
+                var modal = $('#delete-modal');
 
-                Swal.fire({
-                    title: "{{ __('Warning') }}",
-                    text: "{{ __('Are you sure?') }}",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: "{{ __('Yes') }}",
-                    cancelButtonText: "{{ __('No') }}"
-                }).then((result) => {
-                    if (result.isConfirmed) {
+                modal.find('input[name="id"]').val(id);
 
-                        $.ajax({
-                            url: '{{ url("{$model}/delete") }}',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            data: {
-                                id: id
-                            },
-                            dataType: 'JSON',
-                            success: function(response) {
-                                if (response.status) {
+                modal.find('.related-items-list').empty();
 
-                                    Swal.fire(
-                                        "{{ __('Success') }}",
-                                        "{{ __('success') }}",
-                                        'success'
-                                    ).then((result) => {
-                                        $('#laravel_datatable').DataTable().ajax
-                                            .reload();
-                                    });
-                                }
-                            }
-                        });
+                $.ajax({
+                    url: '{{ url("{$model}/delete") }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'JSON',
+                    success: function(response) {
+                        var $relatedList = modal.find('.related-items-list');
+                        $relatedList.empty();
 
+                        // Hide container if no related items
+                        if (Object.keys(response.data).length === 0) {
+                            modal.find('.related-items-container').hide();
+                        } else {
+                            modal.find('.related-items-container').show();
 
+                            // Add each related item to the list
+                            $.each(response.data, function(key, count) {
+
+                                $relatedList.append(
+                                    '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+                                    key +
+                                    '<span class="badge bg-danger rounded-pill">' +
+                                    count + '</span>' +
+                                    '</li>'
+                                );
+                            });
+                        }
+
+                        modal.modal('show');
                     }
-                })
+                });
+            });
+
+
+            $('#delete-submit').on('click', function() {
+
+              var modal = $("#delete-modal");
+
+              if(modal.find('input[name="confirm_delete"]').prop('checked')){
+
+                modal.modal("hide");
+
+                var formdata = new FormData($("#delete-form")[0]);
+
+                $.ajax({
+                    url: '{{ url("{$model}/delete") }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: formdata,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == 1) {
+                            Swal.fire({
+                                title: "{{ __('Success') }}",
+                                text: "{{ __('success') }}",
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                $('#laravel_datatable').DataTable().ajax
+                                    .reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                response.message,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        Swal.fire(
+                            "{{ __('Error') }}",
+                            errors.message,
+                            'error'
+                        );
+                        // Render the errors with js ...
+                    }
+                });
+              }
+
+
             });
 
             $(document).on('change', '.image-input', function() {

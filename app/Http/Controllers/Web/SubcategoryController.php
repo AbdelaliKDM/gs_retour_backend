@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use Exception;
-use App\Traits\FileUpload;
+use App\Models\Category;
 
+use App\Traits\FileUpload;
 use App\Models\Subcategory;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class SubcategoryController extends Controller
   public function index()
   {
     return view("content.{$this->model}.index")->with([
-      'model' => $this->model
+      'model' => $this->model,
+      'categories' => Category::all()->pluck('name','id')->toArray()
     ]);
   }
 
@@ -124,13 +126,33 @@ class SubcategoryController extends Controller
   public function delete(Request $request)
   {
 
+    $this->validateRequest($request, [
+      'id' => 'required',
+      'confirm_delete' => 'sometimes'
+    ]);
+
     try {
 
       $subcategory = Subcategory::findOrFail($request->id);
 
-      $subcategory->delete();
+      if($request->has('confirm_delete')){
 
-      return $this->successResponse();
+        $subcategory->delete();
+
+        return $this->successResponse();
+
+      }else{
+
+          $truckTypes = $subcategory->truckTypes()->count();
+          $trucks = $subcategory->trucks()->count();
+
+          $data = [];
+
+        empty($truckTypes) ?: $data[__('app.truckTypes')] = $truckTypes;
+        empty($trucks) ?: $data[__('app.trucks')] = $trucks;
+
+        return $this->successResponse(data: $data);
+      }
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());
