@@ -24,7 +24,7 @@
                       <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                     </div>
                   </div>
-                  <div class="mb-3" style="text-align: center">
+                  <div class="mb-3 text-center" >
                       <button type="submit" id="create-submit" name="submit"
                           class="btn btn-primary">{{ __("app.create") }}</button>
                   </div>

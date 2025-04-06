@@ -16,6 +16,10 @@ class ShipmentType extends Model
       'name_fr',
   ];
 
+  protected $softCascade = [
+    'shipments',
+  ];
+
   public function getNameAttribute(){
     return match(session('locale')){
       'ar' => $this->name_ar,

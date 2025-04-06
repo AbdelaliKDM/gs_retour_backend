@@ -44,6 +44,14 @@ class UserController extends Controller
 
         $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
+        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
+
+        if ($row->status == 'active') {
+          $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing suspend" title="' . __("{$this->model}.actions.suspend") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+        } else {
+          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing activate" title="' . __("{$this->model}.actions.activate") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+        }
+
         return $btn;
       })
 
@@ -148,24 +156,49 @@ class UserController extends Controller
 
     $this->validateRequest($request, [
       'id' => 'required',
+      'confirm_delete' => 'sometimes'
     ]);
 
     try {
 
       $user = User::findOrFail($request->id);
 
-      $user->update([
-        'email' => null,
-        'phone' => null,
-        'device_token' => null,
-        'status' => 'deleted'
-      ]);
+      if($request->has('confirm_delete')){
 
-      $user->tokens()->delete();
+        $user->update([
+          'email' => null,
+          'phone' => null,
+          'device_token' => null,
+          'status' => 'deleted'
+        ]);
 
-      $user->delete();
+        $user->tokens()->delete();
 
-      return $this->successResponse();
+        $user->delete();
+
+        return $this->successResponse();
+      }else{
+
+        $trucks = $user->truck()->count();
+        $trips = $user->trips()->count();
+        $shipments = $user->shipments()->count();
+        $invoices = $user->invoices()->count();
+        $invoice_payments = $user->invoice_payments()->count();
+        $wallet_payments = $user->wallet_payments()->count();
+
+        $data = [];
+
+
+        empty($trucks) ?: $data[__('app.trucks')] = $trucks;
+        empty($trips) ?: $data[__('app.trips')] = $trips;
+        empty($shipments) ?: $data[__('app.shipments')] = $shipments;
+        empty($invoices) ?: $data[__('app.invoices')] = $invoices;
+        empty($invoice_payments) ?: $data[__('app.invoice_payments')] = $invoice_payments;
+        empty($wallet_payments) ?: $data[__('app.wallet_payments')] = $wallet_payments;
+
+
+      return $this->successResponse(data: $data);
+    }
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());

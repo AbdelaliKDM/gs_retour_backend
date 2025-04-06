@@ -19,6 +19,7 @@ class TruckResource extends JsonResource
       'truck_type_id' => $this->truck_type_id,
       'subcategory_id' => $this->subcategory->id,
       'category_id' => $this->category->id,
+      'truck_type' => $this->truckType->name,
       'serial_number' => $this->serial_number,
       'gray_card' => $this->gray_card_url,
       'driving_license' => $this->gray_card_url,

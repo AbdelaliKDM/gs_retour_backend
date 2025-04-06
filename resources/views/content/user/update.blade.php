@@ -9,15 +9,19 @@
               <form class="form-horizontal" onsubmit="event.preventDefault()" action="#"
                   enctype="multipart/form-data" id="update-form">
 
-                  <input type="hidden" id="id" name="id">
+                  <input type="hidden" name="id">
 
                   <div class="mb-3">
                     <label for="name" class="form-label">{{ __("{$model}.labels.name") }}</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="{{ __("{$model}.placeholders.name") }}" autofocus>
+                    <input type="text" class="form-control" name="name" placeholder="{{ __("{$model}.placeholders.name") }}" autofocus>
                   </div>
                   <div class="mb-3">
                     <label for="email" class="form-label">{{ __("{$model}.labels.email") }}</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="{{ __("{$model}.placeholders.email") }}">
+                    <input type="text" class="form-control" name="email" placeholder="{{ __("{$model}.placeholders.email") }}">
+                  </div>
+                  <div class="mb-3">
+                    <label for="phone" class="form-label">{{ __("{$model}.labels.phone") }}</label>
+                    <input type="text" class="form-control" name="phone" placeholder="{{ __("{$model}.placeholders.phone") }}">
                   </div>
                   {{-- <div class="mb-3 form-password-toggle">
                     <label class="form-label" for="password">{{ __("{$model}.labels.password") }}</label>
@@ -26,7 +30,7 @@
                       <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                     </div>
                   </div> --}}
-                  <div class="mb-3" style="text-align: center">
+                  <div class="mb-3 text-center" >
                       <button type="submit" id="update-submit" name="submit"
                           class="btn btn-primary">{{ __("app.update") }}</button>
                   </div>

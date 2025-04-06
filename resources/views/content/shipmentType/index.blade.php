@@ -28,8 +28,6 @@
                         <th>{{ __("{$model}.table.name_en") }}</th>
                         <th>{{ __("{$model}.table.name_ar") }}</th>
                         <th>{{ __("{$model}.table.name_fr") }}</th>
-                        <th>{{ __("{$model}.table.image") }}</th>
-                        <th>{{ __("{$model}.table.category") }}</th>
                         <th>{{ __("{$model}.table.created_at") }}</th>
                         <th>{{ __("{$model}.table.actions") }}</th>
                     </tr>
@@ -86,19 +84,6 @@
                         {
                             data: 'name_fr',
                             name: 'name_fr'
-                        },
-
-                        {
-                            data: 'image',
-                            name: 'image',
-                            render: function(data) {
-                                return '<img src="' + data + '" class="rounded" width="50">';
-                            }
-                        },
-
-                        {
-                            data: 'category',
-                            name: 'category'
                         },
 
                         {
@@ -186,15 +171,9 @@
                     success: function(response) {
                         if (response.status) {
                             modal.find('input[name="id"]').val(response.data.id);
-                            modal.find('select[name="category_id"]').val(response.data.category_id);
                             modal.find('input[name="name_en"]').val(response.data.name_en);
                             modal.find('input[name="name_ar"]').val(response.data.name_ar);
                             modal.find('input[name="name_fr"]').val(response.data.name_fr);
-
-                            if (response.data.image) {
-                                modal.find('.uploaded-image').attr('src', response.data.image);
-                                modal.find('.old-image').attr('src', response.data.image);
-                            }
 
                             modal.modal("show");
                         }
@@ -350,22 +329,6 @@
                 }
 
 
-            });
-
-            $(document).on('change', '.image-input', function() {
-                const container = $(this).closest('.card-body');
-                const fileInput = this;
-                if (fileInput.files[0]) {
-                    container.find('.uploaded-image').attr('src', window.URL.createObjectURL(fileInput
-                        .files[0]));
-                }
-            });
-
-            $(document).on('click', '.image-reset', function() {
-                const container = $(this).closest('.card-body');
-                container.find('.image-input').val('');
-                const oldSrc = container.find('.old-image').attr('src');
-                container.find('.uploaded-image').attr('src', oldSrc);
             });
 
         });

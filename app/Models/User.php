@@ -65,7 +65,9 @@ class User extends Authenticatable
     'trips',
     'shipments',
     'reviews',
-    'favorites'
+    'favorites',
+    'wallet',
+    'invoices'
   ];
 
   public function getImageUrlAttribute()
@@ -153,6 +155,21 @@ class User extends Authenticatable
   public function notifications()
   {
     return $this->hasMany(Notification::class);
+  }
+
+  public function wallet_payments()
+  {
+    return $this->through('wallet')->has('payments');
+  }
+
+  public function invoice_payments()
+  {
+    return $this->through('invoices')->has('payments');
+  }
+
+  public function payments()
+  {
+    return $this->wallet_payments()->union($this->invoice_payments());
   }
 
   public function notify(Notice $notice)

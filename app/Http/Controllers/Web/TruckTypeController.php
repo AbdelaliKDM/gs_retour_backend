@@ -2,18 +2,72 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use Exception;
-use App\Http\Resources\TruckType\PaginatedTruckTypeCollection;
-use App\Http\Resources\TruckType\TruckTypeCollection;
 use App\Models\TruckType;
+use App\Models\Subcategory;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\TruckType\TruckTypeResource;
+use App\Http\Resources\TruckType\TruckTypeCollection;
+use App\Http\Resources\TruckType\TruckTypeInfoResource;
+use App\Http\Resources\TruckType\PaginatedTruckTypeCollection;
 
 class TruckTypeController extends Controller
 {
   use ApiResponse;
+
+  protected $model = 'truckType';
+
+  public function index()
+  {
+    return view("content.{$this->model}.index")->with([
+      'model' => $this->model,
+      'subcategories' => Subcategory::all()->pluck('name','id')->toArray()
+    ]);
+  }
+
+  public function list(Request $request)
+  {
+
+    $data = TruckType::latest()->get();
+
+    return datatables()
+      ->of($data)
+      ->addIndexColumn()
+
+      ->addColumn('action', function ($row) {
+        $btn = '';
+
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+
+        return $btn;
+      })
+
+      ->addColumn('subcategory', function ($row) {
+
+        return $row->subcategory->name;
+
+      })
+
+      ->addColumn('image', function ($row) {
+
+        return $row->image_url ?? 'https://placehold.co/100?text=No+Image';
+
+      })
+
+      ->addColumn('created_at', function ($row) {
+
+        return date('Y-m-d', strtotime($row->created_at));
+
+      })
+
+
+      ->make(true);
+  }
+
 
   public function create(Request $request)
   {
@@ -60,12 +114,33 @@ class TruckTypeController extends Controller
 
   public function delete(Request $request)
   {
+    $this->validateRequest($request, [
+      'id' => 'required',
+      'confirm_delete' => 'sometimes'
+    ]);
+
     try {
       $truck_type = TruckType::findOrFail($request->id);
 
-      $truck_type->delete();
+      if($request->has('confirm_delete')){
 
-      return $this->successResponse();
+        $truck_type->delete();
+
+        return $this->successResponse();
+
+      }else{
+
+
+          $trucks = $truck_type->trucks()->count();
+
+
+          $data = [];
+
+
+        empty($trucks) ?: $data[__('app.trucks')] = $trucks;
+
+        return $this->successResponse(data: $data);
+      }
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());
     }
@@ -97,7 +172,7 @@ class TruckTypeController extends Controller
     try {
       if ($request->has('id')) {
         $truck_type = TruckType::findOrFail($request->id);
-        return $this->successResponse(data: new TruckTypeResource($truck_type));
+        return $this->successResponse(data: new TruckTypeInfoResource($truck_type));
       }
 
       $truck_types = TruckType::latest();

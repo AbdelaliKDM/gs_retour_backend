@@ -28,8 +28,7 @@
                         <th>{{ __("{$model}.table.name_en") }}</th>
                         <th>{{ __("{$model}.table.name_ar") }}</th>
                         <th>{{ __("{$model}.table.name_fr") }}</th>
-                        <th>{{ __("{$model}.table.image") }}</th>
-                        <th>{{ __("{$model}.table.category") }}</th>
+                        <th>{{ __("{$model}.table.subcategory") }}</th>
                         <th>{{ __("{$model}.table.created_at") }}</th>
                         <th>{{ __("{$model}.table.actions") }}</th>
                     </tr>
@@ -89,16 +88,8 @@
                         },
 
                         {
-                            data: 'image',
-                            name: 'image',
-                            render: function(data) {
-                                return '<img src="' + data + '" class="rounded" width="50">';
-                            }
-                        },
-
-                        {
-                            data: 'category',
-                            name: 'category'
+                            data: 'subcategory',
+                            name: 'subcategory',
                         },
 
                         {
@@ -186,15 +177,12 @@
                     success: function(response) {
                         if (response.status) {
                             modal.find('input[name="id"]').val(response.data.id);
-                            modal.find('select[name="category_id"]').val(response.data.category_id);
+                            modal.find('select[name="subcategory_id"]').val(response.data.subcategory_id);
                             modal.find('input[name="name_en"]').val(response.data.name_en);
                             modal.find('input[name="name_ar"]').val(response.data.name_ar);
                             modal.find('input[name="name_fr"]').val(response.data.name_fr);
-
-                            if (response.data.image) {
-                                modal.find('.uploaded-image').attr('src', response.data.image);
-                                modal.find('.old-image').attr('src', response.data.image);
-                            }
+                            modal.find('input[name="capacity"]').val(response.data.capacity);
+                            modal.find('input[name="weight"]').val(response.data.weight);
 
                             modal.modal("show");
                         }

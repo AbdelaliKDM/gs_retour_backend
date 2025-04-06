@@ -6,6 +6,7 @@ use App\Http\Controllers\Template\MiscError;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Template\LoginBasic;
 use App\Http\Controllers\Template\LogoutBasic;
+use App\Http\Controllers\Web\PaymentController;
 use App\Http\Controllers\Template\RegisterBasic;
 use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\TruckTypeController;
@@ -92,7 +93,7 @@ Route::prefix('auth')->group(function () {
       Route::post('/get', [SubcategoryController::class, 'get']);
     });
 
-    Route::prefix('truck/type')->name('truck.type.')->group(function () {
+    Route::prefix('truckType')->name('truck.type.')->group(function () {
       Route::get('/index', [TruckTypeController::class, 'index'])->name('index');
       Route::post('/list', [TruckTypeController::class, 'list'])->name('list');
       Route::post('/create', [TruckTypeController::class, 'create']);
@@ -102,7 +103,7 @@ Route::prefix('auth')->group(function () {
       Route::post('/get', [TruckTypeController::class, 'get']);
     });
 
-    Route::prefix('shipment/type')->name('shipment.type.')->group(function () {
+    Route::prefix('shipmentType')->name('shipment.type.')->group(function () {
       Route::get('/index', [ShipmentTypeController::class, 'index'])->name('index');
       Route::post('/list', [ShipmentTypeController::class, 'list'])->name('list');
       Route::post('/create', [ShipmentTypeController::class, 'create']);
@@ -112,11 +113,15 @@ Route::prefix('auth')->group(function () {
       Route::post('/get', [ShipmentTypeController::class, 'get']);
     });
 
-    /* Route::prefix('payment')->group(function () {
+    Route::prefix('payment')->name('payment.')->group(function () {
+      Route::get('/index', [PaymentController::class, 'index'])->name('index');
+      Route::post('/list', [PaymentController::class, 'list'])->name('list');
       Route::post('/update', [PaymentController::class, 'update']);
+      Route::post('/delete', [PaymentController::class, 'delete']);
+      Route::post('/get', [PaymentController::class, 'get']);
     });
 
-    Route::prefix('notice')->group(function () {
+    /* Route::prefix('notice')->group(function () {
       Route::post('/create', [NoticeController::class, 'create']);
       Route::post('/update', [NoticeController::class, 'update']);
       Route::post('/delete', [NoticeController::class, 'delete']);

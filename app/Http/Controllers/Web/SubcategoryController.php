@@ -47,6 +47,12 @@ class SubcategoryController extends Controller
         return $btn;
       })
 
+      ->addColumn('category', function ($row) {
+
+        return $row->category->name;
+
+      })
+
       ->addColumn('image', function ($row) {
 
         return $row->image_url ?? 'https://placehold.co/100?text=No+Image';

@@ -25,16 +25,22 @@
       "slug": "subcategory.index"
     },
     {
-      "url": "/truck/type/index",
+      "url": "/truckType/index",
       "name": "app.truckTypes",
       "icon": "menu-icon tf-icons bx bxs-truck",
       "slug": "truck.type.index"
     },
     {
-      "url": "/shipment/type/index",
+      "url": "/shipmentType/index",
       "name": "app.shipmentTypes",
       "icon": "menu-icon tf-icons bx bxs-package",
       "slug": "shipment.type.index"
+    },
+    {
+      "url": "/payment/index",
+      "name": "app.payments",
+      "icon": "menu-icon tf-icons bx bxs-credit-card",
+      "slug": "payment.index"
     }
   ]
 }

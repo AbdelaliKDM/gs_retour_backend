@@ -8,11 +8,6 @@
         <div class="col-md-auto">
             <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse") }}
         </div>
-        <div class="col-md-auto">
-            <button type="button" class="btn btn-primary" id="create">
-                <span class="tf-icons bx bx-plus"></span>{{ __("{$model}.actions.create") }}
-            </button>
-        </div>
     </h4>
 
     <!-- Basic Bootstrap Table -->
@@ -25,11 +20,10 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{ __("{$model}.table.name_en") }}</th>
-                        <th>{{ __("{$model}.table.name_ar") }}</th>
-                        <th>{{ __("{$model}.table.name_fr") }}</th>
-                        <th>{{ __("{$model}.table.image") }}</th>
-                        <th>{{ __("{$model}.table.category") }}</th>
+                        <th>{{ __("{$model}.table.user") }}</th>
+                        <th>{{ __("{$model}.table.amount") }}</th>
+                        <th>{{ __("{$model}.table.type") }}</th>
+                        <th>{{ __("{$model}.table.status") }}</th>
                         <th>{{ __("{$model}.table.created_at") }}</th>
                         <th>{{ __("{$model}.table.actions") }}</th>
                     </tr>
@@ -38,9 +32,9 @@
         </div>
     </div>
 
-    @include("content.{$model}.create")
-    @include("content.{$model}.update")
+    @include("content.{$model}.info")
     @include("content.{$model}.delete")
+
 @endsection
 
 
@@ -74,31 +68,43 @@
                         },
 
                         {
-                            data: 'name_en',
-                            name: 'name_en'
+                            data: 'user',
+                            name: 'user'
                         },
 
                         {
-                            data: 'name_ar',
-                            name: 'name_ar'
+                            data: 'amount',
+                            name: 'amount'
                         },
 
                         {
-                            data: 'name_fr',
-                            name: 'name_fr'
-                        },
-
-                        {
-                            data: 'image',
-                            name: 'image',
+                            data: 'type',
+                            name: 'type',
                             render: function(data) {
-                                return '<img src="' + data + '" class="rounded" width="50">';
-                            }
+                                if (data == 'wallet') {
+                                    return '<span class="badge bg-label-warning">{{ __('payment.types.wallet') }}</span>';
+                                }
+                                if (data == 'invoice') {
+                                    return '<span class="badge bg-label-info">{{ __('payment.types.invoice') }}</span>';
+                                }
+                            },
                         },
 
                         {
-                            data: 'category',
-                            name: 'category'
+                            data: 'status',
+                            name: 'status',
+                            render: function(data) {
+                                if (data == 'pending') {
+                                    return '<span class="badge bg-label-secondary">{{ __('payment.statuses.pending') }}</span>';
+                                }
+                                if (data == 'failed') {
+                                    return '<span class="badge bg-label-danger">{{ __('payment.statuses.failed') }}</span>';
+                                }
+                                if (data == 'paid') {
+                                    return '<span class="badge bg-label-success">{{ __('payment.statuses.paid') }}</span>';
+                                }
+
+                            },
                         },
 
                         {
@@ -186,15 +192,9 @@
                     success: function(response) {
                         if (response.status) {
                             modal.find('input[name="id"]').val(response.data.id);
-                            modal.find('select[name="category_id"]').val(response.data.category_id);
                             modal.find('input[name="name_en"]').val(response.data.name_en);
                             modal.find('input[name="name_ar"]').val(response.data.name_ar);
                             modal.find('input[name="name_fr"]').val(response.data.name_fr);
-
-                            if (response.data.image) {
-                                modal.find('.uploaded-image').attr('src', response.data.image);
-                                modal.find('.old-image').attr('src', response.data.image);
-                            }
 
                             modal.modal("show");
                         }
@@ -352,20 +352,195 @@
 
             });
 
-            $(document).on('change', '.image-input', function() {
-                const container = $(this).closest('.card-body');
-                const fileInput = this;
-                if (fileInput.files[0]) {
-                    container.find('.uploaded-image').attr('src', window.URL.createObjectURL(fileInput
-                        .files[0]));
-                }
+
+            $(document.body).on('click', '.info', function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ url("{$model}/get") }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'JSON',
+                    success: function(response) {
+                        if (response.status) {
+                            var data = response.data;
+                            var $modal = $('#info-modal');
+
+                            // Populate payer information
+                            $modal.find('.payer-name').text(data.user.name || '-');
+                            $modal.find('.payer-phone').text(data.user.phone || '-');
+                            $modal.find('.payer-email').text(data.user.email || '-');
+
+                            if (data.user.image) {
+                                $modal.find('.payer-image').attr('src', data.user.image);
+                            } else {
+                                $modal.find('.payer-image').attr('src',
+                                    'https://placehold.co/100?text=User');
+                            }
+
+                            // Populate payment information
+
+                            $modal.find('.payment-amount').text(data.amount || '-');
+
+
+                            if (data.type === 'wallet') {
+                                statusClass = 'bg-warning';
+                            } else if (data.type === 'invoice') {
+                                statusClass = 'bg-info';
+                            } else {
+                                var statusClass = 'bg-secondary';
+                            }
+
+                            $modal.find('.payment-type')
+                                .removeClass('bg-secondary bg-success bg-warning bg-danger')
+                                .addClass(statusClass)
+                                .text(data.type || '-');
+
+                            // Set status with appropriate badge color
+
+                            if (data.status === 'paid') {
+                                statusClass = 'bg-success';
+                            } else if (data.status === 'pending') {
+                                statusClass = 'bg-warning';
+                            } else if (data.status === 'failed') {
+                                statusClass = 'bg-danger';
+                            } else {
+                                var statusClass = 'bg-secondary';
+                            }
+
+                            $modal.find('.payment-status')
+                                .removeClass('bg-secondary bg-success bg-warning bg-danger')
+                                .addClass(statusClass)
+                                .text(data.status || '-');
+
+                            // Show/hide paid_at field based on status
+                            if (data.status === 'paid' && data.paid_at) {
+                                $modal.find('.paid-at-container').show();
+                                $modal.find('.payment-paid-at').text(data.paid_at);
+                            } else {
+                                $modal.find('.paid-at-container').hide();
+                            }
+
+                            // Show/hide account number if exists
+                            if (data.account) {
+                                $modal.find('.account-number-container').show();
+                                $modal.find('.payment-account-number').text(data.account);
+                            } else {
+                                $modal.find('.account-number-container').hide();
+                            }
+
+                            // Show/hide receipt link if exists
+                            if (data.receipt) {
+                                $modal.find('.receipt-container').show();
+                                $modal.find('.payment-receipt').attr('href', data.receipt);
+                            } else {
+                                $modal.find('.receipt-container').hide();
+                            }
+
+                            $modal.modal('show');
+                        }
+                    }
+                });
             });
 
-            $(document).on('click', '.image-reset', function() {
-                const container = $(this).closest('.card-body');
-                container.find('.image-input').val('');
-                const oldSrc = container.find('.old-image').attr('src');
-                container.find('.uploaded-image').attr('src', oldSrc);
+
+            $(document.body).on('click', '.reject', function() {
+
+                var id = $(this).attr('table_id');
+
+                Swal.fire({
+                    title: "{{ __('Warning') }}",
+                    text: "{{ __('Are you sure?') }}",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: "{{ __('Yes') }}",
+                    cancelButtonText: "{{ __('No') }}"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: '{{ url("{$model}/update") }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            data: {
+                                id: id,
+                                status: 'failed'
+                            },
+                            dataType: 'JSON',
+                            success: function(response) {
+                                if (response.status == 1) {
+
+                                    Swal.fire(
+                                        "{{ __('Success') }}",
+                                        "{{ __('success') }}",
+                                        'success'
+                                    ).then((result) => {
+                                        $('#laravel_datatable').DataTable().ajax
+                                            .reload();
+                                    });
+                                }
+                            }
+                        });
+
+
+                    }
+                })
+            });
+
+            $(document.body).on('click', '.accept', function() {
+
+                var id = $(this).attr('table_id');
+
+                Swal.fire({
+                    title: "{{ __('Warning') }}",
+                    text: "{{ __('Are you sure?') }}",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: "{{ __('Yes') }}",
+                    cancelButtonText: "{{ __('No') }}"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: '{{ url("{$model}/update") }}',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            data: {
+                                id: id,
+                                status: 'paid'
+                            },
+                            dataType: 'JSON',
+                            success: function(response) {
+                                if (response.status == 1) {
+
+                                    Swal.fire(
+                                        "{{ __('Success') }}",
+                                        "{{ __('success') }}",
+                                        'success'
+                                    ).then((result) => {
+                                        $('#laravel_datatable').DataTable().ajax
+                                            .reload();
+                                    });
+                                }
+                            }
+                        });
+
+
+                    }
+                })
             });
 
         });

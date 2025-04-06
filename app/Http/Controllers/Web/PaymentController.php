@@ -2,16 +2,75 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use App\Models\Payment;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\Payment\PaymentResource;
+use App\Http\Resources\Payment\PaymentInfoResource;
 
 class PaymentController extends Controller
 {
   use ApiResponse;
+
+  protected $model = 'payment';
+
+  public function index()
+  {
+    return view("content.{$this->model}.index")->with([
+      'model' => $this->model
+    ]);
+  }
+
+  public function list(Request $request)
+  {
+
+    $data = Payment::latest()->get();
+
+    return datatables()
+      ->of($data)
+      ->addIndexColumn()
+
+      ->addColumn('action', function ($row) {
+        $btn = '';
+
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+
+        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
+
+        if ($row->status == 'pending') {
+          $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing reject" title="' . __("{$this->model}.actions.reject") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+
+          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing accept" title="' . __("{$this->model}.actions.accept") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+        }
+
+        return $btn;
+      })
+
+      ->addColumn('user', function ($row) {
+
+        return $row->payable->user->name;
+
+      })
+
+      ->addColumn('type', function ($row) {
+
+        return $row->type;
+
+      })
+
+      ->addColumn('created_at', function ($row) {
+
+        return date('Y-m-d', strtotime($row->created_at));
+
+      })
+
+
+      ->make(true);
+  }
 
   public function update(Request $request)
   {
@@ -32,6 +91,51 @@ class PaymentController extends Controller
       }
 
       return $this->successResponse(data: new PaymentResource($payment));
+
+    } catch (Exception $e) {
+      return $this->errorResponse($e->getMessage());
+    }
+  }
+
+  public function delete(Request $request)
+  {
+
+    $this->validateRequest($request, [
+      'id' => 'required',
+      'confirm_delete' => 'sometimes'
+    ]);
+
+    try {
+
+      $payment = Payment::findOrFail($request->id);
+
+      if($request->has('confirm_delete')){
+
+        $payment->delete();
+
+        return $this->successResponse();
+
+      }else{
+
+        return $this->successResponse(data: []);
+      }
+
+    } catch (Exception $e) {
+      return $this->errorResponse($e->getMessage());
+    }
+
+  }
+
+  public function get(Request $request)
+  {
+    $this->validateRequest($request, [
+      'id' => 'required|exists:payments,id',
+    ]);
+
+    try {
+      $payment = Payment::findOrFail($request->id);
+
+      return $this->successResponse(data: new PaymentInfoResource($payment));
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());
