@@ -110,6 +110,8 @@ class CategoryController extends Controller
         '/uploads/categories/images'
       ) ?? $category->image;
 
+      $category->save();
+
       return $this->successResponse(data: new CategoryResource($category));
 
     } catch (Exception $e) {
