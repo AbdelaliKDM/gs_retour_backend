@@ -32,6 +32,17 @@ class Invoice extends Model
     return $this->morphMany(Payment::class, 'payable');
   }
 
+  public function getMonthNameAttribute()
+  {
+    Carbon::setLocale(session('locale'));
+    return Carbon::createFromDate($this->month)->monthName;
+  }
+
+  public function getYearAttribute()
+  {
+    return Carbon::createFromDate($this->month)->year;
+  }
+
   public function getStatusAttribute()
 {
 

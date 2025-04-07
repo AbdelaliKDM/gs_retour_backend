@@ -20,6 +20,7 @@ class TransactionResource extends JsonResource
           'invoice_id' => $this->invoice_id,
           'total_amount' => $this->total_amount,
           'tax_amount' => $this->tax_amount,
+          'created_at' => $this->created_at,
           'trip' => new TripResource($this->trip)
         ];
     }
