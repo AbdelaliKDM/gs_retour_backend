@@ -88,6 +88,8 @@ class SubcategoryController extends Controller
         '/uploads/subcategories/images'
       ) ?? $subcategory->image;
 
+      $subcategory->save();
+
       return $this->successResponse(data: new SubcategoryResource($subcategory));
 
     } catch (Exception $e) {
