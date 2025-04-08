@@ -1,35 +1,116 @@
 <?php
 
 return [
-    'title' => 'Utilisateurs',
-    'breadcrumb' => 'Utilisateurs',
-    'browse' => 'Parcourir les utilisateurs',
-    'actions' => [
-        'create' => 'Créer',
-        'update' => 'Modifier',
-        'delete' => 'Supprimer',
-        'restore' => 'Restaurer',
+  'title' => [
+    'renter' => 'Locataires',
+    'driver' => 'Chauffeurs',
+    'user' => 'Non sélectionné'
+  ],
+  'breadcrumb' => 'Utilisateurs',
+  'browse' => [
+    'renter' => 'Locataires',
+    'driver' => 'Chauffeurs',
+    'user' => 'Non sélectionné'
+  ],
+  'actions' => [
+    'create' => 'Créer',
+    'update' => 'Mettre à jour',
+    'delete' => 'Supprimer',
+    'restore' => 'Restaurer',
+    'accept' => 'Activer',
+    'reject' => 'Suspendre',
+  ],
+  'table' => [
+    'header' => [
+      'renter' => 'Tableau des locataires',
+      'driver' => 'Tableau des chauffeurs',
+      'user' => 'Tableau des utilisateurs non sélectionnés'
     ],
-    'table' => [
-        'header' => 'Tableau des utilisateurs',
-        'name' => 'Nom',
-        'email' => 'Email',
-        'created_at' => 'Créé le',
-        'actions' => 'Actions',
-    ],
-    'modals' => [
-        'create' => 'Créer un utilisateur',
-        'update' => 'Modifier l\'utilisateur',
-        'delete' => 'Supprimer l\'utilisateur',
-        'restore' => 'Restaurer l\'utilisateur',
-    ],
-    'labels' => [
-        'name' => 'Nom',
-        'email' => 'Email',
-        'password' => 'Mot de passe',
-    ],
-    'placeholders' => [
-        'name' => 'Entrez votre nom',
-        'email' => 'Entrez votre email',
-    ],
+    'name' => 'Nom',
+    'email' => 'Email',
+    'phone' => 'Téléphone',
+    'role' => 'Rôle',
+    'status' => 'Statut',
+    'created_at' => 'Créé le',
+    'actions' => 'Actions',
+  ],
+  'modals' => [
+    'create' => 'Créer un utilisateur',
+    'update' => 'Mettre à jour l\'utilisateur',
+    'delete' => 'Supprimer l\'utilisateur',
+    'restore' => 'Restaurer l\'utilisateur',
+    'info' => 'Informations utilisateur',
+    'accept' => 'Activer l\'utilisateur',
+    'reject' => 'Suspendre l\'utilisateur',
+  ],
+  'labels' => [
+    'name' => 'Nom',
+    'email' => 'Email',
+    'password' => 'Mot de passe',
+    'id' => 'Mot de passe',
+    'phone' => 'Numéro de téléphone',
+    'id_card' => 'Carte d\'identité',
+    'id_card_selfie' => 'Selfie avec carte d\'identité',
+  ],
+  'placeholders' => [
+    'name' => 'Entrez votre nom',
+    'email' => 'Entrez votre email',
+  ],
+
+  'roles' => [
+    'null' => 'Non sélectionné',
+    'renter' => 'Locataire',
+    'driver' => 'Chauffeur',
+    'admin' => 'Administrateur'
+  ],
+
+  'statuses' => [
+    'active' => 'Actif',
+    'inactive' => 'Inactif',
+    'suspended' => 'Suspendu',
+  ],
+
+  'user_information' => 'Informations utilisateur',
+
+  'truck' => [
+    'title' => 'Informations sur le camion',
+    'type' => 'Type de camion',
+    'serial_number' => 'Numéro de série',
+    'gray_card' => 'Carte grise',
+    'driving_license' => 'Permis de conduire',
+    'insurance_certificate' => 'Certificat d\'assurance',
+    'insurance_expiry_date' => 'Expiration de l\'assurance',
+    'inspection_certificate' => 'Certificat d\'inspection',
+    'next_inspection_date' => 'Prochaine inspection due',
+    'affiliated_with_agency' => 'Affiliation à une agence',
+    'agency_document' => 'Document d\'agence'
+  ],
+
+  'account_settings' => 'Paramètres du compte',
+  'account' => 'Compte',
+  'profile_details' => 'Détails du profil',
+  'change_password' => 'Changer le mot de passe',
+  'current_password' => 'Mot de passe actuel',
+  'new_password' => 'Nouveau mot de passe',
+  'confirm_new_password' => 'Confirmer le nouveau mot de passe',
+
+  'accept' => [
+    'confirmation' => 'Confirmer l\'activation de l\'utilisateur',
+    'notice' => 'L\'activation restaurera l\'accès complet à toutes les fonctionnalités pour cet utilisateur.',
+    'confirm_checkbox' => 'Je confirme vouloir activer cet utilisateur',
+  ],
+
+  'reject' => [
+    'confirmation' => 'Confirmer la désactivation de l\'utilisateur',
+    'warning' => 'La désactivation entraînera un accès limité aux fonctionnalités pour cet utilisateur.',
+    'reason' => 'Raison de désactivation',
+    'confirm_checkbox' => 'Je confirme vouloir désactiver cet utilisateur',
+  ],
+
+  'reasons' => [
+    'admin' => 'Décision de l\'administrateur',
+    'profile' => 'Informations de profil incomplètes',
+    'truck' => 'Informations sur le camion incomplètes',
+    'invoice' => 'Factures impayées',
+  ],
 ];

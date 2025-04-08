@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use Exception;
+use App\Models\User;
 use App\Models\Notice;
 use App\Traits\Firebase;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class NoticeController extends Controller
 {
@@ -34,11 +35,11 @@ class NoticeController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing send" title="' . __('Send') . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing send" title="' . __("{$this->model}.actions.send") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing view" title="' . __('View') . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-show"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __('Delete') . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
         return $btn;
       })
@@ -115,16 +116,47 @@ class NoticeController extends Controller
   public function delete(Request $request)
   {
     $this->validateRequest($request, [
-      'id' => 'required|exists:notices,id',
+      'id' => 'required',
+      'confirmed' => 'sometimes'
     ]);
 
     try {
+      $notice = Notice::findOrFail($request->id);
 
-      $notice = Notice::find($request->id);
+      if ($request->has('confirmed')) {
 
-      $notice->delete();
+        $notice->delete();
 
-      return $this->successResponse();
+        return $this->successResponse();
+
+      } else {
+
+
+        $notifications = $notice->notifications()->count();
+
+
+        $data = [];
+
+
+        empty($notifications) ?: $data[__('app.notifications')] = $notifications;
+
+        return $this->successResponse(data: $data);
+      }
+    } catch (Exception $e) {
+      return $this->errorResponse($e->getMessage());
+    }
+  }
+
+  public function get(Request $request)
+  {
+    $this->validateRequest($request, [
+      'id' => 'required',
+    ]);
+
+    try {
+      $notice = Notice::findOrFail($request->id);
+
+      return $this->successResponse(data: $notice);
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());
@@ -135,13 +167,34 @@ class NoticeController extends Controller
   {
     $this->validateRequest($request, [
       'id' => 'required|exists:notices,id',
+      "recipient_type" => "required",
+      "delivery_method" => "required",
+      "confirmed" => "sometimes",
     ]);
 
     try {
 
       $notice = Notice::find($request->id);
 
-      $notice->send();
+      if ($request->has('confirmed')) {
+
+        $users = match ($request->recipient_type) {
+          'all' => User::query(),
+          'renters' => User::where('role', 'renter'),
+          'drivers' => User::where('role', 'driver')
+        };
+
+        $with_fcm = match ($request->delivery_method) {
+          'app_only' => false,
+          'app_and_push' => true
+        };
+
+
+        $notice->send($users, $with_fcm);
+
+      }
+
+
 
       return $this->successResponse();
 

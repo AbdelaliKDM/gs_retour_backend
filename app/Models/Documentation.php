@@ -16,7 +16,6 @@ class Documentation extends Model
       'content_fr',
     ];
 
-    protected  $primaryKey = 'name';
     public function getContentAttribute(){
       return match(session('locale')){
         'ar' => $this->content_ar,

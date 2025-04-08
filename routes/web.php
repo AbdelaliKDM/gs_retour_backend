@@ -15,6 +15,7 @@ use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\TruckTypeController;
 use App\Http\Controllers\Web\SubcategoryController;
 use App\Http\Controllers\Web\ShipmentTypeController;
+use App\Http\Controllers\Web\DocumentationController;
 use App\Http\Controllers\Template\ForgotPasswordBasic;
 use App\Http\Controllers\Template\MiscUnderMaintenance;
 
@@ -139,20 +140,28 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::post('/password/change', [AccountController::class, 'change_password']);
   });
 
-   Route::prefix('notice')->group(function () {
+   Route::prefix('notice')->name('notice.')->group(function () {
        Route::get('/index', [NoticeController::class, 'index'])->name('index');
     Route::post('/list', [NoticeController::class, 'list'])->name('list');
     Route::post('/create', [NoticeController::class, 'create']);
     Route::post('/update', [NoticeController::class, 'update']);
     Route::post('/delete', [NoticeController::class, 'delete']);
+    Route::post('/get', [NoticeController::class, 'get']);
     Route::post('/send', [NoticeController::class, 'send']);
   });
 
-  /*
+
 
   Route::post('documentation/update', [DocumentationController::class, 'update']);
   Route::post('setting/update', [SettingController::class, 'update']);
 
-  */
+  Route::prefix('documentation')->name('documentation.')->group(function () {
+    Route::get('/privacy_policy', [DocumentationController::class, 'index'])->name('privacy_policy');
+    Route::get('/about_app', [DocumentationController::class, 'index'])->name('about_app');
+    Route::get('/terms_of_use', [DocumentationController::class, 'index'])->name('terms_of_use');
+    Route::post('/update', [DocumentationController::class, 'update']);
+  });
+
+
 
 });

@@ -52,7 +52,7 @@ class Notice extends Model
     };
   }
 
-  public function send($users = null){
+  public function send($users = null, $with_fcm = true){
     $data = $users ?? User::query();
 
       $data = $data->where('users.status', 'active')->whereIn('users.role', ['renter', 'driver'])->pluck('users.device_token', 'users.id')->toArray();
@@ -71,11 +71,15 @@ class Notice extends Model
 
       Notification::insert($users);
 
-      $this->send_to_devices(
-        $this->title,
-        $this->content,
-        $fcm_tokens
-      );
+      if($with_fcm){
+        $this->send_to_devices(
+          $this->title,
+          $this->content,
+          $fcm_tokens
+        );
+      }
+
+
   }
 
   public static function ProfileNotice(string $status, ?string $reason = 'default'): self
