@@ -65,7 +65,7 @@
                     </a>
                 </li>
                 <li>
-                  <a class="dropdown-item {{ Session::get('locale') == 'ar' ? 'active' : '' }}" href="{{url('lang/fr')}}" data-language="fr">
+                  <a class="dropdown-item {{ Session::get('locale') == 'fr' ? 'active' : '' }}" href="{{url('lang/fr')}}" data-language="fr">
                     <span class="align-middle">{{ __('app.locales.french') }}</span>
                   </a>
                 </li>
