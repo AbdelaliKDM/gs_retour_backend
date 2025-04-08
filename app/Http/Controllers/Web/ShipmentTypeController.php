@@ -91,13 +91,13 @@ class ShipmentTypeController extends Controller
   {
     $this->validateRequest($request, [
       'id' => 'required',
-      'confirm_delete' => 'sometimes'
+      'confirmed' => 'sometimes'
     ]);
 
     try {
       $shipment_type = ShipmentType::findOrFail($request->id);
 
-      if ($request->has('confirm_delete')) {
+      if ($request->has('confirmed')) {
 
         $shipment_type->delete();
 

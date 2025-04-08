@@ -136,14 +136,14 @@ class SubcategoryController extends Controller
 
     $this->validateRequest($request, [
       'id' => 'required',
-      'confirm_delete' => 'sometimes'
+      'confirmed' => 'sometimes'
     ]);
 
     try {
 
       $subcategory = Subcategory::findOrFail($request->id);
 
-      if($request->has('confirm_delete')){
+      if($request->has('confirmed')){
 
         $subcategory->delete();
 

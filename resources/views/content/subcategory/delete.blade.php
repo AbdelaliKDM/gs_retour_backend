@@ -15,7 +15,7 @@
             <i class="bx bx-error-circle text-danger" style="font-size: 4rem;"></i>
           </div> --}}
 
-          <div class="alert alert-warning mb-4">
+          <div class="alert alert-danger mb-4">
             <h5 class="text-center">{{ __('app.delete_confirmation') }}</h5>
             <p class="text-center mb-0">{{ __('app.delete_warning') }}</p>
           </div>
@@ -31,8 +31,8 @@
 
           <div class="mb-3">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="confirm_delete" required>
-              <label class="form-check-label" for="confirm_delete">
+              <input class="form-check-input" type="checkbox" name="confirmed" required>
+              <label class="form-check-label" for="confirmed">
                 {{ __('app.delete_confirm_checkbox') }}
               </label>
             </div>

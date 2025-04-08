@@ -13,18 +13,18 @@
       "submenu": [
         {
           "url": "/renter/index",
-          "name": "app.renters",
+          "name": "user.title.renter",
           "slug": "user.renter"
         },
         {
           "url": "/driver/index",
-          "name": "app.drivers",
+          "name": "user.title.driver",
           "slug": "user.driver"
         },
         {
           "url": "/user/index",
-          "name": "app.unselected",
-          "slug": "user.null"
+          "name": "user.title.user",
+          "slug": "user.user"
         }
       ]
     },
@@ -66,6 +66,34 @@
           "url": "/payment/invoice",
           "name": "app.invoice_payments",
           "slug": "payment.invoice"
+        }
+      ]
+    },
+    {
+      "url": "/notice/index",
+      "name": "app.notices",
+      "icon": "menu-icon tf-icons bx bxs-bell",
+      "slug": "notice.index"
+    },
+    {
+      "name": "app.documentation",
+      "icon": "menu-icon tf-icons bx bxs-info-square",
+      "slug": "documentation",
+      "submenu": [
+        {
+          "url": "/documentation/privacy_policy",
+          "name": "app.privacy_policy",
+          "slug": "documentation.privacy_policy"
+        },
+        {
+          "url": "/documentation/about_app",
+          "name": "app.about_app",
+          "slug": "documentation.about_app"
+        },
+        {
+          "url": "/documentation/terms_of_use",
+          "name": "app.terms_of_use",
+          "slug": "documentation.terms_of_use"
         }
       ]
     }

@@ -189,12 +189,12 @@ class User extends Authenticatable
 
   }
 
-  public function updateStatus($status, $reason = null)
+  public function updateStatus($status, $suspended_for)
   {
 
     $this->update([
       'status' => $status,
-      'suspended_for' => $reason
+      'suspended_for' => $suspended_for
     ]);
 
     $notice = Notice::ProfileNotice($status, $reason ?? 'default');

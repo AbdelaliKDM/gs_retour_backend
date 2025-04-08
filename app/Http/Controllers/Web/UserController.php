@@ -49,16 +49,16 @@ class UserController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+/*         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';  */
 
         $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
         $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
 
         if ($row->status == 'active') {
-          $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing suspend" title="' . __("{$this->model}.actions.suspend") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
         } else {
-          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing activate" title="' . __("{$this->model}.actions.activate") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing accept" title="' . __("{$this->model}.actions.activate") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;
@@ -139,7 +139,7 @@ class UserController extends Controller
       'email' => ['sometimes', 'email', Rule::unique('users')->ignore($request->id)],
       'phone' => ['sometimes', new ValidPhoneNumber(), Rule::unique('users')->ignore($request->id)],
       'status' => 'sometimes|in:active,suspended',
-      'reason' => 'sometimes|in:invoice,profile,truck',
+      'suspended_for' => 'sometimes|in:admin,invoice,profile,truck',
     ]);
 
     try {
@@ -149,7 +149,10 @@ class UserController extends Controller
       $user->update($request->only('name','email','phone'));
 
       if($request->has('status')){
-        $user->updateStatus($request->status, $request->reason);
+        if($request->has('confirmed')){
+          $user->updateStatus($request->status, $request->suspended_for);
+        }
+
       }
 
       return $this->successResponse(data: new UserResource($user));
@@ -165,14 +168,14 @@ class UserController extends Controller
 
     $this->validateRequest($request, [
       'id' => 'required',
-      'confirm_delete' => 'sometimes'
+      'confirmed' => 'sometimes'
     ]);
 
     try {
 
       $user = User::findOrFail($request->id);
 
-      if($request->has('confirm_delete')){
+      if($request->has('confirmed')){
 
         $user->update([
           'email' => null,

@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 class SettingController extends Controller
 {
  use ApiResponse;
+
+ public function index()
+  {
+    $settings = Setting::pluck('value', 'name')->toArray();
+
+    return view('content.settings.index')
+      ->with('settings', $settings);
+
+
+  }
   public function update(Request $request)
   {
     foreach ($request->all() as $key => $value) {

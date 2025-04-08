@@ -125,14 +125,14 @@ class CategoryController extends Controller
 
     $this->validateRequest($request, [
       'id' => 'required',
-      'confirm_delete' => 'sometimes'
+      'confirmed' => 'sometimes'
     ]);
 
     try {
 
       $category = Category::findOrFail($request->id);
 
-      if($request->has('confirm_delete')){
+      if($request->has('confirmed')){
 
         $category->delete();
 

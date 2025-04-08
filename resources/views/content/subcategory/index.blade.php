@@ -302,7 +302,7 @@
 
                 var modal = $("#delete-modal");
 
-                if (modal.find('input[name="confirm_delete"]').prop('checked')) {
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
 
                     modal.modal("hide");
 

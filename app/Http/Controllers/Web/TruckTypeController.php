@@ -116,13 +116,13 @@ class TruckTypeController extends Controller
   {
     $this->validateRequest($request, [
       'id' => 'required',
-      'confirm_delete' => 'sometimes'
+      'confirmed' => 'sometimes'
     ]);
 
     try {
       $truck_type = TruckType::findOrFail($request->id);
 
-      if($request->has('confirm_delete')){
+      if($request->has('confirmed')){
 
         $truck_type->delete();
 

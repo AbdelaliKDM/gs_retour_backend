@@ -6,7 +6,10 @@ use App\Http\Controllers\Template\MiscError;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Template\LoginBasic;
 use App\Http\Controllers\Template\LogoutBasic;
+use App\Http\Controllers\Web\NoticeController;
+use App\Http\Controllers\Web\AccountController;
 use App\Http\Controllers\Web\PaymentController;
+use App\Http\Controllers\Web\SettingController;
 use App\Http\Controllers\Template\RegisterBasic;
 use App\Http\Controllers\Web\CategoryController;
 use App\Http\Controllers\Web\TruckTypeController;
@@ -63,7 +66,7 @@ Route::prefix('auth')->group(function () {
 Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
 
   Route::name('user.')->group(function () {
-    Route::get('user/index', [UserController::class, 'index'])->name('null');
+    Route::get('user/index', [UserController::class, 'index'])->name('user');
     Route::get('renter/index', [UserController::class, 'index'])->name('renter');
     Route::get('driver/index', [UserController::class, 'index'])->name('driver');
   });
@@ -125,12 +128,27 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::post('/get', [PaymentController::class, 'get']);
   });
 
-  /* Route::prefix('notice')->group(function () {
+  Route::prefix('settings')->group(function () {
+    Route::get('/', [SettingController::class, 'index']);
+    Route::post('/update', [SettingController::class, 'update']);
+  });
+
+  Route::prefix('account')->group(function () {
+    Route::get('/', [AccountController::class, 'index']);
+    Route::post('/update', [AccountController::class, 'update']);
+    Route::post('/password/change', [AccountController::class, 'change_password']);
+  });
+
+   Route::prefix('notice')->group(function () {
+       Route::get('/index', [NoticeController::class, 'index'])->name('index');
+    Route::post('/list', [NoticeController::class, 'list'])->name('list');
     Route::post('/create', [NoticeController::class, 'create']);
     Route::post('/update', [NoticeController::class, 'update']);
     Route::post('/delete', [NoticeController::class, 'delete']);
     Route::post('/send', [NoticeController::class, 'send']);
   });
+
+  /*
 
   Route::post('documentation/update', [DocumentationController::class, 'update']);
   Route::post('setting/update', [SettingController::class, 'update']);

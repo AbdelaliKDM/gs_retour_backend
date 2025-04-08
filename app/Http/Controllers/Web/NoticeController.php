@@ -12,6 +12,58 @@ use Illuminate\Http\Request;
 class NoticeController extends Controller
 {
   use ApiResponse, Firebase;
+
+  protected $model = 'notice';
+
+  public function index()
+  {
+    return view('content.notice.index')->with([
+      'model' => $this->model
+    ]);
+  }
+
+  public function list()
+  {
+
+    $data = Notice::latest()->where('type', 0)->get();
+
+    return datatables()
+      ->of($data)
+      ->addIndexColumn()
+
+      ->addColumn('action', function ($row) {
+        $btn = '';
+
+        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing send" title="' . __('Send') . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
+
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing view" title="' . __('View') . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-show"></span></button>';
+
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __('Delete') . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+
+        return $btn;
+      })
+
+      ->addColumn('title', function ($row) {
+
+        return $row->title;
+
+      })
+
+      ->addColumn('priority', function ($row) {
+
+        return $row->priority;
+
+      })
+
+      ->addColumn('created_at', function ($row) {
+
+        return date('Y-m-d', strtotime($row->created_at));
+
+      })
+
+
+      ->make(true);
+  }
   public function create(Request $request)
   {
     $this->validateRequest($request, [

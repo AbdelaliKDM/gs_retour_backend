@@ -1,12 +1,12 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("{$model}.title"))
+@section('title', __("{$model}.title.{$type}"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse") }}
+            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse.{$type}") }}
         </div>
     </h4>
 
@@ -14,7 +14,7 @@
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("{$model}.table.header") }}</h5>
+                <h5 class="col-md-auto">{{ __("{$model}.table.header.{$type}") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
@@ -34,6 +34,8 @@
 
     @include("content.{$model}.info")
     @include("content.{$model}.delete")
+    @include("content.{$model}.accept")
+    @include("content.{$model}.reject")
 
 @endsection
 
@@ -57,8 +59,8 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        data:{
-                          type: "{{$type}}"
+                        data: {
+                            type: "{{ $type }}"
                         },
                         type: 'POST',
                     },
@@ -305,7 +307,7 @@
 
                 var modal = $("#delete-modal");
 
-                if (modal.find('input[name="confirm_delete"]').prop('checked')) {
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
 
                     modal.modal("hide");
 
@@ -452,98 +454,126 @@
             });
 
 
-            $(document.body).on('click', '.reject', function() {
-
-                var id = $(this).attr('table_id');
-
-                Swal.fire({
-                    title: "{{ __('Warning') }}",
-                    text: "{{ __('Are you sure?') }}",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: "{{ __('Yes') }}",
-                    cancelButtonText: "{{ __('No') }}"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        $.ajax({
-                            url: '{{ url("{$model}/update") }}',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            data: {
-                                id: id,
-                                status: 'failed'
-                            },
-                            dataType: 'JSON',
-                            success: function(response) {
-                                if (response.status == 1) {
-
-                                    Swal.fire(
-                                        "{{ __('Success') }}",
-                                        "{{ __('success') }}",
-                                        'success'
-                                    ).then((result) => {
-                                        $('#laravel_datatable').DataTable().ajax
-                                            .reload();
-                                    });
-                                }
-                            }
-                        });
-
-
-                    }
-                })
-            });
-
             $(document.body).on('click', '.accept', function() {
 
-                var id = $(this).attr('table_id');
+                var id = $(this).data('id');
+                var modal = $('#accept-modal');
+                modal.find('input[name="id"]').val(id);
+                modal.modal('show');
 
-                Swal.fire({
-                    title: "{{ __('Warning') }}",
-                    text: "{{ __('Are you sure?') }}",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: "{{ __('Yes') }}",
-                    cancelButtonText: "{{ __('No') }}"
-                }).then((result) => {
-                    if (result.isConfirmed) {
+            });
 
-                        $.ajax({
-                            url: '{{ url("{$model}/update") }}',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            data: {
-                                id: id,
-                                status: 'paid'
-                            },
-                            dataType: 'JSON',
-                            success: function(response) {
-                                if (response.status == 1) {
+            $(document.body).on('click', '.reject', function() {
 
-                                    Swal.fire(
-                                        "{{ __('Success') }}",
-                                        "{{ __('success') }}",
-                                        'success'
-                                    ).then((result) => {
-                                        $('#laravel_datatable').DataTable().ajax
-                                            .reload();
-                                    });
-                                }
+                var id = $(this).data('id');
+                var modal = $('#reject-modal');
+                modal.find('input[name="id"]').val(id);
+                modal.modal('show');
+
+            });
+
+            $('#accept-submit').on('click', function() {
+
+                var modal = $("#accept-modal");
+
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
+
+                    modal.modal("hide");
+
+                    var formdata = new FormData($("#accept-form")[0]);
+
+                    $.ajax({
+                        url: '{{ url("{$model}/update") }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        data: formdata,
+                        dataType: 'JSON',
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == 1) {
+                                Swal.fire({
+                                    title: "{{ __('Success') }}",
+                                    text: "{{ __('success') }}",
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    $('#laravel_datatable').DataTable().ajax
+                                        .reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    "{{ __('Error') }}",
+                                    response.message,
+                                    'error'
+                                );
                             }
-                        });
+                        },
+                        error: function(data) {
+                            var errors = data.responseJSON;
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                errors.message,
+                                'error'
+                            );
+                            // Render the errors with js ...
+                        }
+                    });
+                }
+            });
 
+            $('#reject-submit').on('click', function() {
 
-                    }
-                })
+                var modal = $("#reject-modal");
+
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
+
+                    modal.modal("hide");
+
+                    var formdata = new FormData($("#reject-form")[0]);
+
+                    $.ajax({
+                        url: '{{ url("{$model}/update") }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        data: formdata,
+                        dataType: 'JSON',
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == 1) {
+                                Swal.fire({
+                                    title: "{{ __('Success') }}",
+                                    text: "{{ __('success') }}",
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    $('#laravel_datatable').DataTable().ajax
+                                        .reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    "{{ __('Error') }}",
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function(data) {
+                            var errors = data.responseJSON;
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                errors.message,
+                                'error'
+                            );
+                            // Render the errors with js ...
+                        }
+                    });
+                }
             });
 
         });

@@ -47,16 +47,16 @@ class PaymentController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+        /* $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>'; */
 
         $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
         $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
 
         if ($row->status == 'pending') {
-          $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing reject" title="' . __("{$this->model}.actions.reject") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
 
-          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing accept" title="' . __("{$this->model}.actions.accept") . '" table_id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing accept" title="' . __("{$this->model}.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;
@@ -99,7 +99,9 @@ class PaymentController extends Controller
       }
 
       if ($request->has('status')) {
-        $payment->updateStatus($request->status);
+        if($request->has('confirmed')){
+          $payment->updateStatus($request->status);
+        }
       }
 
       return $this->successResponse(data: new PaymentResource($payment));
@@ -114,14 +116,14 @@ class PaymentController extends Controller
 
     $this->validateRequest($request, [
       'id' => 'required',
-      'confirm_delete' => 'sometimes'
+      'confirmed' => 'sometimes'
     ]);
 
     try {
 
       $payment = Payment::findOrFail($request->id);
 
-      if($request->has('confirm_delete')){
+      if($request->has('confirmed')){
 
         $payment->delete();
 

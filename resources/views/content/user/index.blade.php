@@ -1,25 +1,25 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("{$model}.title"))
+@section('title', __("{$model}.title.{$role}"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse") }}
+            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse.{$role}") }}
         </div>
-        <div class="col-md-auto">
+        {{-- <div class="col-md-auto">
             <button type="button" class="btn btn-primary" id="create">
                 <span class="tf-icons bx bx-plus"></span>{{ __("{$model}.actions.create") }}
             </button>
-        </div>
+        </div> --}}
     </h4>
 
     <!-- Basic Bootstrap Table -->
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("{$model}.table.header") }}</h5>
+                <h5 class="col-md-auto">{{ __("{$model}.table.header.{$role}") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
@@ -41,6 +41,8 @@
     @include("content.{$model}.create")
     @include("content.{$model}.update")
     @include("content.{$model}.delete")
+    @include("content.{$model}.accept")
+    @include("content.{$model}.reject")
     @include("content.{$model}.renter-info")
     @include("content.{$model}.driver-info")
 @endsection
@@ -65,8 +67,8 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        data : {
-                          role : "{{$role}}"
+                        data: {
+                            role: "{{ $role }}"
                         },
                         type: 'POST',
                     },
@@ -321,7 +323,7 @@
 
                 var modal = $("#delete-modal");
 
-                if (modal.find('input[name="confirm_delete"]').prop('checked')) {
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
 
                     modal.modal("hide");
 
@@ -372,188 +374,126 @@
             });
 
 
-            $(document.body).on('click', '.info', function() {
+            $(document.body).on('click', '.accept', function() {
+
                 var id = $(this).data('id');
+                var modal = $('#accept-modal');
+                modal.find('input[name="id"]').val(id);
+                modal.modal('show');
 
-                $.ajax({
-                    url: '{{ url("{$model}/get") }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
-                    dataType: 'JSON',
-                    success: function(response) {
-                        if (response.status) {
-                            var data = response.data;
-                            var $modal = data.role === 'driver' ? $('#driver-info-modal') : $(
-                                '#renter-info-modal');
+            });
 
-                            // Populate user information
-                            $modal.find('.user-name').text(data.name || '-');
-                            $modal.find('.user-phone').text(data.phone || '-');
-                            $modal.find('.user-email').text(data.email || '-');
+            $(document.body).on('click', '.reject', function() {
 
-                            if (data.image) {
-                                $modal.find('.user-image').attr('src', data.image);
+                var id = $(this).data('id');
+                var modal = $('#reject-modal');
+                modal.find('input[name="id"]').val(id);
+                modal.modal('show');
+
+            });
+
+            $('#accept-submit').on('click', function() {
+
+                var modal = $("#accept-modal");
+
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
+
+                    modal.modal("hide");
+
+                    var formdata = new FormData($("#accept-form")[0]);
+
+                    $.ajax({
+                        url: '{{ url("{$model}/update") }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        data: formdata,
+                        dataType: 'JSON',
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == 1) {
+                                Swal.fire({
+                                    title: "{{ __('Success') }}",
+                                    text: "{{ __('success') }}",
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    $('#laravel_datatable').DataTable().ajax
+                                        .reload();
+                                });
                             } else {
-                                $modal.find('.user-image').attr('src',
-                                    'https://placehold.co/100?text=User');
+                                Swal.fire(
+                                    "{{ __('Error') }}",
+                                    response.message,
+                                    'error'
+                                );
                             }
-
-                            // Populate user documents
-                            setDocumentLink($modal.find('.id-card-link'), data.id_card);
-                            setDocumentLink($modal.find('.id-card-selfie-link'), data
-                                .id_card_selfie);
-
-                            // Handle truck information (if exists)
-                            if (data.truck) {
-                                $modal.find('.truck-section').show(); // Show truck section
-
-                                // Populate truck fields
-                                $modal.find('.truck-type').text(data.truck.truck_type || '-');
-                                $modal.find('.serial-number').text(data.truck.serial_number ||
-                                    '-');
-
-                                // Handle truck documents
-                                setDocumentLink($modal.find('.gray-card-link'), data.truck
-                                    .gray_card);
-                                setDocumentLink($modal.find('.driving-license-link'), data.truck
-                                    .driving_license);
-                                setDocumentLink($modal.find('.insurance-certificate-link'), data
-                                    .truck.insurance_certificate);
-                                setDocumentLink($modal.find('.inspection-certificate-link'),
-                                    data.truck.inspection_certificate);
-
-                                $modal.find('.insurance-expiry-date').text(data.truck
-                                    .insurance_expiry_date || '-');
-                                $modal.find('.next-inspection-date').text(data.truck
-                                    .next_inspection_date || '-');
-
-                                // Handle agency affiliation
-
-                                $modal.find('.affiliated-with-agency').text(data.truck
-                                    .affiliated_with_agency ? 'Yes' : 'No');
-
-
-                                setDocumentLink($modal.find('.agency-document-link'),
-                                    data.truck.agency_document);
-
-
-                            } else {
-                                // Hide truck section if no truck data exists
-                                $modal.find('.truck-section').remove();
-                            }
-
-                            $modal.modal('show');
+                        },
+                        error: function(data) {
+                            var errors = data.responseJSON;
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                errors.message,
+                                'error'
+                            );
+                            // Render the errors with js ...
                         }
-                    }
-                });
-            });
-
-            // Helper function to set document links
-            function setDocumentLink($element, documentUrl) {
-                if (documentUrl) {
-                    $element.removeClass('disabled').attr('href', documentUrl);
-                } else {
-                    $element.addClass('disabled').attr('href', '#');
+                    });
                 }
-            }
-
-            $(document.body).on('click', '.suspend', function() {
-
-                var id = $(this).attr('table_id');
-
-                Swal.fire({
-                    title: "{{ __('Warning') }}",
-                    text: "{{ __('Are you sure?') }}",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: "{{ __('Yes') }}",
-                    cancelButtonText: "{{ __('No') }}"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        $.ajax({
-                            url: '{{ url("{$model}/update") }}',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            data: {
-                                id: id,
-                                status: 'suspended'
-                            },
-                            dataType: 'JSON',
-                            success: function(response) {
-                                if (response.status == 1) {
-
-                                    Swal.fire(
-                                        "{{ __('Success') }}",
-                                        "{{ __('success') }}",
-                                        'success'
-                                    ).then((result) => {
-                                        $('#laravel_datatable').DataTable().ajax
-                                            .reload();
-                                    });
-                                }
-                            }
-                        });
-
-
-                    }
-                })
             });
 
-            $(document.body).on('click', '.activate', function() {
+            $('#reject-submit').on('click', function() {
 
-                var id = $(this).attr('table_id');
+                var modal = $("#reject-modal");
 
-                Swal.fire({
-                    title: "{{ __('Warning') }}",
-                    text: "{{ __('Are you sure?') }}",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: "{{ __('Yes') }}",
-                    cancelButtonText: "{{ __('No') }}"
-                }).then((result) => {
-                    if (result.isConfirmed) {
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
 
-                        $.ajax({
-                            url: '{{ url("{$model}/update") }}',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            data: {
-                                id: id,
-                                status: 'active'
-                            },
-                            dataType: 'JSON',
-                            success: function(response) {
-                                if (response.status == 1) {
+                    modal.modal("hide");
 
-                                    Swal.fire(
-                                        "{{ __('Success') }}",
-                                        "{{ __('success') }}",
-                                        'success'
-                                    ).then((result) => {
-                                        $('#laravel_datatable').DataTable().ajax
-                                            .reload();
-                                    });
-                                }
+                    var formdata = new FormData($("#reject-form")[0]);
+
+                    $.ajax({
+                        url: '{{ url("{$model}/update") }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        data: formdata,
+                        dataType: 'JSON',
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == 1) {
+                                Swal.fire({
+                                    title: "{{ __('Success') }}",
+                                    text: "{{ __('success') }}",
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    $('#laravel_datatable').DataTable().ajax
+                                        .reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    "{{ __('Error') }}",
+                                    response.message,
+                                    'error'
+                                );
                             }
-                        });
-
-
-                    }
-                })
+                        },
+                        error: function(data) {
+                            var errors = data.responseJSON;
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                errors.message,
+                                'error'
+                            );
+                            // Render the errors with js ...
+                        }
+                    });
+                }
             });
 
         });
