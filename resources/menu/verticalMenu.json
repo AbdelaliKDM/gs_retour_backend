@@ -7,10 +7,26 @@
       "slug": "dashboard-analytics"
     },
     {
-      "url": "/user/index",
       "name": "app.users",
       "icon": "menu-icon tf-icons bx bxs-user",
-      "slug": "user.index"
+      "slug": "user.",
+      "submenu": [
+        {
+          "url": "/renter/index",
+          "name": "app.renters",
+          "slug": "user.renter"
+        },
+        {
+          "url": "/driver/index",
+          "name": "app.drivers",
+          "slug": "user.driver"
+        },
+        {
+          "url": "/user/index",
+          "name": "app.unselected",
+          "slug": "user.null"
+        }
+      ]
     },
     {
       "url": "/category/index",
@@ -37,10 +53,21 @@
       "slug": "shipment.type.index"
     },
     {
-      "url": "/payment/index",
       "name": "app.payments",
       "icon": "menu-icon tf-icons bx bxs-credit-card",
-      "slug": "payment.index"
+      "slug": "payment.",
+      "submenu": [
+        {
+          "url": "/payment/wallet",
+          "name": "app.wallet_payments",
+          "slug": "payment.wallet"
+        },
+        {
+          "url": "/payment/invoice",
+          "name": "app.invoice_payments",
+          "slug": "payment.invoice"
+        }
+      ]
     }
   ]
 }

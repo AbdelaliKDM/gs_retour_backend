@@ -76,8 +76,8 @@ class TruckTypeController extends Controller
       'name_ar' => 'required|string',
       'name_en' => 'required|string',
       'name_fr' => 'required|string',
-      'weight' => 'sometimes|numeric',
-      'capacity' => 'sometimes|integer'
+      'weight' => 'sometimes|nullable|numeric',
+      'capacity' => 'sometimes|nullable|integer'
     ]);
 
     try {
@@ -97,8 +97,8 @@ class TruckTypeController extends Controller
       'name_ar' => 'sometimes|string',
       'name_en' => 'sometimes|string',
       'name_fr' => 'sometimes|string',
-      'weight' => 'sometimes|numeric',
-      'capacity' => 'sometimes|integer'
+      'weight' => 'sometimes|nullable|numeric',
+      'capacity' => 'sometimes|nullable|integer'
     ]);
 
     try {

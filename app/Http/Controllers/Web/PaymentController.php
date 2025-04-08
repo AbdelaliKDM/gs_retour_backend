@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use Exception;
+use App\Models\Wallet;
+use App\Models\Invoice;
 use App\Models\Payment;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -16,17 +18,27 @@ class PaymentController extends Controller
 
   protected $model = 'payment';
 
-  public function index()
+  public function index(Request $request)
   {
     return view("content.{$this->model}.index")->with([
-      'model' => $this->model
+      'model' => $this->model,
+      'type' => explode('.',$request->route()->getName())[1]
     ]);
   }
 
   public function list(Request $request)
   {
 
-    $data = Payment::latest()->get();
+    $data = Payment::latest();
+
+
+    $type = match($request->type){
+      'wallet' => Wallet::class,
+      'invoice' => Invoice::class,
+      default => null
+    };
+
+    $data = $data->where('payable_type', $type)->get();
 
     return datatables()
       ->of($data)

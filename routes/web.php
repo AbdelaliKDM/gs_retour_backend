@@ -58,79 +58,83 @@ Route::prefix('auth')->group(function () {
   Route::get('/logout', [LogoutBasic::class, 'logout'])->name('auth-logout');
 });
 
-  //admin routes
+//admin routes
 
-  Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
+Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
 
-
-
-    Route::prefix('user')->name('user.')->group(function () {
-      Route::get('/index', [UserController::class, 'index'])->name('index');
-      Route::post('/list', [UserController::class, 'list'])->name('list');
-      Route::post('/create', [UserController::class, 'create']);
-      Route::post('/update', [UserController::class, 'update']);
-      Route::post('/delete', [UserController::class, 'delete']);
-      Route::post('/get', [UserController::class, 'get']);
-    });
-
-    Route::prefix('category')->name('category.')->group(function () {
-      Route::get('/index', [CategoryController::class, 'index'])->name('index');
-      Route::post('/list', [CategoryController::class, 'list'])->name('list');
-      Route::post('/create', [CategoryController::class, 'create']);
-      Route::post('/update', [CategoryController::class, 'update']);
-      Route::post('/delete', [CategoryController::class, 'delete']);
-      Route::post('/restore', [CategoryController::class, 'restore']);
-      Route::post('/get', [CategoryController::class, 'get']);
-    });
-
-    Route::prefix('subcategory')->name('subcategory.')->group(function () {
-      Route::get('/index', [SubcategoryController::class, 'index'])->name('index');
-      Route::post('/list', [SubcategoryController::class, 'list'])->name('list');
-      Route::post('/create', [SubcategoryController::class, 'create']);
-      Route::post('/update', [SubcategoryController::class, 'update']);
-      Route::post('/delete', [SubcategoryController::class, 'delete']);
-      Route::post('/restore', [SubcategoryController::class, 'restore']);
-      Route::post('/get', [SubcategoryController::class, 'get']);
-    });
-
-    Route::prefix('truckType')->name('truck.type.')->group(function () {
-      Route::get('/index', [TruckTypeController::class, 'index'])->name('index');
-      Route::post('/list', [TruckTypeController::class, 'list'])->name('list');
-      Route::post('/create', [TruckTypeController::class, 'create']);
-      Route::post('/update', [TruckTypeController::class, 'update']);
-      Route::post('/delete', [TruckTypeController::class, 'delete']);
-      Route::post('/restore', [TruckTypeController::class, 'restore']);
-      Route::post('/get', [TruckTypeController::class, 'get']);
-    });
-
-    Route::prefix('shipmentType')->name('shipment.type.')->group(function () {
-      Route::get('/index', [ShipmentTypeController::class, 'index'])->name('index');
-      Route::post('/list', [ShipmentTypeController::class, 'list'])->name('list');
-      Route::post('/create', [ShipmentTypeController::class, 'create']);
-      Route::post('/update', [ShipmentTypeController::class, 'update']);
-      Route::post('/delete', [ShipmentTypeController::class, 'delete']);
-      Route::post('/restore', [ShipmentTypeController::class, 'restore']);
-      Route::post('/get', [ShipmentTypeController::class, 'get']);
-    });
-
-    Route::prefix('payment')->name('payment.')->group(function () {
-      Route::get('/index', [PaymentController::class, 'index'])->name('index');
-      Route::post('/list', [PaymentController::class, 'list'])->name('list');
-      Route::post('/update', [PaymentController::class, 'update']);
-      Route::post('/delete', [PaymentController::class, 'delete']);
-      Route::post('/get', [PaymentController::class, 'get']);
-    });
-
-    /* Route::prefix('notice')->group(function () {
-      Route::post('/create', [NoticeController::class, 'create']);
-      Route::post('/update', [NoticeController::class, 'update']);
-      Route::post('/delete', [NoticeController::class, 'delete']);
-      Route::post('/send', [NoticeController::class, 'send']);
-    });
-
-    Route::post('documentation/update', [DocumentationController::class, 'update']);
-    Route::post('setting/update', [SettingController::class, 'update']);
-
-    */
-
+  Route::name('user.')->group(function () {
+    Route::get('user/index', [UserController::class, 'index'])->name('null');
+    Route::get('renter/index', [UserController::class, 'index'])->name('renter');
+    Route::get('driver/index', [UserController::class, 'index'])->name('driver');
   });
+
+  Route::prefix('user')->name('user.')->group(function () {
+    Route::post('/list', [UserController::class, 'list'])->name('list');
+    Route::post('/create', [UserController::class, 'create']);
+    Route::post('/update', [UserController::class, 'update']);
+    Route::post('/delete', [UserController::class, 'delete']);
+    Route::post('/get', [UserController::class, 'get']);
+  });
+
+  Route::prefix('category')->name('category.')->group(function () {
+    Route::get('/index', [CategoryController::class, 'index'])->name('index');
+    Route::post('/list', [CategoryController::class, 'list'])->name('list');
+    Route::post('/create', [CategoryController::class, 'create']);
+    Route::post('/update', [CategoryController::class, 'update']);
+    Route::post('/delete', [CategoryController::class, 'delete']);
+    Route::post('/restore', [CategoryController::class, 'restore']);
+    Route::post('/get', [CategoryController::class, 'get']);
+  });
+
+  Route::prefix('subcategory')->name('subcategory.')->group(function () {
+    Route::get('/index', [SubcategoryController::class, 'index'])->name('index');
+    Route::post('/list', [SubcategoryController::class, 'list'])->name('list');
+    Route::post('/create', [SubcategoryController::class, 'create']);
+    Route::post('/update', [SubcategoryController::class, 'update']);
+    Route::post('/delete', [SubcategoryController::class, 'delete']);
+    Route::post('/restore', [SubcategoryController::class, 'restore']);
+    Route::post('/get', [SubcategoryController::class, 'get']);
+  });
+
+  Route::prefix('truckType')->name('truck.type.')->group(function () {
+    Route::get('/index', [TruckTypeController::class, 'index'])->name('index');
+    Route::post('/list', [TruckTypeController::class, 'list'])->name('list');
+    Route::post('/create', [TruckTypeController::class, 'create']);
+    Route::post('/update', [TruckTypeController::class, 'update']);
+    Route::post('/delete', [TruckTypeController::class, 'delete']);
+    Route::post('/restore', [TruckTypeController::class, 'restore']);
+    Route::post('/get', [TruckTypeController::class, 'get']);
+  });
+
+  Route::prefix('shipmentType')->name('shipment.type.')->group(function () {
+    Route::get('/index', [ShipmentTypeController::class, 'index'])->name('index');
+    Route::post('/list', [ShipmentTypeController::class, 'list'])->name('list');
+    Route::post('/create', [ShipmentTypeController::class, 'create']);
+    Route::post('/update', [ShipmentTypeController::class, 'update']);
+    Route::post('/delete', [ShipmentTypeController::class, 'delete']);
+    Route::post('/restore', [ShipmentTypeController::class, 'restore']);
+    Route::post('/get', [ShipmentTypeController::class, 'get']);
+  });
+
+  Route::prefix('payment')->name('payment.')->group(function () {
+    Route::get('/wallet', [PaymentController::class, 'index'])->name('wallet');
+    Route::get('/invoice', [PaymentController::class, 'index'])->name('invoice');
+    Route::post('/list', [PaymentController::class, 'list'])->name('list');
+    Route::post('/update', [PaymentController::class, 'update']);
+    Route::post('/delete', [PaymentController::class, 'delete']);
+    Route::post('/get', [PaymentController::class, 'get']);
+  });
+
+  /* Route::prefix('notice')->group(function () {
+    Route::post('/create', [NoticeController::class, 'create']);
+    Route::post('/update', [NoticeController::class, 'update']);
+    Route::post('/delete', [NoticeController::class, 'delete']);
+    Route::post('/send', [NoticeController::class, 'send']);
+  });
+
+  Route::post('documentation/update', [DocumentationController::class, 'update']);
+  Route::post('setting/update', [SettingController::class, 'update']);
+
+  */
+
+});

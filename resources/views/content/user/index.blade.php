@@ -65,6 +65,9 @@
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
+                        data : {
+                          role : "{{$role}}"
+                        },
                         type: 'POST',
                     },
 

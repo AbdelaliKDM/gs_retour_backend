@@ -21,17 +21,26 @@ class UserController extends Controller
   protected $model = 'user';
 
   use ApiResponse, Firebase, MiscHelper;
-  public function index()
+  public function index(Request $request)
   {
     return view("content.{$this->model}.index")->with([
-      'model' => $this->model
+      'model' => $this->model,
+      'role' => explode('.',$request->route()->getName())[1]
     ]);
   }
 
   public function list(Request $request)
   {
 
-    $data = User::latest()->whereNot('id', auth()->id())->get();
+    $data = User::latest()->whereNot('id', auth()->id());
+
+    if(in_array($request->role, ['renter','driver','admin'])){
+      $data = $data->where('role', $request->role);
+    }else{
+      $data = $data->whereNull('role');
+    }
+
+    $data = $data->get();
 
     return datatables()
       ->of($data)
