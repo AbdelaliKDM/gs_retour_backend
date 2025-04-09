@@ -29,6 +29,8 @@ return [
     'status' => 'الحالة',
     'created_at' => 'التاريخ',
     'actions' => 'الإجراءات',
+    'id' => 'المعرف',
+    'month' => 'الشهر',
   ],
 
   'types' => [
@@ -40,6 +42,8 @@ return [
     'pending' => 'قيد الانتظار',
     'failed' => 'فاشل',
     'paid' => 'مدفوع',
+    'unpaid' => 'غير مدفوع',
+    'unpayable' => 'غير قابل للدفع',
   ],
 
   'payment_methods' => [
@@ -89,5 +93,16 @@ return [
     'confirmation' => 'تأكيد رفض الدفع',
     'notice' => 'سيؤدي هذا إلى وضع علامة على الدفع على أنه مرفوس وإخطار الدافع.',
     'confirm_checkbox' => 'أؤكد أنه يجب رفض هذا الدفع',
+  ],
+
+  'wallet' => [
+    'wallet_information' => 'معلومات المحفظة',
+    'balance' => 'الرصيد',
+    'no_payments' => 'لا توجد مدفوعات',
+  ],
+
+  'invoice' => [
+    'invoice_information' => 'معلومات الفاتورة',
+    'total_due' => 'المبلغ المستحق',
   ],
 ];

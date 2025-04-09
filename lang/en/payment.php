@@ -29,6 +29,8 @@ return [
     'status' => 'Status',
     'created_at' => 'Date',
     'actions' => 'Actions',
+    'id' => 'ID',
+    'month' => 'Month',
   ],
 
   'types' => [
@@ -40,6 +42,8 @@ return [
     'pending' => 'Pending',
     'failed' => 'Failed',
     'paid' => 'Paid',
+    'unpaid' => 'Unpaid',
+    'unpayable' => 'Unpayable',
   ],
 
   'payment_methods' => [
@@ -89,5 +93,16 @@ return [
     'confirmation' => 'Confirm Payment Rejection',
     'notice' => 'This will mark the payment as rejected and notify the payer.',
     'confirm_checkbox' => 'I confirm this payment should be rejected',
+  ],
+
+  'wallet' => [
+    'wallet_information' => 'Wallet Information',
+    'balance' => 'Balance',
+    'no_payments' => 'No payments found',
+  ],
+
+  'invoice' => [
+    'invoice_information' => 'Invoice Information',
+    'total_due' => 'Total Due',
   ],
 ];

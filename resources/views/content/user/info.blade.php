@@ -28,11 +28,12 @@
                         <div class="d-flex flex-column">
                             <h5 class="mb-1">{{ $user->name }}</h5>
                             <div class="mb-1">
-                                <span class="badge bg-label-{{ $user->role == 'driver' ? 'info' : 'warning' }}">
+                                <span
+                                    class="badge bg-label-{{ $user->role == 'driver' ? 'info' : ($user->role == 'renter' ? 'warning' : 'secondary') }}">
                                     {{ __('user.roles.' . ($user->role ?? 'null')) }}
                                 </span>
                                 <span
-                                    class="badge bg-label-{{ $user->status == 'active' ? 'success' : ($user->status == 'inactive' ? 'secondary' : 'danger') }}">
+                                    class="badge bg-label-{{ $user->status == 'active' ? 'success' : ($user->status == 'inactive' ? 'warning' : 'danger') }}">
                                     {{ __('user.statuses.' . $user->status) }}
                                 </span>
                             </div>
@@ -221,6 +222,122 @@
                     </div>
                 </div>
             </div>
+        @endif
+
+        <!-- Wallet Information (for drivers only) -->
+        @if ($user->role == 'driver' && $user->wallet)
+            <div class="col-xl-6 col-lg-6 col-md-12">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{ __('payment.wallet.wallet_information') }}</h5>
+                        <h5>
+                            <span class="badge bg-label-primary">
+                                {{ __('payment.wallet.balance') }}: {{ number_format($user->wallet->balance) }}
+                                {{ __('app.currencies.dzd') }}
+                            </span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('payment.table.id') }}</th>
+                                        <th>{{ __('payment.table.amount') }}</th>
+                                        <th>{{ __('payment.table.status') }}</th>
+                                        <th>{{ __('payment.table.created_at') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($payments as $payment)
+                                        <tr>
+                                            <td>#{{ $payment->id }}</td>
+                                            <td>{{ number_format($payment->amount) }} {{ __('app.currencies.dzd') }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge bg-label-{{ $payment->status == 'paid' ? 'success' : ($payment->status == 'pending' ? 'warning' : 'danger') }}">
+                                                    {{ __("payment.statuses.{$payment->status}") }}
+                                                </span>
+                                            </td>
+                                            <td>{{ $payment->created_at->format('d M Y') }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">{{ __('payment.wallet.no_payments') }}
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            {{ $payments->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Information (for drivers only) -->
+            @if ($user->role == 'driver' && $user->invoices->count())
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">{{ __('payment.invoice.invoice_information') }}</h5>
+                            <h5>
+                                <span class="badge bg-label-danger">
+                                    {{ __('payment.invoice.total_due') }}:
+                                    {{ number_format($user->invoices->where('status', 'unpaid')->sum('tax_amount')) }}
+                                    {{ __('app.currencies.dzd') }}
+                                </span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ __('payment.table.id') }}</th>
+                                            <th>{{ __('payment.table.month') }}</th>
+                                            <th>{{ __('payment.table.amount') }}</th>
+                                            <th>{{ __('payment.table.status') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse($invoices as $invoice)
+                                            <tr>
+                                                <td>#{{ $invoice->id }}</td>
+                                                <td>{{ $invoice->month_name }} {{ $invoice->year }}</td>
+                                                <td>{{ number_format($invoice->tax_amount) }}
+                                                    {{ __('app.currencies.dzd') }}</td>
+                                                <td>
+                                                    <span
+                                                        class="badge bg-label-{{ $invoice->status == 'paid'
+                                                            ? 'success'
+                                                            : ($invoice->status == 'unpaid'
+                                                                ? 'warning'
+                                                                : ($invoice->status == 'unpayable'
+                                                                    ? 'secondary'
+                                                                    : 'danger')) }}">
+                                                        {{ __("payment.statuses.{$invoice->status}") }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    {{ __('payment.invoice.no_invoices') }}</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3">
+                                {{ $invoices->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         @endif
 
     </div>

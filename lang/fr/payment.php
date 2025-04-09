@@ -29,6 +29,8 @@ return [
     'status' => 'Statut',
     'created_at' => 'Date',
     'actions' => 'Actions',
+    'id' => 'ID',
+    'month' => 'Mois',
   ],
 
   'types' => [
@@ -40,6 +42,8 @@ return [
     'pending' => 'En attente',
     'failed' => 'Échoué',
     'paid' => 'Payé',
+    'unpaid' => 'Non payé',
+    'unpayable' => 'Non payable',
   ],
 
   'modals' => [
@@ -90,5 +94,16 @@ return [
     'confirmation' => 'Confirmer le rejet du paiement',
     'notice' => 'Cela marquera le paiement comme rejeté et en informera le payeur.',
     'confirm_checkbox' => 'Je confirme que ce paiement doit être rejeté',
+  ],
+
+  'wallet' => [
+    'wallet_information' => 'Informations du portefeuille',
+    'balance' => 'Solde',
+    'no_payments' => 'Aucun paiement trouvé',
+  ],
+
+  'invoice' => [
+    'invoice_information' => 'Informations de la facture',
+    'total_due' => 'Total dû',
   ],
 ];

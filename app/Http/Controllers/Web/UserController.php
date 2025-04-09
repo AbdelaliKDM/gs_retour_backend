@@ -31,8 +31,13 @@ class UserController extends Controller
 
   public function info($id)
   {
+    $user = User::findOrFail($id);
+    $payments = $user->wallet?->payments()->latest()->paginate(10, ['*'], 'wallet_page');
+    $invoices = $user->invoices()->latest()->paginate(10, ['*'], 'invoice_page');
     return view("content.user.info")->with([
-      'user' => User::findOrFail($id),
+      'user' => $user,
+      'payments'=> $payments,
+      'invoices'=> $invoices
     ]);
   }
 

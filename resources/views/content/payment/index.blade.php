@@ -19,7 +19,7 @@
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
-                        <th>#</th>
+                      <th>{{ __("{$model}.table.id") }}</th>
                         <th>{{ __("{$model}.table.user") }}</th>
                         <th>{{ __("{$model}.table.amount") }}</th>
                         <th>{{ __("{$model}.table.type") }}</th>
@@ -70,8 +70,11 @@
                     columns: [
 
                         {
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex'
+                            data: 'id',
+                            name: 'id',
+                            render:function(data) {
+                              return `#${data}`;
+                            }
                         },
 
                         {
