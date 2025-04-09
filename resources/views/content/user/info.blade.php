@@ -3,8 +3,33 @@
 @section('title', __('user.user_information'))
 
 @section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+    .square-image-container {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+        overflow: hidden;
+        display: block;
+    }
+
+    .square-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* This will crop the image to fit the container */
+    }
+
+    #swiper-truck-images .swiper-slide {
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 @endsection
 
 @section('vendor-script')
@@ -204,9 +229,9 @@
                                             <div class="swiper-wrapper">
                                                 @foreach ($user->truck->truckImages as $image)
                                                     <div class="swiper-slide">
-                                                        <a href="{{ $image->url }}" target="_blank" class="d-block">
+                                                        <a href="{{ $image->url }}" target="_blank" class="d-block square-image-container">
                                                             <img src="{{ $image->url }}" alt="Truck Image"
-                                                                class="img-fluid rounded">
+                                                                class="img-fluid rounded square-image">
                                                         </a>
                                                     </div>
                                                 @endforeach
