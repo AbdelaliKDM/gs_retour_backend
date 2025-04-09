@@ -33,6 +33,7 @@ return [
     'live' => 'Live',
     'payment_methods' => 'Payment Methods',
     'otp_enabled' => 'Enable OTP',
+    'ccp_enabled' => 'Enable CCP',
     'cash_enabled' => 'Enable Cash Payment',
     'baridi_enabled' => 'Enable Baridi Mob',
     'chargily_enabled' => 'Enable Chargily',

@@ -33,6 +33,7 @@ return [
     'live' => 'Production',
     'payment_methods' => 'Méthodes de paiement',
     'otp_enabled' => 'Activer OTP',
+    'ccp_enabled' => 'Activer CCP',
     'cash_enabled' => 'Activer paiement en espèces',
     'baridi_enabled' => 'Activer Baridi Mob',
     'chargily_enabled' => 'Activer Chargily',

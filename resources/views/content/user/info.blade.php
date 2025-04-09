@@ -9,7 +9,7 @@
     .square-image-container {
         position: relative;
         width: 100%;
-        padding-top: 100%; /* 1:1 Aspect Ratio */
+        padding-top: 100%;
         overflow: hidden;
         display: block;
     }
@@ -20,7 +20,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* This will crop the image to fit the container */
+        object-fit: cover;
     }
 
     #swiper-truck-images .swiper-slide {

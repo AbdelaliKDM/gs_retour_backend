@@ -33,6 +33,7 @@ return [
     'live' => 'حي',
     'payment_methods' => 'طرق الدفع',
     'otp_enabled' => 'تفعيل OTP',
+    'ccp_enabled' => 'تفعيل CCP',
     'cash_enabled' => 'تفعيل الدفع نقداً',
     'baridi_enabled' => 'تفعيل بريدي موب',
     'chargily_enabled' => 'تفعيل شارجيلي',

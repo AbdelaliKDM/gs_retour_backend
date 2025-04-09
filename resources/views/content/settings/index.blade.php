@@ -221,12 +221,12 @@
                             </div>
 
                             <!-- Cash Payment -->
-                            <input type="hidden" name="cash_enabled" value="0">
+                            <input type="hidden" name="ccp_enabled" value="0">
                             <div class="form-check form-switch my-3">
-                                <input class="form-check-input" type="checkbox" name="cash_enabled"
-                                    value="1" @if ($settings['cash_enabled'] ?? false) checked @endif>
+                                <input class="form-check-input" type="checkbox" name="ccp_enabled"
+                                    value="1" @if ($settings['ccp_enabled'] ?? false) checked @endif>
                                 <label class="form-check-label"
-                                    for="cash_enabled">{{ __('settings.cash_enabled') }}</label>
+                                    for="ccp_enabled">{{ __('settings.ccp_enabled') }}</label>
                             </div>
 
                             <!-- Baridi Mob -->

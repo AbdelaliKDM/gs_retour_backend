@@ -141,7 +141,7 @@ Route::prefix('v1')->group(function () {
 
   #payment routes
   Route::prefix('payment')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
-    //Route::post('/update', [PaymentController::class, 'update']);
+    Route::post('/update', [PaymentController::class, 'update']);
     Route::post('/get', [PaymentController::class, 'get']);
   });
 
