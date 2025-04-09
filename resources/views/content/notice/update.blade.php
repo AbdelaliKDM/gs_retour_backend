@@ -14,13 +14,13 @@
                       <div class="col-md-6">
 
                           <div class="mb-3">
-                              <label class="form-label">{{ __('notice.labels.title_ar') }} <span class="text-danger">*</span></label>
+                              <label class="form-label">{{ __('notice.labels.title_ar') }} </label>
                               <input type="text" class="form-control" name="title_ar"
                                   placeholder="{{ __('notice.placeholders.title_ar') }}">
                           </div>
 
                           <div class="mb-3">
-                              <label class="form-label">{{ __('notice.labels.title_en') }} <span class="text-danger">*</span></label>
+                              <label class="form-label">{{ __('notice.labels.title_en') }} </label>
                               <input type="text" class="form-control" name="title_en"
                                   placeholder="{{ __('notice.placeholders.title_en') }}">
                           </div>
@@ -47,13 +47,13 @@
                       <div class="col-md-6">
 
                           <div class="mb-3">
-                              <label class="form-label">{{ __('notice.labels.content_ar') }} <span class="text-danger">*</span></label>
+                              <label class="form-label">{{ __('notice.labels.content_ar') }} </label>
                               <textarea class="form-control" name="content_ar" rows="3"
                                   placeholder="{{ __('notice.placeholders.content_ar') }}"></textarea>
                           </div>
 
                           <div class="mb-3">
-                              <label class="form-label">{{ __('notice.labels.content_en') }} <span class="text-danger">*</span></label>
+                              <label class="form-label">{{ __('notice.labels.content_en') }} </label>
                               <textarea class="form-control" name="content_en" rows="3"
                                   placeholder="{{ __('notice.placeholders.content_en') }}"></textarea>
                           </div>

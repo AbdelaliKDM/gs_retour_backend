@@ -17,8 +17,8 @@
           </div>
 
           <div class="mb-3">
-            <label for="rejection_reason" class="form-label">{{ __('user.reject.reason') }} <span class="text-danger">*</span></label>
-            <select class="form-select" name="suspended_for" required>
+            <label for="rejection_reason" class="form-label">{{ __('user.reject.reason') }} </label>
+            <select class="form-select" name="suspended_for">
               <option value="admin">{{ __('user.reasons.admin') }}</option>
               <option value="profile">{{ __('user.reasons.profile') }}</option>
               <option value="truck">{{ __('user.reasons.truck') }}</option>

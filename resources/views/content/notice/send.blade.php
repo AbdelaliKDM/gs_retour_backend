@@ -17,8 +17,8 @@
 
 
           <div class="mb-3">
-            <label for="recipient_type" class="form-label">{{ __('notice.labels.recipient_type') }} <span class="text-danger">*</span></label>
-            <select class="form-select" name="recipient_type" required>
+            <label for="recipient_type" class="form-label">{{ __('notice.labels.recipient_type') }} </label>
+            <select class="form-select" name="recipient_type">
               <option value="all">{{ __('notice.recipients.all') }}</option>
               <option value="renters">{{ __('notice.recipients.renters') }}</option>
               <option value="drivers">{{ __('notice.recipients.drivers') }}</option>
@@ -27,8 +27,8 @@
 
 
           <div class="mb-3">
-            <label for="delivery_method" class="form-label">{{ __('notice.labels.delivery_method') }} <span class="text-danger">*</span></label>
-            <select class="form-select" name="delivery_method" required>
+            <label for="delivery_method" class="form-label">{{ __('notice.labels.delivery_method') }} </label>
+            <select class="form-select" name="delivery_method">
               <option value="app_only">{{ __('notice.delivery.app_only') }}</option>
               <option value="app_and_push">{{ __('notice.delivery.app_and_push') }}</option>
             </select>
