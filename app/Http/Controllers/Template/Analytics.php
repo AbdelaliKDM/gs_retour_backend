@@ -20,7 +20,7 @@ class Analytics extends Controller
     $total = User::where('role', 'driver')->count();
     $this_month = User::where('role', 'driver')->whereMonth('created_at', now()->month)->count();
     $last_month = User::where('role', 'driver')->whereMonth('created_at', now()->subMonth(1)->month)->count();
-    $percentageChange = $last_month > 0 ? ($this_month - $last_month) / $last_month * 100 : 0;
+    $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
     $active = User::where('role', 'driver')->where('status', 'active')->count();
     $activePercentage = number_format(($total > 0 ? ($active / $total) : 0) * 100, 0);
@@ -38,7 +38,7 @@ class Analytics extends Controller
     $total = User::where('role', 'renter')->count();
     $this_month = User::where('role', 'renter')->whereMonth('created_at', now()->month)->count();
     $last_month = User::where('role', 'renter')->whereMonth('created_at', now()->subMonth(1)->month)->count();
-    $percentageChange = $last_month > 0 ? ($this_month - $last_month) / $last_month * 100 : 0;
+    $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
     $active = User::where('role', 'renter')->where('status', 'active')->count();
     $activePercentage = number_format(($total > 0 ? ($active / $total) : 0) * 100, 0);
@@ -56,7 +56,7 @@ class Analytics extends Controller
     $total = Trip::count();
     $this_month = Trip::whereMonth('created_at', now()->month)->count();
     $last_month = Trip::whereMonth('created_at', now()->subMonth(1)->month)->count();
-    $percentageChange = $last_month > 0 ? ($this_month - $last_month) / $last_month * 100 : 0;
+    $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
     $completed = Trip::whereHas('status', fn ($query) => $query->where('name','completed'))->count();
     $completedPercentage = number_format(($total > 0 ? ($completed / $total) : 0) * 100, 0);
@@ -74,7 +74,7 @@ class Analytics extends Controller
     $total = Shipment::count();
     $this_month = Shipment::whereMonth('created_at', now()->month)->count();
     $last_month = Shipment::whereMonth('created_at', now()->subMonth(1)->month)->count();
-    $percentageChange = $last_month > 0 ? ($this_month - $last_month) / $last_month * 100 : 0;
+    $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
     $completed = Shipment::whereHas('status', fn ($query) => $query->where('name','delivered'))->count();
     $completedPercentage = number_format(($total > 0 ? ($completed / $total) : 0) * 100, 0);
@@ -92,7 +92,7 @@ class Analytics extends Controller
     $total = Payment::where('payable_type', Wallet::class)->sum('amount');
     $this_month = Payment::where('payable_type', Wallet::class)->whereMonth('created_at', now()->month)->sum('amount');
     $last_month = Payment::where('payable_type', Wallet::class)->whereMonth('created_at', now()->subMonth(1)->month)->sum('amount');
-    $percentageChange = $last_month > 0 ? ($this_month - $last_month) / $last_month * 100 : 0;
+    $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
     $paid = Payment::where('payable_type', Wallet::class)->where('status', 'paid')->sum('amount');
     $paidPercentage = number_format(($total > 0 ? ($paid / $total) : 0) * 100, 0);
@@ -110,7 +110,7 @@ class Analytics extends Controller
     $total = Payment::where('payable_type', Invoice::class)->sum('amount');
     $this_month = Payment::where('payable_type', Invoice::class)->whereMonth('created_at', now()->month)->sum('amount');
     $last_month = Payment::where('payable_type', Invoice::class)->whereMonth('created_at', now()->subMonth(1)->month)->sum('amount');
-    $percentageChange = $last_month > 0 ? ($this_month - $last_month) / $last_month * 100 : 0;
+    $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
     $paid = Payment::where('payable_type', Invoice::class)->where('status', 'paid')->sum('amount');
     $paidPercentage = number_format(($total > 0 ? ($paid / $total) : 0) * 100, 0);
