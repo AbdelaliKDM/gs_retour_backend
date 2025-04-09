@@ -104,5 +104,6 @@ return [
   'invoice' => [
     'invoice_information' => 'معلومات الفاتورة',
     'total_due' => 'المبلغ المستحق',
+    'no_invoices' => 'لا توجد فواتير',
   ],
 ];

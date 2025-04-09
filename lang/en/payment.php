@@ -104,5 +104,6 @@ return [
   'invoice' => [
     'invoice_information' => 'Invoice Information',
     'total_due' => 'Total Due',
+    'no_invoices' => 'No invoices found',
   ],
 ];
