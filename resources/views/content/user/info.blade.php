@@ -271,7 +271,7 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-center mt-3">
-                            {{ $payments->links('pagination::bootstrap') }}
+                            {{ $payments->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
                 </div>
@@ -332,7 +332,7 @@
                                 </table>
                             </div>
                             <div class="d-flex justify-content-center mt-3">
-                                {{ $invoices->links('pagination::bootstrap') }}
+                                {{ $invoices->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
                     </div>
