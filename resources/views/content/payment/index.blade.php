@@ -92,10 +92,10 @@
                             name: 'type',
                             render: function(data) {
                                 if (data == 'wallet') {
-                                    return '<span class="badge bg-label-label-warning">{{ __('payment.types.wallet') }}</span>';
+                                    return '<span class="badge bg-label-warning">{{ __('payment.types.wallet') }}</span>';
                                 }
                                 if (data == 'invoice') {
-                                    return '<span class="badge bg-label-label-info">{{ __('payment.types.invoice') }}</span>';
+                                    return '<span class="badge bg-label-info">{{ __('payment.types.invoice') }}</span>';
                                 }
                             },
                         },
@@ -105,13 +105,13 @@
                             name: 'status',
                             render: function(data) {
                                 if (data == 'pending') {
-                                    return '<span class="badge bg-label-label-secondary">{{ __('payment.statuses.pending') }}</span>';
+                                    return '<span class="badge bg-label-secondary">{{ __('payment.statuses.pending') }}</span>';
                                 }
                                 if (data == 'failed') {
-                                    return '<span class="badge bg-label-label-danger">{{ __('payment.statuses.failed') }}</span>';
+                                    return '<span class="badge bg-label-danger">{{ __('payment.statuses.failed') }}</span>';
                                 }
                                 if (data == 'paid') {
-                                    return '<span class="badge bg-label-label-teal">{{ __('payment.statuses.paid') }}</span>';
+                                    return '<span class="badge bg-label-teal">{{ __('payment.statuses.paid') }}</span>';
                                 }
 
                             },
