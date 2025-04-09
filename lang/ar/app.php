@@ -38,6 +38,7 @@ return [
   'save' => 'حفظ',
   'change' => 'تغيير',
   'submit' => 'إرسال',
+  'view' => 'عرض',
 
   'currencies' => [
     'dzd' => 'د.ج',

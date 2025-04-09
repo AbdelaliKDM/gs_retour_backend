@@ -178,7 +178,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="d-flex flex-column">
             <span class="fw-semibold d-block mb-1">{{ __('dashboard.total_amount') }}</span>
-            <h3 class="card-title mb-2">€{{ $walletStats['total'] }}</h3>
+            <h3 class="card-title mb-2">{{ $walletStats['total'] }}{{__('app.currencies.dzd')}}</h3>
           </div>
           <div class="avatar flex-shrink-0">
             <span class="avatar-initial rounded bg-label-danger">
@@ -188,7 +188,7 @@
         </div>
         <div class="d-flex justify-content-between mb-2">
           <span>{{ __('dashboard.this_month') }}</span>
-          <span class="fw-semibold">€{{ $walletStats['monthly'] }}</span>
+          <span class="fw-semibold">{{ $walletStats['monthly'] }}{{__('app.currencies.dzd')}}</span>
         </div>
         <div class="d-flex justify-content-between mb-4">
           <span class="text-muted">{{ __('dashboard.compared_last_month') }}</span>
@@ -216,7 +216,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="d-flex flex-column">
             <span class="fw-semibold d-block mb-1">{{ __('dashboard.total_amount') }}</span>
-            <h3 class="card-title mb-2">€{{ $invoiceStats['total'] }}</h3>
+            <h3 class="card-title mb-2">{{ $invoiceStats['total'] }}{{__('app.currencies.dzd')}}</h3>
           </div>
           <div class="avatar flex-shrink-0">
             <span class="avatar-initial rounded bg-label-secondary">
@@ -226,7 +226,7 @@
         </div>
         <div class="d-flex justify-content-between mb-2">
           <span>{{ __('dashboard.this_month') }}</span>
-          <span class="fw-semibold">€{{ $invoiceStats['monthly'] }}</span>
+          <span class="fw-semibold">{{ $invoiceStats['monthly'] }}{{__('app.currencies.dzd')}}</span>
         </div>
         <div class="d-flex justify-content-between mb-4">
           <span class="text-muted">{{ __('dashboard.compared_last_month') }}</span>

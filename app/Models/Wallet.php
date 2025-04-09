@@ -16,6 +16,10 @@ class Wallet extends Model
     'balance'
   ];
 
+  public function getChargesAttribute(){
+    return $this->payments()->where('status', 'paid')->count();
+  }
+
   public function user()
   {
     return $this->belongsTo(User::class);

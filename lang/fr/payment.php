@@ -43,15 +43,25 @@ return [
   ],
 
   'modals' => [
-    'info' => 'Détails du paiement',
     'delete' => 'Supprimer le paiement',
     'accept' => 'Accepter le paiement',
     'reject' => 'Rejeter le paiement',
+    'info' => 'Informations de paiement',
+    'wallet_info' => 'Informations de paiement portefeuille',
+    'invoice_info' => 'Informations de paiement facture',
+  ],
+
+  'payment_methods' => [
+    'wallet' => 'Portefeuille',
+    'ccp' => 'CCP',
+    'baridi' => 'Baridi Mob',
+    'chargily' => 'Chargily Pay',
   ],
 
   'payer_information' => 'Informations du payeur',
   'payment_information' => 'Informations de paiement',
-
+  'wallet_information' => 'Informations du portefeuille',
+  'invoice_information' => 'Informations de la facture',
   'labels' => [
     'name' => 'Nom',
     'phone' => 'Téléphone',
@@ -62,7 +72,12 @@ return [
     'paid_at' => 'Payé le',
     'account_number' => 'Numéro de compte',
     'receipt' => 'Reçu',
-    'download_receipt' => 'Télécharger le reçu',
+    'payment_method' => 'Méthode de paiement',
+    'balance' => 'Solde actuel',
+    'charges' => 'Nombre de charges',
+    'total_amount' => 'Montant total',
+    'tax_amount' => 'Montant des taxes',
+    'month' => 'Mois de facturation',
   ],
 
   'accept' => [

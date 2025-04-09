@@ -38,6 +38,7 @@ return [
   'save' => 'Save',
   'change' => 'Change',
   'submit' => 'Submit',
+  'view' => 'View',
 
   'currencies' => [
     'dzd' => 'DzD',

@@ -74,6 +74,12 @@ class PaymentController extends Controller
 
       })
 
+      ->addColumn('amount', function ($row) {
+
+        return number_format($row->amount) . __('app.currencies.dzd');
+
+      })
+
       ->addColumn('created_at', function ($row) {
 
         return date('Y-m-d', strtotime($row->created_at));

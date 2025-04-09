@@ -42,16 +42,25 @@ return [
     'paid' => 'مدفوع',
   ],
 
+  'payment_methods' => [
+    'wallet' => 'محفظة',
+    'ccp' => 'الحساب الجاري البريدي',
+    'baridi' => 'بريدي موب',
+    'chargily' => 'شارجيلي باي',
+  ],
+
   'modals' => [
-    'info' => 'تفاصيل الدفع',
     'delete' => 'حذف الدفع',
     'accept' => 'قبول الدفع',
     'reject' => 'رفض الدفع',
+    'info' => 'معلومات الدفع',
+    'wallet_info' => 'معلومات دفع المحفظة',
+    'invoice_info' => 'معلومات دفع الفاتورة',
   ],
-
   'payer_information' => 'معلومات الدافع',
   'payment_information' => 'معلومات الدفع',
-
+  'wallet_information' => 'معلومات المحفظة',
+  'invoice_information' => 'معلومات الفاتورة',
   'labels' => [
     'name' => 'الاسم',
     'phone' => 'الهاتف',
@@ -61,8 +70,13 @@ return [
     'status' => 'الحالة',
     'paid_at' => 'تاريخ الدفع',
     'account_number' => 'رقم الحساب',
-    'receipt' => 'إيصال',
-    'download_receipt' => 'تحميل الإيصال',
+    'receipt' => 'الإيصال',
+    'payment_method' => 'طريقة الدفع',
+    'balance' => 'الرصيد الحالي',
+    'charges' => 'عدد الشحنات',
+    'total_amount' => 'المبلغ الإجمالي',
+    'tax_amount' => 'مبلغ الضريبة',
+    'month' => 'شهر الفاتورة',
   ],
 
   'accept' => [

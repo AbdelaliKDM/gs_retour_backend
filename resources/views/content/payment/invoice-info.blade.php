@@ -1,8 +1,8 @@
-<div class="modal fade" id="info-modal" aria-hidden="true">
+<div class="modal fade" id="invoice-info-modal" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header bg-light">
-        <h5 class="modal-title fw-bold">{{ __("payment.modals.info") }}</h5>
+        <h5 class="modal-title fw-bold">{{ __("payment.modals.invoice_info") }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-0">
@@ -28,6 +28,25 @@
                   <span class="payer-email fw-semibold">-</span>
                 </div>
               </div>
+
+              <!-- Invoice Information Section -->
+              <div class="mt-3 pt-3 border-top">
+                <h6 class="mb-2 fw-semibold">{{ __("payment.invoice_information") }}</h6>
+                <div class="list-group list-group-flush">
+                  <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0">
+                    <span class="text-muted">{{ __("payment.labels.total_amount") }}:</span>
+                    <span class="invoice-total-amount fw-semibold">-</span>
+                  </div>
+                  <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0">
+                    <span class="text-muted">{{ __("payment.labels.tax_amount") }}:</span>
+                    <span class="invoice-tax-amount fw-semibold">-</span>
+                  </div>
+                  <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0">
+                    <span class="text-muted">{{ __("payment.labels.month") }}:</span>
+                    <span class="invoice-month fw-semibold">-</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -36,7 +55,7 @@
             <div class="p-3">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="mb-0 fw-semibold">{{ __("payment.payment_information") }}</h6>
-                <span class="badge payment-status fs-6">-</span>
+                <span class="badge payment-status">-</span>
               </div>
 
               <div class="card bg-light mb-3">
@@ -54,21 +73,27 @@
                   <span class="badge payment-type">-</span>
                 </div>
 
-                <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0 paid-at-container">
+                <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0">
+                  <span class="text-muted">{{ __("payment.labels.payment_method") }}:</span>
+                  <span class="badge payment-method">-</span>
+                </div>
+
+                <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0 paid-at-container" style="display: none;">
                   <span class="text-muted">{{ __("payment.labels.paid_at") }}:</span>
                   <span class="payment-paid-at fw-semibold">-</span>
                 </div>
 
-                <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0 account-number-container">
+                <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0 account-number-container" style="display: none;">
                   <span class="text-muted">{{ __("payment.labels.account_number") }}:</span>
                   <span class="payment-account-number fw-semibold">-</span>
                 </div>
-              </div>
 
-              <div class="receipt-container mt-3 text-end">
-                <a href="#" class="btn btn-sm btn-primary payment-receipt" target="_blank">
-                  <i class="bx bx-show me-1"></i> {{ __("payment.labels.receipt") }}
-                </a>
+                <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0 account-number-container" style="display: none;">
+                  <span class="text-muted">{{ __("payment.labels.receipt") }}:</span>
+                  <a href="#" class="payment-receipt fw-semibold" target="_blank">
+                    <i class="bx bx-show me-1"></i>{{ __("app.view") }}
+                  </a>
+                </div>
               </div>
             </div>
           </div>

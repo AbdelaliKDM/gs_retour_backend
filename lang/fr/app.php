@@ -38,6 +38,7 @@ return [
   'save' => 'Enregistrer',
   'change' => 'Modifier',
   'submit' => 'Soumettre',
+  'view' => 'Voir',
 
   'currencies' => [
     'dzd' => 'DZD',
