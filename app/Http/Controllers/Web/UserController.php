@@ -29,6 +29,13 @@ class UserController extends Controller
     ]);
   }
 
+  public function info($id)
+  {
+    return view("content.user.info")->with([
+      'user' => User::findOrFail($id),
+    ]);
+  }
+
   public function list(Request $request)
   {
 
@@ -53,7 +60,7 @@ class UserController extends Controller
 
         $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
+        $btn .= '<a href="' . $row->id . '/info" class="btn btn-icon btn-label-primary inline-spacing" title="' . __("{$this->model}.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
         if ($row->status == 'active') {
           $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';

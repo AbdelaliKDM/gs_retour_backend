@@ -47,8 +47,9 @@ return [
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',
-    'id' => 'Password',
+    'id' => 'Identifier',
     'phone' => 'Phone number',
+    'created_at' => 'Created at',
     'id_card' => 'ID card',
     'id_card_selfie' => 'Selfie with ID card',
   ],
@@ -83,7 +84,11 @@ return [
     'inspection_certificate' => 'Inspection Certificate',
     'next_inspection_date' => 'Next Inspection Due',
     'affiliated_with_agency' => 'Agency Affiliation',
-    'agency_document' => 'Agency Document'
+    'agency_document' => 'Agency Document',
+    'truck_information' => 'Truck Information',
+    'truck_type' => 'Truck Type',
+    'documents' => 'Truck documents',
+    'images' => 'Truck images',
   ],
 
   'account_settings' => 'Account Settings',
@@ -98,19 +103,21 @@ return [
     'confirmation' => 'Confirm User Activation',
     'notice' => 'Activating will restore the user to full access to all functionalities.',
     'confirm_checkbox' => 'I confirm that I want to activate this user',
-],
+  ],
 
-'reject' => [
+  'reject' => [
     'confirmation' => 'Confirm User Deactivation',
     'warning' => 'Deactivating will result in limited access to functionalities for this user.',
     'reason' => 'Deactivation Reason',
     'confirm_checkbox' => 'I confirm that I want to deactivate this user',
-],
+  ],
 
-'reasons' => [
+  'reasons' => [
     'admin' => 'Admin decision',
     'profile' => 'Incomplete profile information',
     'truck' => 'Incomplete truck information',
     'invoice' => 'Unpaid invoices',
-],
+  ],
+
+  'documents' => 'User documents',
 ];

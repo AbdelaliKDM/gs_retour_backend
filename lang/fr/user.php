@@ -47,8 +47,9 @@ return [
     'name' => 'Nom',
     'email' => 'Email',
     'password' => 'Mot de passe',
-    'id' => 'Mot de passe',
+    'id' => 'Identifiant',
     'phone' => 'Numéro de téléphone',
+    'created_at' => 'Créé le',
     'id_card' => 'Carte d\'identité',
     'id_card_selfie' => 'Selfie avec carte d\'identité',
   ],
@@ -83,7 +84,11 @@ return [
     'inspection_certificate' => 'Certificat d\'inspection',
     'next_inspection_date' => 'Prochaine inspection due',
     'affiliated_with_agency' => 'Affiliation à une agence',
-    'agency_document' => 'Document d\'agence'
+    'agency_document' => 'Document d\'agence',
+    'truck_information' => 'Informations du camion',
+    'truck_type' => 'Type de camion',
+    'documents' => 'Documents du camion',
+    'images' => 'Images du camion',
   ],
 
   'account_settings' => 'Paramètres du compte',
@@ -113,4 +118,6 @@ return [
     'truck' => 'Informations sur le camion incomplètes',
     'invoice' => 'Factures impayées',
   ],
+
+  'documents' => 'Documents d\'utilisateur',
 ];

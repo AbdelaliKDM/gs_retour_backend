@@ -39,6 +39,8 @@ return [
   'change' => 'Change',
   'submit' => 'Submit',
   'view' => 'View',
+  'yes' => 'Yes',
+  'no' => 'No',
 
   'currencies' => [
     'dzd' => 'DzD',

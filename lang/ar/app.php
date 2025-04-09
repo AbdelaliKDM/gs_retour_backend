@@ -14,7 +14,7 @@ return [
   'shipments' => 'الشحنات',
   'invoices' => 'الفواتير',
   'invoice_payments' => 'مدفوعات الفواتير',
-  'wallet_payments' => 'مدفوعات المحفظة',
+  'wallet_payments' => 'مدفوعات المحافظ',
   'payments' => 'المدفوعات',
   'notices' => 'الإشعارات',
   'documentation' => 'السياسات و الشروط',
@@ -39,6 +39,8 @@ return [
   'change' => 'تغيير',
   'submit' => 'إرسال',
   'view' => 'عرض',
+  'yes' => 'نعم',
+  'no' => 'لا',
 
   'currencies' => [
     'dzd' => 'د.ج',

@@ -47,8 +47,9 @@ return [
     'name' => 'الاسم',
     'email' => 'البريد الإلكتروني',
     'password' => 'كلمة المرور',
-    'id' => 'كلمة المرور',
+    'id' => 'المعرف',
     'phone' => 'رقم الهاتف',
+    'created_at' => 'تاريخ الإنشاء',
     'id_card' => 'بطاقة الهوية',
     'id_card_selfie' => 'سيلفي مع بطاقة الهوية',
   ],
@@ -83,7 +84,11 @@ return [
     'inspection_certificate' => 'شهادة الفحص',
     'next_inspection_date' => 'موعد الفحص القادم',
     'affiliated_with_agency' => 'الانتماء لوكالة',
-    'agency_document' => 'وثيقة الوكالة'
+    'agency_document' => 'وثيقة الوكالة',
+    'truck_information' => 'معلومات الشاحنة',
+    'truck_type' => 'نوع الشاحنة',
+    'documents' => 'وثائق الشاحنة',
+    'images' => 'صور الشاحنة',
   ],
 
   'account_settings' => 'إعدادات الحساب',
@@ -113,4 +118,6 @@ return [
     'truck' => 'معلومات الشاحنة غير مكتملة',
     'invoice' => 'فواتير غير مدفوعة',
   ],
+
+  'documents' => 'وثائق المستخدم',
 ];

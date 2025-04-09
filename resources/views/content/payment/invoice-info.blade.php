@@ -89,10 +89,12 @@
                 </div>
 
                 <div class="list-group-item px-0 py-2 d-flex justify-content-between border-0 account-number-container" style="display: none;">
-                  <span class="text-muted">{{ __("payment.labels.receipt") }}:</span>
-                  <a href="#" class="payment-receipt fw-semibold" target="_blank">
-                    <i class="bx bx-show me-1"></i>{{ __("app.view") }}
-                  </a>
+                  {{-- <span class="text-muted">{{ __("payment.labels.receipt") }}:</span> --}}
+                  <div class="receipt-container">
+                    <a class="payment-receipt btn btn-sm">
+                        <i class="bx bx-receipt me-1"></i><span>{{ __('payment.labels.receipt') }}</span>
+                    </a>
+                </div>
                 </div>
               </div>
             </div>
