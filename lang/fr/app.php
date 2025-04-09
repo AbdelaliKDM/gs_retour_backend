@@ -36,6 +36,7 @@ return [
   'close' => 'Fermer',
   'download' => 'Télécharger',
   'save' => 'Enregistrer',
+  'send' => 'Envoyer',
   'change' => 'Modifier',
   'submit' => 'Soumettre',
   'view' => 'Voir',
@@ -49,6 +50,7 @@ return [
   'settings' => 'Paramètres',
   'account' => 'Compte',
   'logout' => 'Déconnexion',
+  'signin' => 'Se connecter',
 
   'themes' => [
     'light' => 'Clair',

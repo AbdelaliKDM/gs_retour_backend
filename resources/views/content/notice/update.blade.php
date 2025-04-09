@@ -72,7 +72,7 @@
                               <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                                   {{ __('app.cancel') }}
                               </button>
-                              <button type="submit" class="btn btn-primary" id="update-submit">
+                              <button type="submit" class="btn btn-cyan" id="update-submit">
                                   {{ __('app.update') }}
                               </button>
                           </div>

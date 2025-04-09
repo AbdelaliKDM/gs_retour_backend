@@ -10,7 +10,7 @@
 
           <input type="hidden" name="id">
 
-          <div class="alert alert-primary mb-4">
+          <div class="alert alert-purple mb-4">
             <h5 class="text-center">{{ __('notice.send.confirmation') }}</h5>
             <p class="text-center mb-0">{{ __('notice.send.notice') }}</p>
           </div>
@@ -47,7 +47,7 @@
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
               {{ __('app.cancel') }}
             </button>
-            <button type="submit" class="btn btn-primary" id="send-submit">
+            <button type="submit" class="btn btn-purple" id="send-submit">
               <i class="fas fa-paper-plane me-2"></i>
               {{ __('app.send') }}
             </button>

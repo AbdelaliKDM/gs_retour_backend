@@ -33,7 +33,7 @@
                                     {{ __('user.roles.' . ($user->role ?? 'null')) }}
                                 </span>
                                 <span
-                                    class="badge bg-label-{{ $user->status == 'active' ? 'success' : ($user->status == 'inactive' ? 'warning' : 'danger') }}">
+                                    class="badge bg-label-{{ $user->status == 'active' ? 'teal' : ($user->status == 'inactive' ? 'warning' : 'danger') }}">
                                     {{ __('user.statuses.' . $user->status) }}
                                 </span>
                             </div>
@@ -122,7 +122,7 @@
                                         <small
                                             class="text-muted d-block">{{ __('user.truck.affiliated_with_agency') }}</small>
                                         <span
-                                            class="badge bg-label-{{ $user->truck->affiliated_with_agency ? 'success' : 'danger' }}">
+                                            class="badge bg-label-{{ $user->truck->affiliated_with_agency ? 'teal' : 'danger' }}">
                                             {{ $user->truck->affiliated_with_agency ? __('app.yes') : __('app.no') }}
                                         </span>
                                     </div>
@@ -255,7 +255,7 @@
                                             <td>{{ number_format($payment->amount) }} {{ __('app.currencies.dzd') }}</td>
                                             <td>
                                                 <span
-                                                    class="badge bg-label-{{ $payment->status == 'paid' ? 'success' : ($payment->status == 'pending' ? 'warning' : 'danger') }}">
+                                                    class="badge bg-label-{{ $payment->status == 'paid' ? 'teal' : ($payment->status == 'pending' ? 'warning' : 'danger') }}">
                                                     {{ __("payment.statuses.{$payment->status}") }}
                                                 </span>
                                             </td>
@@ -312,7 +312,7 @@
                                                 <td>
                                                     <span
                                                         class="badge bg-label-{{ $invoice->status == 'paid'
-                                                            ? 'success'
+                                                            ? 'teal'
                                                             : ($invoice->status == 'unpaid'
                                                                 ? 'warning'
                                                                 : ($invoice->status == 'unpayable'

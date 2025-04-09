@@ -9,7 +9,7 @@
         <form class="form-horizontal" onsubmit="event.preventDefault()" action="#" id="accept-form">
           <input type="hidden" name="id">
           <input type="hidden" name="status" value="paid">
-          <div class="alert alert-success mb-4">
+          <div class="alert alert-teal mb-4">
             <h5 class="text-center">{{ __('payment.accept.confirmation') }}</h5>
             <p class="text-center mb-0">{{ __('payment.accept.notice') }}</p>
           </div>
@@ -27,7 +27,7 @@
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
               {{ __('app.cancel') }}
             </button>
-            <button type="submit" class="btn btn-success" id="accept-submit">
+            <button type="submit" class="btn btn-teal" id="accept-submit">
               {{ __('app.submit') }}
             </button>
           </div>

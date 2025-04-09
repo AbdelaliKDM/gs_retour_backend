@@ -26,7 +26,7 @@
 
                     <div class="mb-3 text-center" >
                         <button type="submit" id="update-submit" name="submit"
-                            class="btn btn-primary">{{ __('app.update') }}</button>
+                            class="btn btn-cyan">{{ __('app.update') }}</button>
                     </div>
 
                 </form>

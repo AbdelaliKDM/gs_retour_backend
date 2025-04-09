@@ -1,7 +1,7 @@
 <div class="modal fade" id="wallet-info-modal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-light">
+            <div class="modal-header">
                 <h5 class="modal-title fw-bold">{{ __('payment.modals.wallet_info') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -55,7 +55,7 @@
                                 <span class="badge payment-status">-</span>
                             </div>
 
-                            <div class="card bg-light mb-3">
+                            <div class="card mb-3">
                                 <div class="card-body py-2">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="text-muted">{{ __('payment.labels.amount') }}</span>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer bg-light py-2">
+            <div class="modal-footer py-2">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('app.close') }}</button>
             </div>
         </div>

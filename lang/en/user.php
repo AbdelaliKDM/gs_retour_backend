@@ -19,6 +19,7 @@ return [
     'restore' => 'Restore',
     'accept' => 'Activate',
     'reject' => 'Suspend',
+    'info' => 'Info',
   ],
   'table' => [
     'header' => [

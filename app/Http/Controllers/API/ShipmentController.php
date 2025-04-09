@@ -32,7 +32,7 @@ class ShipmentController extends Controller
       'waiting_hours' => 'required|integer|min:0',
       'distance' => 'required|numeric|min:0',
       'price' => 'required|numeric|min:0',
-      'weight' => 'required|numeric|min:0'
+      'weight' => 'sometimes|numeric|min:0'
     ]);
 
     try {

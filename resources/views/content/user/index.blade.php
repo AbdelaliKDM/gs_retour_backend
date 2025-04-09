@@ -117,7 +117,7 @@
                             name: 'status',
                             render: function(data) {
                                 if (data == 'active') {
-                                    return '<span class="badge bg-label-success">{{ __('user.statuses.active') }}</span>';
+                                    return '<span class="badge bg-label-teal">{{ __('user.statuses.active') }}</span>';
                                 }
                                 if (data == 'inactive') {
                                     return '<span class="badge bg-label-warning">{{ __('user.statuses.inactive') }}</span>';

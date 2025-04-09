@@ -51,12 +51,12 @@ class PaymentController extends Controller
 
         $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-purple inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
 
         if ($row->status == 'pending') {
           $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
 
-          $btn .= '<button class="btn btn-icon btn-label-success inline-spacing accept" title="' . __("{$this->model}.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("{$this->model}.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;

@@ -92,10 +92,10 @@
                             name: 'type',
                             render: function(data) {
                                 if (data == 'wallet') {
-                                    return '<span class="badge bg-label-warning">{{ __('payment.types.wallet') }}</span>';
+                                    return '<span class="badge bg-label-label-warning">{{ __('payment.types.wallet') }}</span>';
                                 }
                                 if (data == 'invoice') {
-                                    return '<span class="badge bg-label-info">{{ __('payment.types.invoice') }}</span>';
+                                    return '<span class="badge bg-label-label-info">{{ __('payment.types.invoice') }}</span>';
                                 }
                             },
                         },
@@ -105,13 +105,13 @@
                             name: 'status',
                             render: function(data) {
                                 if (data == 'pending') {
-                                    return '<span class="badge bg-label-secondary">{{ __('payment.statuses.pending') }}</span>';
+                                    return '<span class="badge bg-label-label-secondary">{{ __('payment.statuses.pending') }}</span>';
                                 }
                                 if (data == 'failed') {
-                                    return '<span class="badge bg-label-danger">{{ __('payment.statuses.failed') }}</span>';
+                                    return '<span class="badge bg-label-label-danger">{{ __('payment.statuses.failed') }}</span>';
                                 }
                                 if (data == 'paid') {
-                                    return '<span class="badge bg-label-success">{{ __('payment.statuses.paid') }}</span>';
+                                    return '<span class="badge bg-label-label-teal">{{ __('payment.statuses.paid') }}</span>';
                                 }
 
                             },
@@ -295,7 +295,7 @@
                                 $relatedList.append(
                                     '<li class="list-group-item d-flex justify-content-between align-items-center">' +
                                     key +
-                                    '<span class="badge bg-danger rounded-pill">' +
+                                    '<span class="badge bg-label-danger rounded-pill">' +
                                     count + '</span>' +
                                     '</li>'
                                 );
@@ -400,50 +400,50 @@
 
 
                             if (data.type === 'wallet') {
-                                statusClass = 'bg-warning';
+                                statusClass = 'bg-label-warning';
                             } else if (data.type === 'invoice') {
-                                statusClass = 'bg-info';
+                                statusClass = 'bg-label-info';
                             } else {
-                                var statusClass = 'bg-secondary';
+                                var statusClass = 'bg-label-secondary';
                             }
 
                             modal.find('.payment-type')
-                                .removeClass('bg-secondary bg-success bg-warning bg-danger')
+                                .removeClass('bg-label-secondary bg-label-teal bg-label-warning bg-label-danger')
                                 .addClass(statusClass)
                                 .text(data.type_name || '-');
 
                             // Set status with appropriate badge color
 
                             if (data.status === 'paid') {
-                                statusClass = 'bg-success';
+                                statusClass = 'bg-label-teal';
                             } else if (data.status === 'pending') {
-                                statusClass = 'bg-warning';
+                                statusClass = 'bg-label-warning';
                             } else if (data.status === 'failed') {
-                                statusClass = 'bg-danger';
+                                statusClass = 'bg-label-danger';
                             } else {
-                                var statusClass = 'bg-secondary';
+                                var statusClass = 'bg-label-secondary';
                             }
 
                             modal.find('.payment-status')
-                                .removeClass('bg-secondary bg-success bg-warning bg-danger')
+                                .removeClass('bg-label-secondary bg-label-teal bg-label-warning bg-label-danger')
                                 .addClass(statusClass)
                                 .text(data.status_name || '-');
 
                             if (data.payment_method === 'chargily') {
-                                statusClass = 'bg-primary';
+                                statusClass = 'bg-label-teal';
                             } else if (data.payment_method === 'wallet') {
-                                statusClass = 'bg-warning';
+                                statusClass = 'bg-label-warning';
                             } else if (data.payment_method === 'ccp') {
-                                statusClass = 'bg-dark';
+                                statusClass = 'bg-label-blue';
                             } else if (data.payment_method === 'baridi') {
-                                statusClass = 'bg-info';
+                                statusClass = 'bg-label-info';
                             } else {
-                                var statusClass = 'bg-secondary';
+                                var statusClass = 'bg-label-secondary';
                             }
 
                             modal.find('.payment-method')
                                 .removeClass(
-                                    'bg-primary bg-secondary bg-success bg-warning bg-danger bg-info bg-dark'
+                                    'bg-label-blue bg-label-secondary bg-label-teal bg-label-warning bg-label-danger bg-label-info bg-label-teal'
                                 )
                                 .addClass(statusClass)
                                 .text(data.payment_method_name || '-');

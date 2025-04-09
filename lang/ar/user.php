@@ -19,6 +19,7 @@ return [
     'restore' => 'استعادة',
     'accept' => 'تفعيل',
     'reject' => 'تعليق',
+    'info' => 'التفاصيل',
   ],
   'table' => [
     'header' => [

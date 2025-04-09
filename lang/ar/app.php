@@ -36,6 +36,7 @@ return [
   'close' => 'إغلاق',
   'download' => 'تحميل',
   'save' => 'حفظ',
+  'send' => 'إرسال',
   'change' => 'تغيير',
   'submit' => 'إرسال',
   'view' => 'عرض',
@@ -49,6 +50,7 @@ return [
   'settings' => 'الإعدادات',
   'account' => 'الحساب',
   'logout' => 'تسجيل الخروج',
+  'signin' => 'تسجيل الدخول',
 
   'themes' => [
     'light' => 'فاتح',

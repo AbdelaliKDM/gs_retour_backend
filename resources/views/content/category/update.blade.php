@@ -18,7 +18,7 @@
                         <img src="https://placehold.co/100?text=No+Image" alt="image"
                             class="d-block rounded uploaded-image" height="100" width="100" />
                         <div class="button-wrapper">
-                          <label class="btn btn-primary" tabindex="0">
+                          <label class="btn btn-cyan" tabindex="0">
                             <span class="d-none d-sm-block">{{ __('app.image.upload') }}</span>
                             <i class="bx bx-upload d-block d-sm-none"></i>
                             <input class="image-input" type="file" name="image" hidden
@@ -50,7 +50,7 @@
                   </div>
                   <div class="mb-3 text-center">
                     <button type="submit" id="update-submit" name="submit"
-                        class="btn btn-primary">{{ __('app.update') }}</button>
+                        class="btn btn-cyan">{{ __('app.update') }}</button>
                 </div>
 
               </form>

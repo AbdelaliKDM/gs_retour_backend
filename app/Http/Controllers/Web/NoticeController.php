@@ -35,7 +35,7 @@ class NoticeController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-primary inline-spacing send" title="' . __("{$this->model}.actions.send") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-purple inline-spacing send" title="' . __("{$this->model}.actions.send") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
 
         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
 

@@ -36,6 +36,7 @@ return [
   'close' => 'Close',
   'download' => 'Download',
   'save' => 'Save',
+  'send' => 'Send',
   'change' => 'Change',
   'submit' => 'Submit',
   'view' => 'View',
@@ -49,6 +50,7 @@ return [
 'settings' => 'Settings',
 'account' => 'Account',
 'logout' => 'Log out',
+'signin' => 'Sign in',
 
 'themes' => [
   'light' => 'Light',
