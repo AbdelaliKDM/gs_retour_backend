@@ -20,11 +20,11 @@ use ApiResponse;
 
       try{
 
-        $documentation = Documentation::findOrFail($request->name);
+        $documentation = Documentation::where('name', $request->name)->first();
 
         return $this->successResponse(data:$documentation->content);
 
-      }catch(\Exception $e){
+      }catch(Exception $e){
         return $this->errorResponse($e->getMessage());
       }
     }

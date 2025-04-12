@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Znck\Eloquent\Traits\BelongsToThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TruckType extends Model
 {
-    use HasFactory, SoftDeletes, BelongsToThrough;
+    use HasFactory, SoftDeletes, SoftCascadeTrait, BelongsToThrough;
 
     protected $fillable = [
         'subcategory_id',

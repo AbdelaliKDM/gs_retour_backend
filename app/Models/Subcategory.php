@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subcategory extends Model
 {
-  use HasFactory, SoftDeletes;
+  use HasFactory, SoftDeletes, SoftCascadeTrait;
 
   protected $fillable = [
     'category_id',
