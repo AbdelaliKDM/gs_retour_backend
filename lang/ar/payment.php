@@ -73,6 +73,7 @@ return [
     'amount' => 'المبلغ',
     'status' => 'الحالة',
     'paid_at' => 'تاريخ الدفع',
+    'created_at' => 'تاريخ الإنشاء',
     'account_number' => 'رقم الحساب',
     'receipt' => 'الإيصال',
     'payment_method' => 'طريقة الدفع',

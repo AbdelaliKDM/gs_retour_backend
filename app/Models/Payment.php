@@ -21,6 +21,9 @@ class Payment extends Model
     'receipt',
     'paid_at'
   ];
+
+  protected $casts = ['paid_at' => 'datetime'];
+
   public function payable()
   {
     return $this->morphTo();
@@ -55,14 +58,18 @@ class Payment extends Model
       throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
     }
 
+    $data = ['status' => $newStatus];
+
     if ($newStatus == 'paid') {
         if($this->type == 'wallet'){
           $wallet = $this->payable;
           $wallet->update(['balance' => $wallet->balance + $this->amount]);
         }
+
+        $data['paid_at'] = now();
     }
 
-    $this->update(['status' => $newStatus]);
+    $this->update($data);
 
     $notice = Notice::PaymentNotice($this->type, $newStatus);
 

@@ -19,7 +19,7 @@
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
-                      <th>{{ __("{$model}.table.id") }}</th>
+                        <th>{{ __("{$model}.table.id") }}</th>
                         <th>{{ __("{$model}.table.user") }}</th>
                         <th>{{ __("{$model}.table.amount") }}</th>
                         <th>{{ __("{$model}.table.type") }}</th>
@@ -32,12 +32,9 @@
         </div>
     </div>
 
-    @include("content.{$model}.info")
     @include("content.{$model}.delete")
     @include("content.{$model}.accept")
     @include("content.{$model}.reject")
-    @include("content.{$model}.invoice-info")
-    @include("content.{$model}.wallet-info")
 
 @endsection
 
@@ -72,14 +69,17 @@
                         {
                             data: 'id',
                             name: 'id',
-                            render:function(data) {
-                              return `#${data}`;
+                            render: function(data) {
+                                return `#${data}`;
                             }
                         },
 
                         {
                             data: 'user',
-                            name: 'user'
+                            name: 'user',
+                            render: function(data) {
+                                return `<a href="/user/${data.id}/info">${data.name}</a>`;
+                            }
                         },
 
                         {
@@ -360,130 +360,6 @@
                 }
 
 
-            });
-
-
-            $(document.body).on('click', '.info', function() {
-                var id = $(this).data('id');
-
-                $.ajax({
-                    url: '{{ url("{$model}/get") }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
-                    dataType: 'JSON',
-                    success: function(response) {
-                        if (response.status) {
-                            var data = response.data;
-                            var modal = data.type == 'wallet' ? $('#wallet-info-modal') : $(
-                                '#invoice-info-modal');
-
-                            // Populate payer information
-                            modal.find('.payer-name').text(data.user.name || '-');
-                            modal.find('.payer-phone').text(data.user.phone || '-');
-                            modal.find('.payer-email').text(data.user.email || '-');
-
-                            if (data.user.image) {
-                                modal.find('.payer-image').attr('src', data.user.image);
-                            } else {
-                                modal.find('.payer-image').attr('src',
-                                    'https://placehold.co/100?text=User');
-                            }
-
-                            // Populate payment information
-
-                            modal.find('.payment-amount').text(data.amount_money || '-');
-
-
-                            if (data.type === 'wallet') {
-                                statusClass = 'bg-label-warning';
-                            } else if (data.type === 'invoice') {
-                                statusClass = 'bg-label-info';
-                            } else {
-                                var statusClass = 'bg-label-secondary';
-                            }
-
-                            modal.find('.payment-type')
-                                .removeClass('bg-label-secondary bg-label-teal bg-label-warning bg-label-danger')
-                                .addClass(statusClass)
-                                .text(data.type_name || '-');
-
-                            // Set status with appropriate badge color
-
-                            if (data.status === 'paid') {
-                                statusClass = 'bg-label-teal';
-                            } else if (data.status === 'pending') {
-                                statusClass = 'bg-label-warning';
-                            } else if (data.status === 'failed') {
-                                statusClass = 'bg-label-danger';
-                            } else {
-                                var statusClass = 'bg-label-secondary';
-                            }
-
-                            modal.find('.payment-status')
-                                .removeClass('bg-label-secondary bg-label-teal bg-label-warning bg-label-danger')
-                                .addClass(statusClass)
-                                .text(data.status_name || '-');
-
-                            if (data.payment_method === 'chargily') {
-                                statusClass = 'bg-label-teal';
-                            } else if (data.payment_method === 'wallet') {
-                                statusClass = 'bg-label-warning';
-                            } else if (data.payment_method === 'ccp') {
-                                statusClass = 'bg-label-blue';
-                            } else if (data.payment_method === 'baridi') {
-                                statusClass = 'bg-label-info';
-                            } else {
-                                var statusClass = 'bg-label-secondary';
-                            }
-
-                            modal.find('.payment-method')
-                                .removeClass(
-                                    'bg-label-blue bg-label-secondary bg-label-teal bg-label-warning bg-label-danger bg-label-info bg-label-teal'
-                                )
-                                .addClass(statusClass)
-                                .text(data.payment_method_name || '-');
-
-                            modal.find('.payment-paid-at').text(data.paid_at || '-');
-                            modal.find('.payment-account-number').text(data.account || '-');
-
-                            if (data.receipt) {
-                                modal.find('.payment-receipt').attr('href', data.receipt)
-                                    .removeClass('btn-outline-secondary disabled')
-                                    .addClass('btn-outline-primary')
-                                    .attr('target', '_blank')
-                                    .find('span').text("{{ __('payment.labels.receipt') }}");
-                            } else {
-                                modal.find('.payment-receipt').removeAttr('href')
-                                    .removeClass('btn-outline-primary')
-                                    .addClass('btn-outline-secondary disabled')
-                                    .removeAttr('target')
-                                    .find('span').text("{{ __('payment.labels.receipt') }}");
-                            }
-
-                            if (data.type == 'wallet') {
-                                // Wallet information
-                                modal.find('.wallet-balance').text(
-                                    `${data.payable.balance_money}`);
-                                modal.find('.wallet-charges').text(data.payable.charges);
-                            } else if (data.type == 'invoice') {
-                                // Invoice information
-                                modal.find('.invoice-total-amount').text(
-                                    `${data.payable.total_amount_money}`);
-                                modal.find('.invoice-tax-amount').text(
-                                    `${data.payable.tax_amount_money}`);
-                                modal.find('.invoice-month').text(data.payable.month + ' ' +
-                                    data.payable.year);
-                            }
-
-                            modal.modal('show');
-                        }
-                    }
-                });
             });
 
 

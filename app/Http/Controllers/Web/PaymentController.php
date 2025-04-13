@@ -26,6 +26,15 @@ class PaymentController extends Controller
     ]);
   }
 
+  public function info($id)
+  {
+    $payment = Payment::with('payable', 'payable.user')->findOrFail($id);
+
+    return view("content.payment.info")->with([
+      'payment'=> $payment,
+    ]);
+  }
+
   public function list(Request $request)
   {
 
@@ -51,7 +60,7 @@ class PaymentController extends Controller
 
         $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-purple inline-spacing info" title="' . __("{$this->model}.actions.info") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-info-circle"></span></button>';
+        $btn .= '<a href="' . url("payment/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("{$this->model}.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
         if ($row->status == 'pending') {
           $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
@@ -64,7 +73,10 @@ class PaymentController extends Controller
 
       ->addColumn('user', function ($row) {
 
-        return $row->payable->user->name;
+        return [
+          'name' => $row->payable->user->name,
+          'id' => $row->payable->user_id
+        ];
 
       })
 

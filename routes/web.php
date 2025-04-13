@@ -71,8 +71,8 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::get('renter/index', [UserController::class, 'index'])->name('renter');
     Route::get('driver/index', [UserController::class, 'index'])->name('driver');
     Route::get('user/{id}/info', [UserController::class, 'info'])->name('info');
-    Route::get('renter/{id}/info', [UserController::class, 'info'])->name('info');
-    Route::get('driver/{id}/info', [UserController::class, 'info'])->name('info');
+/*     Route::get('renter/{id}/info', [UserController::class, 'info'])->name('info');
+    Route::get('driver/{id}/info', [UserController::class, 'info'])->name('info'); */
   });
 
   Route::prefix('user')->name('user.')->group(function () {
@@ -130,6 +130,7 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::post('/update', [PaymentController::class, 'update']);
     Route::post('/delete', [PaymentController::class, 'delete']);
     Route::post('/get', [PaymentController::class, 'get']);
+    Route::get('/{id}/info', [PaymentController::class, 'info'])->name('info');
   });
 
   Route::prefix('settings')->group(function () {

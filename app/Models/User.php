@@ -70,6 +70,10 @@ class User extends Authenticatable
     'invoices'
   ];
 
+  public function role(){
+    return $this->role ?? 'user' ;
+  }
+
   public function getImageUrlAttribute()
   {
     return $this->image && Storage::disk('upload')->exists($this->image)

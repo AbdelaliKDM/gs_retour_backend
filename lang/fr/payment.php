@@ -74,6 +74,7 @@ return [
     'amount' => 'Montant',
     'status' => 'Statut',
     'paid_at' => 'Payé le',
+    'created_at'=> 'Creé le',
     'account_number' => 'Numéro de compte',
     'receipt' => 'Reçu',
     'payment_method' => 'Méthode de paiement',

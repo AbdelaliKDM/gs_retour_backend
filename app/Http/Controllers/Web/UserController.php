@@ -63,9 +63,9 @@ class UserController extends Controller
 
 /*         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';  */
 
-        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+        /* $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>'; */
 
-        $btn .= '<a href="' . $row->id . '/info" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("{$this->model}.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
+        $btn .= '<a href="' . url("user/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("{$this->model}.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
         if ($row->status == 'active') {
           $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';

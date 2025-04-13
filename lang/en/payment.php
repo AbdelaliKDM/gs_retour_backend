@@ -73,6 +73,7 @@ return [
     'amount' => 'Amount',
     'status' => 'Status',
     'paid_at' => 'Paid At',
+    'created_at' => 'Created At',
     'account_number' => 'Account Number',
     'receipt' => 'Receipt',
     'payment_method' => 'Payment Method',

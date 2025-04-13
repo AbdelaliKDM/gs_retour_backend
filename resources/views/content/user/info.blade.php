@@ -3,33 +3,33 @@
 @section('title', __('user.user_information'))
 
 @section('vendor-style')
-<link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<style>
-    .square-image-container {
-        position: relative;
-        width: 100%;
-        padding-top: 100%;
-        overflow: hidden;
-        display: block;
-    }
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/apex-charts/apex-charts.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        .square-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            overflow: hidden;
+            display: block;
+        }
 
-    .square-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+        .square-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    #swiper-truck-images .swiper-slide {
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-</style>
+        #swiper-truck-images .swiper-slide {
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 @endsection
 
 @section('vendor-script')
@@ -38,8 +38,28 @@
 @endsection
 
 @section('content')
-    <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">{{ __('user.user_information') }} /</span> {{ $user->name }}
+    <h4 class="fw-bold py-3 mb-4 row justify-content-between">
+        <div class="col-md-auto">
+            <span class="text-muted fw-light">{{ __('user.user_information') }} /</span> {{ $user->name }}
+        </div>
+
+        <div class="col-md-auto">
+            @if ($user->status == 'active')
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reject-modal"
+                    data-id="{{ $user->id }}">
+                    <i class="bx bx-x me-1"></i> {{ __('user.actions.reject') }}
+                </button>
+            @else
+                <button type="button" class="btn btn-teal" data-bs-toggle="modal" data-bs-target="#accept-modal"
+                    data-id="{{ $user->id }}">
+                    <i class="bx bx-check me-1"></i> {{ __('user.actions.accept') }}
+                </button>
+            @endif
+
+            <button type="button" class="btn btn-danger delete" data-id="{{ $user->id }}">
+                <i class="bx bx-trash me-1"></i> {{ __('user.actions.delete') }}
+            </button>
+        </div>
     </h4>
 
     <div class="row">
@@ -229,7 +249,8 @@
                                             <div class="swiper-wrapper">
                                                 @foreach ($user->truck->truckImages as $image)
                                                     <div class="swiper-slide">
-                                                        <a href="{{ $image->url }}" target="_blank" class="d-block square-image-container">
+                                                        <a href="{{ $image->url }}" target="_blank"
+                                                            class="d-block square-image-container">
                                                             <img src="{{ $image->url }}" alt="Truck Image"
                                                                 class="img-fluid rounded square-image">
                                                         </a>
@@ -366,6 +387,10 @@
         @endif
 
     </div>
+
+    @include('content.user.accept')
+    @include('content.user.reject')
+    @include('content.user.delete')
 @endsection
 @section('page-script')
     <script>
@@ -399,6 +424,198 @@
                     }
                 });
             }
+
+            // Handle accept/reject modals
+            $('#accept-modal, #reject-modal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('id');
+                $(this).find('input[name="id"]').val(id);
+            });
+
+            // Delete button click handler
+            $(document.body).on('click', '.delete', function() {
+                var id = $(this).data('id');
+                var modal = $('#delete-modal');
+
+                modal.find('input[name="id"]').val(id);
+                modal.find('.related-items-list').empty();
+
+                $.ajax({
+                    url: '{{ url("user/delete") }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'JSON',
+                    success: function(response) {
+                        var $relatedList = modal.find('.related-items-list');
+                        $relatedList.empty();
+
+                        // Hide container if no related items
+                        if (Object.keys(response.data).length === 0) {
+                            modal.find('.related-items-container').hide();
+                        } else {
+                            modal.find('.related-items-container').show();
+
+                            // Add each related item to the list
+                            $.each(response.data, function(key, count) {
+                                $relatedList.append(
+                                    '<li class="list-group-item d-flex justify-content-between align-items-center">' +
+                                    key +
+                                    '<span class="badge bg-danger rounded-pill">' +
+                                    count + '</span>' +
+                                    '</li>'
+                                );
+                            });
+                        }
+
+                        modal.modal('show');
+                    }
+                });
+            });
+
+            // Delete form submission
+            $('#delete-submit').on('click', function() {
+                var modal = $("#delete-modal");
+
+                if (modal.find('input[name="confirmed"]').prop('checked')) {
+                    modal.modal("hide");
+
+                    var formdata = new FormData($("#delete-form")[0]);
+
+                    $.ajax({
+                        url: '{{ url("user/delete") }}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        data: formdata,
+                        dataType: 'JSON',
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == 1) {
+                                Swal.fire({
+                                    title: "{{ __('Success') }}",
+                                    text: "{{ __('success') }}",
+                                    icon: 'success',
+                                    confirmButtonText: 'Ok'
+                                }).then((result) => {
+                                    window.location.href = '{{ url("{$user->role()}/index") }}';
+                                });
+                            } else {
+                                Swal.fire(
+                                    "{{ __('Error') }}",
+                                    response.message,
+                                    'error'
+                                );
+                            }
+                        },
+                        error: function(data) {
+                            var errors = data.responseJSON;
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                errors.message,
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+
+            // Accept form submission
+            $('#accept-submit').on('click', function() {
+                // Existing code remains unchanged
+                var formdata = new FormData($("#accept-form")[0]);
+
+                $("#accept-modal").modal("hide");
+
+                $.ajax({
+                    url: '{{ url('user/update') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function(response) {
+                        if (response.status == 1) {
+                            Swal.fire({
+                                title: "{{ __('Success') }}",
+                                text: "{{ __('success') }}",
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                response.message,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        Swal.fire(
+                            "{{ __('Error') }}",
+                            errors.message,
+                            'error'
+                        );
+                    }
+                });
+            });
+
+            // Reject form submission
+            $('#reject-submit').on('click', function() {
+                var formdata = new FormData($("#reject-form")[0]);
+
+                $("#reject-modal").modal("hide");
+
+                $.ajax({
+                    url: '{{ url('user/update') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: formdata,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function(response) {
+                        if (response.status == 1) {
+                            Swal.fire({
+                                title: "{{ __('Success') }}",
+                                text: "{{ __('success') }}",
+                                icon: 'success',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                "{{ __('Error') }}",
+                                response.message,
+                                'error'
+                            );
+                        }
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        Swal.fire(
+                            "{{ __('Error') }}",
+                            errors.message,
+                            'error'
+                        );
+                    }
+                });
+            });
         });
     </script>
 @endsection

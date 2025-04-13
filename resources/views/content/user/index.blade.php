@@ -43,8 +43,6 @@
     @include("content.{$model}.delete")
     @include("content.{$model}.accept")
     @include("content.{$model}.reject")
-    @include("content.{$model}.renter-info")
-    @include("content.{$model}.driver-info")
 @endsection
 
 
