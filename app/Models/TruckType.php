@@ -7,6 +7,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class TruckType extends Model
 {
@@ -18,12 +19,20 @@ class TruckType extends Model
         'name_en',
         'name_fr',
         'weight',
-        'capacity'
+        'capacity',
+        'image'
     ];
 
     protected $softCascade = [
       'trucks',
     ];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image && Storage::disk('upload')->exists($this->image)
+            ? Storage::disk('upload')->url($this->image)
+            : null;
+    }
 
     public function getNameAttribute(){
       return match(session('locale')){

@@ -19,8 +19,9 @@ class TruckTypeResource extends JsonResource
         'category_id' => $this->category->id,
         'subcategory_id' => $this->subcategory_id,
         'name' => $this->name,
+        'image' => $this->image_url,
         'weight' => $this->weight,
-        'capacity' => $this->capacity
+        'capacity' => $this->capacity,
       ];
     }
 }

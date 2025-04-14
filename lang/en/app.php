@@ -17,6 +17,11 @@ return [
   'wallet_payments' => 'Wallet Payments',
   'payments' => 'Payments',
   'notices' => 'Notices',
+  'pending_trips' => 'Pending Trips',
+  'ongoing_trips' => 'Ongoing Trips',
+  'paused_trips' => 'Paused Trips',
+  'canceled_trips' => 'Canceled Trips',
+  'completed_trips' => 'Completed Trips',
   'documentation' => 'Documentation',
   'privacy_policy' => 'Privacy policy',
   'about_app' => 'About app',
@@ -26,8 +31,8 @@ return [
   'delete_related_items' => 'This action will also delete all related items:',
   'delete_confirm_checkbox' => 'I understand this action cannot be undone',
   'image' => [
-    'upload' => 'Upload New Image',
-    'reset' => 'Reset Image',
+    'upload' => 'New Image',
+    'reset' => 'Reset',
   ],
   'create' => 'Create',
   'update' => 'Update',
@@ -45,22 +50,24 @@ return [
 
   'currencies' => [
     'dzd' => 'DzD',
-],
+  ],
 
-'settings' => 'Settings',
-'account' => 'Account',
-'logout' => 'Log out',
-'signin' => 'Sign in',
+  'settings' => 'Settings',
+  'account' => 'Account',
+  'logout' => 'Log out',
+  'signin' => 'Sign in',
 
-'themes' => [
-  'light' => 'Light',
-  'dark' => 'Dark',
-],
+  'themes' => [
+    'light' => 'Light',
+    'dark' => 'Dark',
+  ],
 
-'locales' => [
-  'english' => 'English',
-  'french' => 'French',
-  'arabic' => 'Arabic'
-],
+  'locales' => [
+    'english' => 'English',
+    'french' => 'French',
+    'arabic' => 'Arabic'
+  ],
+
+  'km' => ' km'
 
 ];

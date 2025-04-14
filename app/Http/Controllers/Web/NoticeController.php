@@ -14,13 +14,10 @@ class NoticeController extends Controller
 {
   use ApiResponse, Firebase;
 
-  protected $model = 'notice';
 
   public function index()
   {
-    return view('content.notice.index')->with([
-      'model' => $this->model
-    ]);
+    return view('content.notice.index');
   }
 
   public function list()
@@ -35,11 +32,11 @@ class NoticeController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-purple inline-spacing send" title="' . __("{$this->model}.actions.send") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-purple inline-spacing send" title="' . __("notice.actions.send") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-paper-plane"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("notice.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("notice.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
         return $btn;
       })

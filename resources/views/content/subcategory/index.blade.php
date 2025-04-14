@@ -1,16 +1,16 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("{$model}.title"))
+@section('title', __("subcategory.title"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse") }}
+            <span class="text-muted fw-light">{{ __("subcategory.breadcrumb") }} /</span> {{ __("subcategory.browse") }}
         </div>
         <div class="col-md-auto">
             <button type="button" class="btn btn-primary" id="create">
-                <span class="tf-icons bx bx-plus"></span>{{ __("{$model}.actions.create") }}
+                <span class="tf-icons bx bx-plus"></span>{{ __("subcategory.actions.create") }}
             </button>
         </div>
     </h4>
@@ -19,28 +19,28 @@
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("{$model}.table.header") }}</h5>
+                <h5 class="col-md-auto">{{ __("subcategory.table.header") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{ __("{$model}.table.name_en") }}</th>
-                        <th>{{ __("{$model}.table.name_ar") }}</th>
-                        <th>{{ __("{$model}.table.name_fr") }}</th>
-                        <th>{{ __("{$model}.table.image") }}</th>
-                        <th>{{ __("{$model}.table.category") }}</th>
-                        <th>{{ __("{$model}.table.created_at") }}</th>
-                        <th>{{ __("{$model}.table.actions") }}</th>
+                        <th>{{ __("subcategory.table.name_en") }}</th>
+                        <th>{{ __("subcategory.table.name_ar") }}</th>
+                        <th>{{ __("subcategory.table.name_fr") }}</th>
+                        <th>{{ __("subcategory.table.image") }}</th>
+                        <th>{{ __("subcategory.table.category") }}</th>
+                        <th>{{ __("subcategory.table.created_at") }}</th>
+                        <th>{{ __("subcategory.table.actions") }}</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 
-    @include("content.{$model}.create")
-    @include("content.{$model}.update")
-    @include("content.{$model}.delete")
+    @include("content.subcategory.create")
+    @include("content.subcategory.update")
+    @include("content.subcategory.delete")
 @endsection
 
 
@@ -59,7 +59,7 @@
                     pageLength: 10,
 
                     ajax: {
-                        url: '{{ url("{$model}/list") }}',
+                        url: '{{ url("subcategory/list") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -128,7 +128,7 @@
                 var formdata = new FormData($("#create-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/create") }}',
+                    url: '{{ url("subcategory/create") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -174,7 +174,7 @@
                 var modal = $("#update-modal");
 
                 $.ajax({
-                    url: '{{ url("{$model}/get") }}',
+                    url: '{{ url("subcategory/get") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -210,7 +210,7 @@
                 var formdata = new FormData($("#update-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/update") }}',
+                    url: '{{ url("subcategory/update") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -260,7 +260,7 @@
                 modal.find('.related-items-list').empty();
 
                 $.ajax({
-                    url: '{{ url("{$model}/delete") }}',
+                    url: '{{ url("subcategory/delete") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -309,7 +309,7 @@
                     var formdata = new FormData($("#delete-form")[0]);
 
                     $.ajax({
-                        url: '{{ url("{$model}/delete") }}',
+                        url: '{{ url("subcategory/delete") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

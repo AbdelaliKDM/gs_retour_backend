@@ -1,61 +1,94 @@
-<div class="modal fade" id="create-modal" aria-hidden="true">
+<div class="modal fade" id="create-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="fw-bold py-1 mb-1">{{ __("{$model}.modals.create") }}</h4>
+                <h5 class="modal-title">{{ __('truckType.actions.create') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" onsubmit="event.preventDefault()" action="#"
-                    enctype="multipart/form-data" id="create-form">
+                <form id="create-form" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault()" action="#">
+                    @csrf
+                    <input type="hidden" name="create" value="1">
+
+                    <div class="row">
+
+                      <div class="col-md-6">
+
+                          <div class="card-body">
+                              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                  <img src="https://placehold.co/100?text=No+Image" alt="truck-type-image"
+                                      class="d-block rounded uploaded-image old-image" height="100"
+                                      width="100" />
+                                  <div class="button-wrapper">
+                                      <label for="update-image" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                          <span class="d-none d-sm-block">{{ __('app.image.upload') }}</span>
+                                          <i class="bx bx-upload d-block d-sm-none"></i>
+                                          <input type="file" id="update-image" name="image"
+                                              class="account-file-input image-input" hidden
+                                              accept="image/png, image/jpeg" />
+                                      </label>
+                                      <button type="button"
+                                          class="btn btn-outline-secondary account-image-reset mb-4 image-reset">
+                                          <i class="bx bx-reset d-block d-sm-none"></i>
+                                          <span class="d-none d-sm-block">{{ __('app.image.reset') }}</span>
+                                      </button>
+
+                                  </div>
+                              </div>
+                          </div>
+
+                          <hr style="margin-top: 9.25%; margin-bottom: 9.25%;">
+
+                          <div class="mb-3">
+                              <label for="capacity" class="form-label">{{ __('truckType.table.capacity') }}</label>
+                              <input type="number" id="capacity" name="capacity" class="form-control"
+                                  placeholder="{{ __('truckType.placeholders.capacity') }}" />
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="weight" class="form-label">{{ __('truckType.table.weight') }}</label>
+                              <input type="number" id="weight" name="weight" class="form-control"
+                                  placeholder="{{ __('truckType.placeholders.weight') }}" />
+                          </div>
 
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="name_ar" class="form-label">{{ __("{$model}.labels.name_ar") }}</label>
-                            <input type="text" class="form-control" name="name_ar"
-                                placeholder="{{ __("{$model}.placeholders.name_ar") }}" autofocus>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="capacity" class="form-label">{{ __("{$model}.labels.capacity") }}</label>
-                            <input type="number" class="form-control" name="capacity"
-                                placeholder="{{ __("{$model}.placeholders.capacity") }}">
-                        </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="mb-3">
+                              <label for="name_en" class="form-label">{{ __('truckType.table.name_en') }}</label>
+                              <input type="text" id="name_en" name="name_en" class="form-control"
+                                  placeholder="{{ __('truckType.placeholders.name_en') }}" />
+                          </div>
 
-                    </div>
+                          <div class="mb-3">
+                              <label for="name_ar" class="form-label">{{ __('truckType.table.name_ar') }}</label>
+                              <input type="text" id="name_ar" name="name_ar" class="form-control"
+                                  placeholder="{{ __('truckType.placeholders.name_ar') }}" />
+                          </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="name_en" class="form-label">{{ __("{$model}.labels.name_en") }}</label>
-                            <input type="text" class="form-control" name="name_en"
-                                placeholder="{{ __("{$model}.placeholders.name_en") }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="weight" class="form-label">{{ __("{$model}.labels.weight") }}</label>
-                            <input type="number" class="form-control" name="weight"
-                                placeholder="{{ __("{$model}.placeholders.weight") }}">
-                        </div>
-                    </div>
+                          <div class="mb-3">
+                              <label for="name_fr" class="form-label">{{ __('truckType.table.name_fr') }}</label>
+                              <input type="text" id="name_fr" name="name_fr" class="form-control"
+                                  placeholder="{{ __('truckType.placeholders.name_fr') }}" />
+                          </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="name_fr" class="form-label">{{ __("{$model}.labels.name_fr") }}</label>
-                            <input type="text" class="form-control" name="name_fr"
-                                placeholder="{{ __("{$model}.placeholders.name_fr") }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label" for="subcategory_id">{{ __("{$model}.labels.subcategory") }}</label>
-                            <select class="form-select" name="subcategory_id">
-                                <option disabled selected value=""> {{ __("{$model}.placeholders.subcategory") }}
-                                </option>
-                                @foreach ($subcategories as $key => $value)
-                                    <option value="{{ $key }}"> {{ $value }} </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+                          <div class="mb-3">
+                              <label for="subcategory_id"
+                                  class="form-label">{{ __('truckType.table.subcategory') }}</label>
+                              <select id="subcategory_id" name="subcategory_id" class="form-select">
+                                  <option disabled selected value="">
+                                      {{ __('truckType.placeholders.subcategory') }}
+                                  </option>
+                                  @foreach ($subcategories as $key => $value)
+                                      <option value="{{ $key }}"> {{ $value }} </option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
 
-                    <div class="mb-3 text-center" >
+                  </div>
+
+                    <div class="mb-3 text-center">
                         <button type="submit" id="create-submit" name="submit"
                             class="btn btn-primary">{{ __('app.create') }}</button>
                     </div>

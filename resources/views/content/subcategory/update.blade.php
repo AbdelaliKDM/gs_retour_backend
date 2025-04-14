@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="fw-bold py-1 mb-1">{{ __("{$model}.modals.update") }}</h4>
+                <h4 class="fw-bold py-1 mb-1">{{ __("subcategory.modals.update") }}</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -37,22 +37,22 @@
                     <hr class="my-3">
 
                     <div class="mb-3">
-                        <label for="name" class="form-label">{{ __("{$model}.labels.name_ar") }}</label>
+                        <label for="name" class="form-label">{{ __("subcategory.labels.name_ar") }}</label>
                         <input type="text" class="form-control" name="name_ar">
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">{{ __("{$model}.labels.name_en") }}</label>
+                        <label for="name" class="form-label">{{ __("subcategory.labels.name_en") }}</label>
                         <input type="text" class="form-control" name="name_en">
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">{{ __("{$model}.labels.name_fr") }}</label>
+                        <label for="name" class="form-label">{{ __("subcategory.labels.name_fr") }}</label>
                         <input type="text" class="form-control" name="name_fr">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="category_id">{{ __("{$model}.labels.category") }}</label>
+                        <label class="form-label" for="category_id">{{ __("subcategory.labels.category") }}</label>
                         <select class="form-select" name="category_id">
-                            <option disabled selected value=""> {{ __("{$model}.placeholders.category") }}
+                            <option disabled selected value=""> {{ __("subcategory.placeholders.category") }}
                             </option>
                             @foreach ($categories as $key => $value)
                                 <option value="{{ $key }}"> {{ $value }} </option>

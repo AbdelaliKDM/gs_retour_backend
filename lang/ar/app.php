@@ -17,6 +17,11 @@ return [
   'wallet_payments' => 'مدفوعات المحافظ',
   'payments' => 'المدفوعات',
   'notices' => 'الإشعارات',
+  'pending_trips' => 'الرحلات المعلقة',
+  'ongoing_trips' => 'الرحلات الجارية',
+  'paused_trips' => 'الرحلات المتوقفة مؤقتًا',
+  'canceled_trips' => 'الرحلات الملغاة',
+  'completed_trips' => 'الرحلات المكتملة',
   'documentation' => 'السياسات و الشروط',
   'privacy_policy' => 'سياسة الخصوصية',
   'about_app' => 'حول التطبيق',
@@ -26,8 +31,8 @@ return [
   'delete_related_items' => 'هذا الإجراء سيحذف أيضاً جميع العناصر المرتبطة:',
   'delete_confirm_checkbox' => 'أنا أدرك أن هذا الإجراء لا يمكن التراجع عنه',
   'image' => [
-    'upload' => 'رفع صورة جديدة',
-    'reset' => 'إعادة تعيين الصورة',
+    'upload' => 'صورة جديدة',
+    'reset' => 'إعادة تعيين',
   ],
   'create' => 'إنشاء',
   'update' => 'تحديث',
@@ -62,4 +67,6 @@ return [
     'french' => 'الفرنسية',
     'arabic' => 'العربية'
   ],
+
+  'km' => ' كلم'
 ];

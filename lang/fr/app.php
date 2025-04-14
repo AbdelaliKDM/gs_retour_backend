@@ -17,6 +17,11 @@ return [
   'wallet_payments' => 'Paiements par portefeuille',
   'payments' => 'Paiements',
   'notices' => 'Avis',
+  'pending_trips' => 'Voyages en attente',
+  'ongoing_trips' => 'Voyages en cours',
+  'paused_trips' => 'Voyages en pause',
+  'canceled_trips' => 'Voyages annulés',
+  'completed_trips' => 'Voyages terminés',
   'documentation' => 'Documentation',
   'privacy_policy' => 'Politique de confidentialité',
   'about_app' => 'À propos de l\'application',
@@ -26,8 +31,8 @@ return [
   'delete_related_items' => 'Cette action supprimera également tous les éléments associés :',
   'delete_confirm_checkbox' => 'Je comprends que cette action est irréversible',
   'image' => [
-    'upload' => 'Télécharger une nouvelle image',
-    'reset' => 'Réinitialiser l\'image',
+    'upload' => 'Nouvelle image',
+    'reset' => 'Réinitialiser',
   ],
   'create' => 'Créer',
   'update' => 'Mettre à jour',
@@ -62,4 +67,5 @@ return [
     'french' => 'Français',
     'arabic' => 'Arabe'
   ],
+  'km' => ' km'
 ];

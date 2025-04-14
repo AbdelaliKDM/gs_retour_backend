@@ -23,8 +23,7 @@ class UserController extends Controller
   use ApiResponse, Firebase, MiscHelper;
   public function index(Request $request)
   {
-    return view("content.{$this->model}.index")->with([
-      'model' => $this->model,
+    return view("content.user.index")->with([
       'role' => explode('.',$request->route()->getName())[1]
     ]);
   }
@@ -61,16 +60,16 @@ class UserController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-/*         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';  */
+/*         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("user.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';  */
 
-        /* $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>'; */
+        /* $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("user.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>'; */
 
-        $btn .= '<a href="' . url("user/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("{$this->model}.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
+        $btn .= '<a href="' . url("user/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("user.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
         if ($row->status == 'active') {
-          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("user.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
         } else {
-          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("{$this->model}.actions.activate") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("user.actions.activate") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;

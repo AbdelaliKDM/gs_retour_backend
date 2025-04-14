@@ -86,6 +86,7 @@ h1,
 
 .filter-select {
   width: 174.4px !important;
+  display: inline-block !important;
 }
 
 .table-header {

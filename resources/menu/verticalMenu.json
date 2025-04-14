@@ -3,12 +3,12 @@
     {
       "url": "/",
       "name": "app.dashboard",
-      "icon": "menu-icon tf-icons bx bxs-home-circle",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
       "slug": "dashboard-analytics"
     },
     {
       "name": "app.users",
-      "icon": "menu-icon tf-icons bx bxs-user",
+      "icon": "menu-icon tf-icons bx bx-user",
       "slug": "user.",
       "submenu": [
         {
@@ -31,30 +31,62 @@
     {
       "url": "/category/index",
       "name": "app.categories",
-      "icon": "menu-icon tf-icons bx bxs-category",
+      "icon": "menu-icon tf-icons bx bx-category",
       "slug": "category.index"
     },
     {
       "url": "/subcategory/index",
       "name": "app.subcategories",
-      "icon": "menu-icon tf-icons bx bxs-shapes",
+      "icon": "menu-icon tf-icons bx bx-category-alt",
       "slug": "subcategory.index"
     },
     {
       "url": "/truckType/index",
       "name": "app.truckTypes",
-      "icon": "menu-icon tf-icons bx bxs-truck",
+      "icon": "menu-icon tf-icons bx bx-bus",
       "slug": "truck.type.index"
     },
     {
       "url": "/shipmentType/index",
       "name": "app.shipmentTypes",
-      "icon": "menu-icon tf-icons bx bxs-package",
+      "icon": "menu-icon tf-icons bx bx-package",
       "slug": "shipment.type.index"
     },
     {
+      "name": "app.trips",
+      "icon": "menu-icon tf-icons bx bx-trip",
+      "slug": "trip.",
+    "submenu": [
+        {
+          "url": "/trip/pending",
+          "name": "app.pending_trips",
+          "slug": "trip.pending"
+        },
+        {
+          "url": "/trip/ongoing",
+          "name": "app.ongoing_trips",
+          "slug": "trip.ongoing"
+        },
+        {
+          "url": "/trip/paused",
+          "name": "app.paused_trips",
+          "slug": "trip.paused"
+        },
+        {
+          "url": "/trip/canceled",
+          "name": "app.canceled_trips",
+          "slug": "trip.canceled"
+        },
+        {
+          "url": "/trip/completed",
+          "name": "app.completed_trips",
+          "slug": "trip.completed"
+        }
+      ]
+    },
+    {
       "name": "app.payments",
-      "icon": "menu-icon tf-icons bx bxs-credit-card",
+      "icon": "menu-icon tf-icons bx bx-credit-card",
       "slug": "payment.",
       "submenu": [
         {
@@ -72,12 +104,12 @@
     {
       "url": "/notice/index",
       "name": "app.notices",
-      "icon": "menu-icon tf-icons bx bxs-bell",
+      "icon": "menu-icon tf-icons bx bx-bell",
       "slug": "notice.index"
     },
     {
       "name": "app.documentation",
-      "icon": "menu-icon tf-icons bx bxs-info-square",
+      "icon": "menu-icon tf-icons bx bx-info-square",
       "slug": "documentation",
       "submenu": [
         {

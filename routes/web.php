@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Template\Analytics;
 use App\Http\Controllers\Template\MiscError;
+use App\Http\Controllers\Web\TripController;
 use App\Http\Controllers\Web\UserController;
 use App\Http\Controllers\Template\LoginBasic;
 use App\Http\Controllers\Template\LogoutBasic;
@@ -71,8 +72,8 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::get('renter/index', [UserController::class, 'index'])->name('renter');
     Route::get('driver/index', [UserController::class, 'index'])->name('driver');
     Route::get('user/{id}/info', [UserController::class, 'info'])->name('info');
-/*     Route::get('renter/{id}/info', [UserController::class, 'info'])->name('info');
-    Route::get('driver/{id}/info', [UserController::class, 'info'])->name('info'); */
+    /*     Route::get('renter/{id}/info', [UserController::class, 'info'])->name('info');
+        Route::get('driver/{id}/info', [UserController::class, 'info'])->name('info'); */
   });
 
   Route::prefix('user')->name('user.')->group(function () {
@@ -144,8 +145,8 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::post('/password/change', [AccountController::class, 'change_password']);
   });
 
-   Route::prefix('notice')->name('notice.')->group(function () {
-       Route::get('/index', [NoticeController::class, 'index'])->name('index');
+  Route::prefix('notice')->name('notice.')->group(function () {
+    Route::get('/index', [NoticeController::class, 'index'])->name('index');
     Route::post('/list', [NoticeController::class, 'list'])->name('list');
     Route::post('/create', [NoticeController::class, 'create']);
     Route::post('/update', [NoticeController::class, 'update']);
@@ -166,6 +167,19 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
     Route::post('/update', [DocumentationController::class, 'update']);
   });
 
+  Route::prefix('trip')->name('trip.')->group(function () {
+    Route::get('/pending', [TripController::class, 'index'])->name('pending');
+    Route::get('/ongoing', [TripController::class, 'index'])->name('ongoing');
+    Route::get('/paused', [TripController::class, 'index'])->name('paused');
+    Route::get('/canceled', [TripController::class, 'index'])->name('canceled');
+    Route::get('/completed', [TripController::class, 'index'])->name('completed');
+    Route::post('/list', [TripController::class, 'list'])->name('list');
+    Route::post('/delete', [TripController::class, 'delete']);
+    Route::get('/{id}/info', [TripController::class, 'info'])->name('info');
+  });
+
 
 
 });
+
+

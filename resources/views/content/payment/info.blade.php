@@ -125,9 +125,13 @@
         <!-- Payer Information -->
         <div class="col-xl-4 col-lg-5 col-md-5">
             <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">{{ __('payment.payer_information') }}</h5>
-                </div>
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ __('trip.driver_information') }}</h5>
+
+                <a class="btn btn-icon btn-outline-primary" href="{{ url('user/' . $payment->payable->user_id . '/info') }}">
+                  <span class="icon-base bx bx-user icon-md"></span>
+                </a>
+            </div>
                 <div class="card-body">
                     <div class="d-flex align-items-start align-items-sm-center gap-4 mb-4">
                         <img src="{{ $payment->payable->user->image_url ?? 'https://placehold.co/100?text=No+Image' }}"

@@ -1,16 +1,16 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("{$model}.title"))
+@section('title', __("shipmentType.title"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse") }}
+            <span class="text-muted fw-light">{{ __("shipmentType.breadcrumb") }} /</span> {{ __("shipmentType.browse") }}
         </div>
         <div class="col-md-auto">
             <button type="button" class="btn btn-primary" id="create">
-                <span class="tf-icons bx bx-plus"></span>{{ __("{$model}.actions.create") }}
+                <span class="tf-icons bx bx-plus"></span>{{ __("shipmentType.actions.create") }}
             </button>
         </div>
     </h4>
@@ -19,26 +19,26 @@
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("{$model}.table.header") }}</h5>
+                <h5 class="col-md-auto">{{ __("shipmentType.table.header") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{ __("{$model}.table.name_en") }}</th>
-                        <th>{{ __("{$model}.table.name_ar") }}</th>
-                        <th>{{ __("{$model}.table.name_fr") }}</th>
-                        <th>{{ __("{$model}.table.created_at") }}</th>
-                        <th>{{ __("{$model}.table.actions") }}</th>
+                        <th>{{ __("shipmentType.table.name_en") }}</th>
+                        <th>{{ __("shipmentType.table.name_ar") }}</th>
+                        <th>{{ __("shipmentType.table.name_fr") }}</th>
+                        <th>{{ __("shipmentType.table.created_at") }}</th>
+                        <th>{{ __("shipmentType.table.actions") }}</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 
-    @include("content.{$model}.create")
-    @include("content.{$model}.update")
-    @include("content.{$model}.delete")
+    @include("content.shipmentType.create")
+    @include("content.shipmentType.update")
+    @include("content.shipmentType.delete")
 @endsection
 
 
@@ -57,7 +57,7 @@
                     pageLength: 10,
 
                     ajax: {
-                        url: '{{ url("{$model}/list") }}',
+                        url: '{{ url("shipmentType/list") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -113,7 +113,7 @@
                 var formdata = new FormData($("#create-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/create") }}',
+                    url: '{{ url("shipmentType/create") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -159,7 +159,7 @@
                 var modal = $("#update-modal");
 
                 $.ajax({
-                    url: '{{ url("{$model}/get") }}',
+                    url: '{{ url("shipmentType/get") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -189,7 +189,7 @@
                 var formdata = new FormData($("#update-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/update") }}',
+                    url: '{{ url("shipmentType/update") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -239,7 +239,7 @@
                 modal.find('.related-items-list').empty();
 
                 $.ajax({
-                    url: '{{ url("{$model}/delete") }}',
+                    url: '{{ url("shipmentType/delete") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -288,7 +288,7 @@
                     var formdata = new FormData($("#delete-form")[0]);
 
                     $.ajax({
-                        url: '{{ url("{$model}/delete") }}',
+                        url: '{{ url("shipmentType/delete") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

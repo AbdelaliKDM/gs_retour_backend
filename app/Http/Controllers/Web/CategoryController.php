@@ -17,12 +17,9 @@ class CategoryController extends Controller
 {
 
   use ApiResponse, FileUpload;
-  protected $model = 'category';
   public function index()
   {
-    return view("content.{$this->model}.index")->with([
-      'model' => $this->model
-    ]);
+    return view("content.category.index");
   }
 
   public function list(Request $request)
@@ -37,9 +34,9 @@ class CategoryController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("category.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("category.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
         return $btn;
       })

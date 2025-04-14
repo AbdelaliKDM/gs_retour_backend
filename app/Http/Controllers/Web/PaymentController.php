@@ -16,12 +16,10 @@ class PaymentController extends Controller
 {
   use ApiResponse;
 
-  protected $model = 'payment';
 
   public function index(Request $request)
   {
-    return view("content.{$this->model}.index")->with([
-      'model' => $this->model,
+    return view("content.payment.index")->with([
       'type' => explode('.',$request->route()->getName())[1]
     ]);
   }
@@ -56,16 +54,16 @@ class PaymentController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        /* $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>'; */
+        /* $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("payment.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>'; */
 
-        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("payment.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
-        $btn .= '<a href="' . url("payment/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("{$this->model}.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
+        $btn .= '<a href="' . url("payment/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("payment.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
         if ($row->status == 'pending') {
-          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("{$this->model}.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("payment.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
 
-          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("{$this->model}.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("payment.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;

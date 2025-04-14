@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Traits\FileUpload;
 use Exception;
 use App\Models\TruckType;
 use App\Models\Subcategory;
@@ -15,14 +16,13 @@ use App\Http\Resources\TruckType\PaginatedTruckTypeCollection;
 
 class TruckTypeController extends Controller
 {
-  use ApiResponse;
+  use ApiResponse, FileUpload;
 
   protected $model = 'truckType';
 
   public function index()
   {
-    return view("content.{$this->model}.index")->with([
-      'model' => $this->model,
+    return view("content.truckType.index")->with([
       'subcategories' => Subcategory::all()->pluck('name','id')->toArray()
     ]);
   }
@@ -39,9 +39,9 @@ class TruckTypeController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("{$this->model}.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("truckType.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';
 
-        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("{$this->model}.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
+        $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("truckType.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>';
 
         return $btn;
       })
@@ -77,11 +77,20 @@ class TruckTypeController extends Controller
       'name_en' => 'required|string',
       'name_fr' => 'required|string',
       'weight' => 'sometimes|nullable|numeric',
-      'capacity' => 'sometimes|nullable|integer'
+      'capacity' => 'sometimes|nullable|integer',
+      'image' => 'sometimes|mimetypes:image/*'
     ]);
 
     try {
-      $truck_type = TruckType::create($request->all());
+      $truck_type = TruckType::create($request->except('image'));
+
+      $truck_type->image = $this->handleFileUpload(
+        $request->file('image'),
+        $truck_type->image,
+        '/uploads/truck_types/images'
+      ) ?? $truck_type->image;
+
+      $truck_type->save();
 
       return $this->successResponse(data: new TruckTypeResource($truck_type));
     } catch (Exception $e) {
@@ -98,13 +107,22 @@ class TruckTypeController extends Controller
       'name_en' => 'sometimes|string',
       'name_fr' => 'sometimes|string',
       'weight' => 'sometimes|nullable|numeric',
-      'capacity' => 'sometimes|nullable|integer'
+      'capacity' => 'sometimes|nullable|integer',
+      'image' => 'sometimes|mimetypes:image/*'
     ]);
 
     try {
       $truck_type = TruckType::findOrFail($request->id);
 
-      $truck_type->update($request->all());
+      $truck_type->update($request->except('image'));
+
+      $truck_type->image = $this->handleFileUpload(
+        $request->file('image'),
+        $truck_type->image,
+        '/uploads/truck_types/images'
+      ) ?? $truck_type->image;
+
+      $truck_type->save();
 
       return $this->successResponse(data: new TruckTypeResource($truck_type));
     } catch (Exception $e) {

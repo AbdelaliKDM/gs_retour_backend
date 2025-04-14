@@ -1,16 +1,16 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("{$model}.title"))
+@section('title', __("truckType.title"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse") }}
+            <span class="text-muted fw-light">{{ __("truckType.breadcrumb") }} /</span> {{ __("truckType.browse") }}
         </div>
         <div class="col-md-auto">
             <button type="button" class="btn btn-primary" id="create">
-                <span class="tf-icons bx bx-plus"></span>{{ __("{$model}.actions.create") }}
+                <span class="tf-icons bx bx-plus"></span>{{ __("truckType.actions.create") }}
             </button>
         </div>
     </h4>
@@ -19,27 +19,28 @@
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("{$model}.table.header") }}</h5>
+                <h5 class="col-md-auto">{{ __("truckType.table.header") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{ __("{$model}.table.name_en") }}</th>
-                        <th>{{ __("{$model}.table.name_ar") }}</th>
-                        <th>{{ __("{$model}.table.name_fr") }}</th>
-                        <th>{{ __("{$model}.table.subcategory") }}</th>
-                        <th>{{ __("{$model}.table.created_at") }}</th>
-                        <th>{{ __("{$model}.table.actions") }}</th>
+                        <th>{{ __("truckType.table.name_en") }}</th>
+                        <th>{{ __("truckType.table.name_ar") }}</th>
+                        <th>{{ __("truckType.table.name_fr") }}</th>
+                        <th>{{ __("truckType.table.image") }}</th>
+                        <th>{{ __("truckType.table.subcategory") }}</th>
+                        <th>{{ __("truckType.table.created_at") }}</th>
+                        <th>{{ __("truckType.table.actions") }}</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 
-    @include("content.{$model}.create")
-    @include("content.{$model}.update")
-    @include("content.{$model}.delete")
+    @include("content.truckType.create")
+    @include("content.truckType.update")
+    @include("content.truckType.delete")
 @endsection
 
 
@@ -58,7 +59,7 @@
                     pageLength: 10,
 
                     ajax: {
-                        url: '{{ url("{$model}/list") }}',
+                        url: '{{ url("truckType/list") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -85,6 +86,14 @@
                         {
                             data: 'name_fr',
                             name: 'name_fr'
+                        },
+
+                        {
+                            data: 'image',
+                            name: 'image',
+                            render: function(data) {
+                                return '<img src="' + data + '" class="rounded" width="50">';
+                            }
                         },
 
                         {
@@ -119,7 +128,7 @@
                 var formdata = new FormData($("#create-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/create") }}',
+                    url: '{{ url("truckType/create") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -165,7 +174,7 @@
                 var modal = $("#update-modal");
 
                 $.ajax({
-                    url: '{{ url("{$model}/get") }}',
+                    url: '{{ url("truckType/get") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -184,6 +193,15 @@
                             modal.find('input[name="capacity"]').val(response.data.capacity);
                             modal.find('input[name="weight"]').val(response.data.weight);
 
+                            // Set image if exists
+                            if (response.data.image) {
+                                modal.find('.uploaded-image').attr('src', response.data.image);
+                                modal.find('.old-image').attr('src', response.data.image);
+                            } else {
+                                modal.find('.uploaded-image').attr('src', 'https://placehold.co/100?text=No+Image');
+                                modal.find('.old-image').attr('src', 'https://placehold.co/100?text=No+Image');
+                            }
+
                             modal.modal("show");
                         }
                     }
@@ -198,7 +216,7 @@
                 var formdata = new FormData($("#update-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/update") }}',
+                    url: '{{ url("truckType/update") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -248,7 +266,7 @@
                 modal.find('.related-items-list').empty();
 
                 $.ajax({
-                    url: '{{ url("{$model}/delete") }}',
+                    url: '{{ url("truckType/delete") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -297,7 +315,7 @@
                     var formdata = new FormData($("#delete-form")[0]);
 
                     $.ajax({
-                        url: '{{ url("{$model}/delete") }}',
+                        url: '{{ url("truckType/delete") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },

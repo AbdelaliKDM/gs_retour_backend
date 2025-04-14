@@ -27,6 +27,8 @@ class Trip extends Model
   ];
   protected $softCascade = ['statuses', 'orders'];
 
+  protected $casts = ['starts_at' => 'datetime'];
+
   public function getIsFavoredAttribute()
   {
     return $this->favorites()->where('user_id', auth()->id())->exists()
@@ -66,6 +68,11 @@ class Trip extends Model
   public function getOrdersCountAttribute()
   {
     return $this->incoming_orders()->where('status', 'pending')->count();
+  }
+
+  public function getShipmentsCountAttribute()
+  {
+    return $this->shipments()->count();
   }
   public function driver(): BelongsTo
   {

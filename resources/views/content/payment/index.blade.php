@@ -1,12 +1,12 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("{$model}.title.{$type}"))
+@section('title', __("payment.title.{$type}"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("{$model}.breadcrumb") }} /</span> {{ __("{$model}.browse.{$type}") }}
+            <span class="text-muted fw-light">{{ __("payment.breadcrumb") }} /</span> {{ __("payment.browse.{$type}") }}
         </div>
     </h4>
 
@@ -14,27 +14,27 @@
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("{$model}.table.header.{$type}") }}</h5>
+                <h5 class="col-md-auto">{{ __("payment.table.header.{$type}") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
-                        <th>{{ __("{$model}.table.id") }}</th>
-                        <th>{{ __("{$model}.table.user") }}</th>
-                        <th>{{ __("{$model}.table.amount") }}</th>
-                        <th>{{ __("{$model}.table.type") }}</th>
-                        <th>{{ __("{$model}.table.status") }}</th>
-                        <th>{{ __("{$model}.table.created_at") }}</th>
-                        <th>{{ __("{$model}.table.actions") }}</th>
+                        <th>{{ __("payment.table.id") }}</th>
+                        <th>{{ __("payment.table.user") }}</th>
+                        <th>{{ __("payment.table.amount") }}</th>
+                        <th>{{ __("payment.table.type") }}</th>
+                        <th>{{ __("payment.table.status") }}</th>
+                        <th>{{ __("payment.table.created_at") }}</th>
+                        <th>{{ __("payment.table.actions") }}</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </div>
 
-    @include("content.{$model}.delete")
-    @include("content.{$model}.accept")
-    @include("content.{$model}.reject")
+    @include("content.payment.delete")
+    @include("content.payment.accept")
+    @include("content.payment.reject")
 
 @endsection
 
@@ -54,7 +54,7 @@
                     pageLength: 10,
 
                     ajax: {
-                        url: '{{ url("{$model}/list") }}',
+                        url: '{{ url("payment/list") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -144,7 +144,7 @@
                 var formdata = new FormData($("#create-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/create") }}',
+                    url: '{{ url("payment/create") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -190,7 +190,7 @@
                 var modal = $("#update-modal");
 
                 $.ajax({
-                    url: '{{ url("{$model}/get") }}',
+                    url: '{{ url("payment/get") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -220,7 +220,7 @@
                 var formdata = new FormData($("#update-form")[0]);
 
                 $.ajax({
-                    url: '{{ url("{$model}/update") }}',
+                    url: '{{ url("payment/update") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -270,7 +270,7 @@
                 modal.find('.related-items-list').empty();
 
                 $.ajax({
-                    url: '{{ url("{$model}/delete") }}',
+                    url: '{{ url("payment/delete") }}',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -319,7 +319,7 @@
                     var formdata = new FormData($("#delete-form")[0]);
 
                     $.ajax({
-                        url: '{{ url("{$model}/delete") }}',
+                        url: '{{ url("payment/delete") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -392,7 +392,7 @@
                     var formdata = new FormData($("#accept-form")[0]);
 
                     $.ajax({
-                        url: '{{ url("{$model}/update") }}',
+                        url: '{{ url("payment/update") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -444,7 +444,7 @@
                     var formdata = new FormData($("#reject-form")[0]);
 
                     $.ajax({
-                        url: '{{ url("{$model}/update") }}',
+                        url: '{{ url("payment/update") }}',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
