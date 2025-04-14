@@ -130,7 +130,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">{{ __('trip.driver_information') }}</h5>
 
-                    <a class="btn btn-icon btn-outline-primary" href="{{ url('user/' . $trip->friver_id . '/info') }}">
+                    <a class="btn btn-icon btn-outline-primary" href="{{ url('user/' . $trip->driver_id . '/info') }}">
                         <span class="icon-base bx bx-user icon-md"></span>
                     </a>
                 </div>
