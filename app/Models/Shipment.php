@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Exception;
 use Carbon\Carbon;
-use Askedio\SoftCascade\Traits\SoftCascadeTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Shipment extends Model
 {
@@ -149,11 +150,11 @@ class Shipment extends Model
     ];
 
     if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
-      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.", 406);
     }
 
     if ($this->trip?->current_status != 'ongoing') {
-      throw new Exception('The trip status is not ongoing.');
+      throw new Exception('The trip status is not ongoing.', 406);
     }
 
     $this->statuses()->create(['name' => $newStatus]);

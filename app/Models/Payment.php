@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 
 class Payment extends Model
 {
@@ -58,7 +59,7 @@ class Payment extends Model
     ];
 
     if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
-      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.", 406);
     }
 
     $data = ['status' => $newStatus];

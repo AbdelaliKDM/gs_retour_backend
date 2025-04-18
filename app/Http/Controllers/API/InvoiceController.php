@@ -53,7 +53,7 @@ class InvoiceController extends Controller
       $invoice = Invoice::find($request->id);
 
       if($invoice->status != 'unpaid'){
-        throw new Exception("The invoice status is not unpaid.");
+        throw new Exception("The invoice status is not unpaid.", 406);
       }
 
       $payment = $invoice->payments()->create([
@@ -83,7 +83,7 @@ class InvoiceController extends Controller
       }else{
         $payment->status = 'failed';
         $payment->save();
-        throw new Exception('Unsufficiant balance.');
+        throw new Exception('Unsufficiant balance.', 406);
       }
     }
 

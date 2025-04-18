@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -181,16 +182,16 @@ class Trip extends Model
     ];
 
     if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
-      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.", 406);
     }
 
     if ($currentStatus == 'pending' && $newStatus == 'ongoing') {
       if (auth()->user()->ongoing_trip()->exists()) {
-        throw new Exception('The driver already have an ongoing trip.');
+        throw new Exception('The driver already have an ongoing trip.', 406);
       }
 
       /* if ($this->pending_orders()->exists()) {
-        throw new Exception('The trip has pending orders.');
+        throw new Exception('The trip has pending orders.', 406);
       } */
 
       $this->incoming_orders()->where('status','pending')->update(['status' => 'rejected']);
@@ -200,14 +201,14 @@ class Trip extends Model
 
     } elseif ($currentStatus == 'ongoing' && $newStatus == 'completed') {
       if ($this->pending_shipments()->exists()) {
-        throw new Exception('The trip has pending shipments.');
+        throw new Exception('The trip has pending shipments.', 406);
       }
 
       $this->createTransaction();
 
     } elseif ($currentStatus == 'paused' && $newStatus == 'canceled') {
       if ($this->shipments()->exists()) {
-        throw new Exception('The trip has shipments.');
+        throw new Exception('The trip has shipments.', 406);
       }
     }
 

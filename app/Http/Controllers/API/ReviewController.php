@@ -33,15 +33,15 @@ class ReviewController extends Controller
       $trip = Trip::find($request->trip_id);
 
       if ($trip->current_status != 'completed') {
-        throw new Exception('Trip is not completed');
+        throw new Exception('Trip is not completed.', 406);
       }
 
       if ($trip->shipments()->where('renter_id', auth()->id())->doesntExist()) {
-        throw new Exception('You do not have delivered shipments in this trip.');
+        throw new Exception('You do not have delivered shipments in this trip.', 406);
       }
 
       if ($trip->review()->exists()) {
-        throw new Exception('You already reviewed this trip.');
+        throw new Exception('You already reviewed this trip.', 406);
       }
 
       $review = $user->reviews()->create($request->all());

@@ -140,7 +140,7 @@ class ShipmentController extends Controller
         $shipment = Shipment::find($request->id);
 
         if(auth()->id() != $shipment->renter_id && auth()->id() != $shipment->trip?->driver_id){
-          throw new Exception('You do not have permission to access this shipment info.');
+          throw new Exception('Not allowed',405);
         }
 
         return $this->successResponse(data: new ShipmentInfoResource($shipment));
@@ -167,7 +167,7 @@ class ShipmentController extends Controller
         $trip = Trip::find($request->trip_id);
 
         if(auth()->id() != $trip->driver_id){
-          throw new Exception('You do not have permission to access this trip shipments.');
+          throw new Exception('Not allowed',405);
         }
 
         $shipments = Shipment::where('trip_id', $request->trip_id);

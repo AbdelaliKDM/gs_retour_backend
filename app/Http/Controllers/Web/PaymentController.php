@@ -111,7 +111,7 @@ class PaymentController extends Controller
       $payment = Payment::findOrFail($request->id);
 
       if($payment->payment_method == 'wallet'){
-        throw new Exception('The payment method is wallet.');
+        throw new Exception('The payment method is wallet.', 406);
       }
 
       if ($request->has('status')) {

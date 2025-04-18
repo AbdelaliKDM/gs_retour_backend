@@ -36,11 +36,11 @@ class OrderController extends Controller
         }
 
         if ($shipment->trip_id) {
-          throw new Exception('Shipment already have a trip.');
+          throw new Exception('Shipment already have a trip.', 406);
         }
 
         if (Order::where($request->all())->exists()) {
-          throw new Exception('Order already exists.');
+          throw new Exception('Order already exists.', 406);
         }
 
         $order = Order::create($request->all());
@@ -95,11 +95,11 @@ class OrderController extends Controller
         }
 
         if (auth()->id() != $order->created_by) {
-          throw new Exception('Only the user who created this order can delete it.');
+          throw new Exception('Only the user who created this order can delete it.', 406);
         }
 
         if ($order->status != 'pending') {
-          throw new Exception('Orders can only be deleted while they are in pending status.');
+          throw new Exception('Orders can only be deleted while they are in pending status.', 406);
         }
 
 

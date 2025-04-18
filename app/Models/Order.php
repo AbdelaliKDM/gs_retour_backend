@@ -74,12 +74,12 @@ class Order extends Model
     ];
 
     if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
-      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.");
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.", 406);
     }
 
-    if (auth()->id() == $this->created_by) {
-      throw new Exception('Prohibited action.');
-    }
+if (auth()->id() === $this->created_by) {
+    throw new Exception('You cannot update the status of an order you created.', 406);
+}
 
     $shipment = $this->shipment;
     $trip = $this->trip;

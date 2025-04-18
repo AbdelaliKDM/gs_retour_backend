@@ -137,7 +137,7 @@ class TripController extends Controller
         if (auth()->id() != $trip->driver_id &&
           $trip->shipments()->where('renter_id', auth()->id())->doesntExist())
         {
-          throw new Exception('You do not have permission to access this trip info.');
+          throw new Exception('Not allowed',405);
         }
         return $this->successResponse(data: new TripInfoResource($trip));
       }
