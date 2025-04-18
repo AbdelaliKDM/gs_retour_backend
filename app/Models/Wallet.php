@@ -16,6 +16,10 @@ class Wallet extends Model
     'balance'
   ];
 
+  protected $casts = [
+    'balance' => 'decimal:2',
+  ];
+
   public function getChargesAttribute(){
     return $this->payments()->where('status', 'paid')->count();
   }

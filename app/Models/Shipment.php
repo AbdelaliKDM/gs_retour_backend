@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Exception;
-use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Shipment extends Model
 {
@@ -32,6 +31,17 @@ class Shipment extends Model
   ];
 
   protected $softCascade = ['statuses', 'orders'];
+
+  protected $casts = [
+    'shipping_date' => 'datetime',
+    'distance' => 'double',
+    'price' => 'decimal:2',
+    'weight' => 'double',
+    'starting_point_longitude' => 'double',
+    'starting_point_latitude' => 'double',
+    'arrival_point_longitude' => 'double',
+    'arrival_point_latitude' => 'double',
+  ];
 
   public function getWaitingDurationAttribute()
   {

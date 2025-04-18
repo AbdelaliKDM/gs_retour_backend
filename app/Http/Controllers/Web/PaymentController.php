@@ -36,9 +36,9 @@ class PaymentController extends Controller
   public function list(Request $request)
   {
 
-    $data = Payment::latest();
+    $data = Payment::orderBy('status','ASC')->orderBy('updated_at','DESC');
 
-
+//dd($data->get());
     $type = match($request->type){
       'wallet' => Wallet::class,
       'invoice' => Invoice::class,

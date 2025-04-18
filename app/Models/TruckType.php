@@ -23,6 +23,11 @@ class TruckType extends Model
         'image'
     ];
 
+    protected $casts = [
+      'weight' => 'double',
+      'capacity' => 'integer',
+    ];
+
     protected $softCascade = [
       'trucks',
     ];

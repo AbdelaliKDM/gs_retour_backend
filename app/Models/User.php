@@ -185,8 +185,8 @@ class User extends Authenticatable
 
     if ($this->device_token) {
       $this->send_to_device(
-        $notice->title(),
-        $notice->content(),
+        $notice->title,
+        $notice->content,
         $this->device_token
       );
     }

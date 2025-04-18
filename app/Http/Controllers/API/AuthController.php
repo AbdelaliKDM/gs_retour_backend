@@ -37,9 +37,9 @@ class AuthController extends Controller
         ]
       )->refresh();
 
-      if ($user->status == 'suspended') {
+      /* if ($user->status == 'suspended') {
         throw new Exception('Suspended account.');
-      }
+      } */
 
       if ($request->has('device_token')) {
         $user->device_token = $request->device_token;

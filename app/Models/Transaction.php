@@ -18,6 +18,11 @@ class Transaction extends Model
     'tax_amount',
   ];
 
+  protected $casts = [
+    'total_amount' => 'decimal:2',
+    'tax_amount' => 'decimal:2',
+  ];
+
   public function trip()
   {
     return $this->belongsTo(Trip::class);

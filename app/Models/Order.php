@@ -88,7 +88,7 @@ class Order extends Model
     $isDriver = auth()->id() === $trip->driver_id;
 
     if (!$isRenter && !$isDriver) {
-      throw new Exception('Unauthorized action.');
+      throw new Exception('Not allowed',405);
     }
 
     $this->update(['status' => $newStatus]);

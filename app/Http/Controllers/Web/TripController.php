@@ -43,7 +43,7 @@ class TripController extends Controller
   public function list(Request $request)
   {
     $data = Trip::with('driver', 'truck', 'startingWilaya', 'arrivalWilaya')
-      ->whereHas('status', fn($query) => $query->where('name', $request->status))->latest();
+      ->whereHas('status', fn($query) => $query->where('name', $request->status))->latest('updated_at');
 
     if ($request->starting_wilaya_id) {
       $data = $data->where('starting_wilaya_id', $request->starting_wilaya_id);

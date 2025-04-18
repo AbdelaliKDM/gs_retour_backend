@@ -32,7 +32,7 @@ class OrderController extends Controller
         $isDriver = auth()->id() == $trip->driver_id;
 
         if (!$isRenter && !$isDriver) {
-          throw new Exception('Unauthorized action.');
+          throw new Exception('Not allowed',405);
         }
 
         if ($shipment->trip_id) {
@@ -91,7 +91,7 @@ class OrderController extends Controller
         $isDriver = auth()->id() === $trip->driver_id;
 
         if (!$isRenter && !$isDriver) {
-          throw new Exception('Unauthorized action.');
+          throw new Exception('Not allowed',405);
         }
 
         if (auth()->id() != $order->created_by) {
@@ -126,7 +126,7 @@ class OrderController extends Controller
           $shipment = Shipment::find($request->shipment_id);
 
           if ($shipment->renter_id != auth()->id()) {
-            throw new Exception('Unauthorized action.');
+            throw new Exception('Not allowed',405);
           }
 
 
@@ -143,7 +143,7 @@ class OrderController extends Controller
           $trip = Trip::find($request->trip_id);
 
           if ($trip->driver_id != auth()->id()) {
-            throw new Exception('Unauthorized action.');
+            throw new Exception('Not allowed',405);
           }
 
           $orders = match($request->type){

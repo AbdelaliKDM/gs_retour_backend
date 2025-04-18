@@ -75,7 +75,7 @@ class ShipmentController extends Controller
         }
 
       } else {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       return $this->successResponse(data: new ShipmentResource($shipment));
@@ -91,7 +91,7 @@ class ShipmentController extends Controller
       $shipment = Shipment::findOrFail($request->id);
 
       if ($shipment->renter_id != auth()->id()) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $shipment->delete();
@@ -109,7 +109,7 @@ class ShipmentController extends Controller
       $shipment = Shipment::withTrashed()->findOrFail($request->id);
 
       if ($shipment->renter_id != auth()->id()) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $shipment->restore();

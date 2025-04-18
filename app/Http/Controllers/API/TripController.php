@@ -67,7 +67,7 @@ class TripController extends Controller
       $trip = Trip::findOrFail($request->id);
 
       if (auth()->id() != $trip->driver_id) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $trip->update($request->except('status'));
@@ -89,7 +89,7 @@ class TripController extends Controller
       $trip = Trip::findOrFail($request->id);
 
       if ($trip->driver_id != auth()->id()) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $trip->delete();
@@ -107,7 +107,7 @@ class TripController extends Controller
       $trip = Trip::withTrashed()->findOrFail($request->id);
 
       if ($trip->driver_id != auth()->id()) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $trip->restore();

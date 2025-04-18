@@ -19,6 +19,7 @@
             <table class="table" id="laravel_datatable">
                 <thead>
                     <tr>
+                      {{-- <th>#</th> --}}
                         <th>{{ __("payment.table.id") }}</th>
                         <th>{{ __("payment.table.user") }}</th>
                         <th>{{ __("payment.table.amount") }}</th>
@@ -71,7 +72,8 @@
                             name: 'id',
                             render: function(data) {
                                 return `#${data}`;
-                            }
+                            },
+                            orderable:false
                         },
 
                         {
@@ -125,7 +127,8 @@
                         {
                             data: 'action',
                             name: 'action',
-                            searchable: false
+                            searchable: false,
+                            orderable:false
                         }
 
                     ]

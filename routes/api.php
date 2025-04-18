@@ -51,10 +51,6 @@ Route::prefix('v1')->group(function () {
     Route::get('/delete', [AccountController::class, 'delete']);
   });
 
-  Route::prefix('driver')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
-    Route::post('/nearby', [UserController::class, 'nearby']);
-  });
-
   #truck routes
   Route::prefix('truck')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
     Route::get('/get', [TruckController::class, 'get']);
@@ -67,53 +63,6 @@ Route::prefix('v1')->group(function () {
     Route::post('/create', [TruckImageController::class, 'create']);
     Route::post('/delete', [TruckImageController::class, 'delete']);
 
-  });
-
-  #trip routes
-  Route::prefix('trip')->middleware('auth:sanctum')->group(function () {
-    Route::post('/get', [TripController::class, 'get']);
-    Route::middleware('api.role:driver')->group(function () {
-      Route::post('/create', [TripController::class, 'create']);
-      Route::post('/update', [TripController::class, 'update']);
-      Route::post('/delete', [TripController::class, 'delete']);
-      Route::post('/restore', [TripController::class, 'restore']);
-    });
-  });
-
-  #shipment routes
-  Route::prefix('shipment')->middleware('auth:sanctum')->group(function () {
-    Route::post('/get', [ShipmentController::class, 'get']);
-    Route::post('/update', [ShipmentController::class, 'update']);
-    Route::middleware('api.role:renter')->group(function () {
-      Route::post('/create', [ShipmentController::class, 'create']);
-      Route::post('/delete', [ShipmentController::class, 'delete']);
-      Route::post('/restore', [ShipmentController::class, 'restore']);
-    });
-  });
-
-  #order routes
-  Route::prefix('order')->middleware('auth:sanctum')->group(function () {
-    Route::post('/create', [OrderController::class, 'create']);
-    Route::post('/update', [OrderController::class, 'update']);
-    Route::post('/delete', [OrderController::class, 'delete']);
-    Route::post('/get', [OrderController::class, 'get']);
-  });
-
-  #favorite routes
-  Route::prefix('favorite')->middleware('auth:sanctum')->group(function () {
-    Route::post('/toggle', [FavoriteController::class, 'toggle']);
-    Route::get('/get', [FavoriteController::class, 'get']);
-  });
-
-  #review routes
-  Route::prefix('review')->middleware('auth:sanctum')->group(function () {
-    Route::post('/get', [ReviewController::class, 'get']);
-    Route::middleware('api.role:renter')->group(function () {
-      Route::post('/create', [ReviewController::class, 'create']);
-      Route::post('/update', [ReviewController::class, 'update']);
-      Route::post('/delete', [ReviewController::class, 'delete']);
-      Route::post('/restore', [ReviewController::class, 'restore']);
-    });
   });
 
   #wallet routes
@@ -141,7 +90,6 @@ Route::prefix('v1')->group(function () {
 
   #payment routes
   Route::prefix('payment')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
-    Route::post('/update', [PaymentController::class, 'update']);
     Route::post('/get', [PaymentController::class, 'get']);
   });
 
@@ -154,6 +102,61 @@ Route::prefix('v1')->group(function () {
   Route::post('shipment/type/get', [ShipmentTypeController::class, 'get']);
   Route::post('wilaya/get', [WilayaController::class, 'get']);
   Route::post('price/get', [SettingController::class, 'distance_price']);
+
+  Route::middleware(['api.status'])->group(function () {
+
+    Route::prefix('driver')->middleware(['auth:sanctum', 'api.role:driver'])->group(function () {
+      Route::post('/nearby', [UserController::class, 'nearby']);
+    });
+
+    #trip routes
+    Route::prefix('trip')->middleware('auth:sanctum')->group(function () {
+      Route::post('/get', [TripController::class, 'get']);
+      Route::middleware('api.role:driver')->group(function () {
+        Route::post('/create', [TripController::class, 'create']);
+        Route::post('/update', [TripController::class, 'update']);
+        Route::post('/delete', [TripController::class, 'delete']);
+        Route::post('/restore', [TripController::class, 'restore']);
+      });
+    });
+
+    #shipment routes
+    Route::prefix('shipment')->middleware('auth:sanctum')->group(function () {
+      Route::post('/get', [ShipmentController::class, 'get']);
+      Route::post('/update', [ShipmentController::class, 'update']);
+      Route::middleware('api.role:renter')->group(function () {
+        Route::post('/create', [ShipmentController::class, 'create']);
+        Route::post('/delete', [ShipmentController::class, 'delete']);
+        Route::post('/restore', [ShipmentController::class, 'restore']);
+      });
+    });
+
+    #order routes
+    Route::prefix('order')->middleware('auth:sanctum')->group(function () {
+      Route::post('/create', [OrderController::class, 'create']);
+      Route::post('/update', [OrderController::class, 'update']);
+      Route::post('/delete', [OrderController::class, 'delete']);
+      Route::post('/get', [OrderController::class, 'get']);
+    });
+
+    #favorite routes
+    Route::prefix('favorite')->middleware('auth:sanctum')->group(function () {
+      Route::post('/toggle', [FavoriteController::class, 'toggle']);
+      Route::get('/get', [FavoriteController::class, 'get']);
+    });
+
+    #review routes
+    Route::prefix('review')->middleware('auth:sanctum')->group(function () {
+      Route::post('/get', [ReviewController::class, 'get']);
+      Route::middleware('api.role:renter')->group(function () {
+        Route::post('/create', [ReviewController::class, 'create']);
+        Route::post('/update', [ReviewController::class, 'update']);
+        Route::post('/delete', [ReviewController::class, 'delete']);
+        Route::post('/restore', [ReviewController::class, 'restore']);
+      });
+    });
+  });
+
 });
 
 

@@ -87,7 +87,8 @@
                         name: 'id',
                         render: function(data) {
                             return `#${data}`;
-                        }
+                        },
+                        orderable: false
                     },
                     {
                         data: 'driver',
@@ -136,7 +137,8 @@
                     {
                         data: 'action',
                         name: 'action',
-                        searchable: false
+                        searchable: false,
+                        orderable: false
                     }
                 ]
             });

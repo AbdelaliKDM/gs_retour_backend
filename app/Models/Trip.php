@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Exception;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Trip extends Model
 {
-  use HasFactory, SoftDeletes, SoftCascadeTrait;
+  use HasFactory, SoftDeletes, SoftCascadeTrait, BelongsToThrough;
+
   protected $fillable = [
     'driver_id',
     'truck_id',
@@ -25,9 +26,17 @@ class Trip extends Model
     'distance',
     'starts_at'
   ];
+
   protected $softCascade = ['statuses', 'orders'];
 
-  protected $casts = ['starts_at' => 'datetime'];
+  protected $casts = [
+    'starts_at' => 'datetime',
+    'distance' => 'double',
+    'starting_point_longitude' => 'double',
+    'starting_point_latitude' => 'double',
+    'arrival_point_longitude' => 'double',
+    'arrival_point_latitude' => 'double',
+  ];
 
   public function getIsFavoredAttribute()
   {

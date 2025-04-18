@@ -20,24 +20,25 @@ class TruckImageController extends Controller
   public function create(Request $request)
   {
     $this->validateRequest($request, [
-      'image' => 'required|mimetypes:image/*'
+      'images' => 'required|array',
+      'images.*' => 'mimetypes:image/*'
     ]);
 
     try {
 
       $truck = auth()->user()->truck;
 
-      $truck_image = TruckImage::create(['truck_id' => $truck->id]);
+      foreach ($request->images as $image) {
+        $images[] = [
+          'truck_id' => $truck->id,
+          'path' => $this->handleFileUpload($image, null, '/uploads/trucks/images'),
+          'created_at' => now(),
+          'updated_at' => now(),
+        ];
+      }
 
-      $truck_image->path = $this->handleFileUpload(
-        $request->file('image'),
-        null,
-        '/uploads/trucks/images'
-      );
-
-      $truck_image->save();
-
-      return $this->successResponse(data: new TruckImageResource($truck_image));
+      TruckImage::insert($images);
+      return $this->successResponse();
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());

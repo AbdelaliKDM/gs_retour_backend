@@ -26,6 +26,10 @@ class Notice extends Model
 
   protected $softCascade = ['notifications'];
 
+  protected $casts = [
+    'type' => 'integer',
+    'priority' => 'integer',
+  ];
 
   public function notifications()
   {

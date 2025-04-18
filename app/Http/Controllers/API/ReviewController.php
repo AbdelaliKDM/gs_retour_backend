@@ -71,7 +71,7 @@ class ReviewController extends Controller
       $review = Review::find($request->id);
 
       if (auth()->id() != $review->user_id) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $review->update($request->all());
@@ -90,7 +90,7 @@ class ReviewController extends Controller
       $review = Review::findOrFail($request->id);
 
       if ($review->user_id != auth()->id()) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $review->delete();
@@ -108,7 +108,7 @@ class ReviewController extends Controller
       $review = Review::withTrashed()->findOrFail($request->id);
 
       if ($review->user_id != auth()->id()) {
-        throw new Exception('Unauthorized action.');
+        throw new Exception('Not allowed',405);
       }
 
       $review->restore();

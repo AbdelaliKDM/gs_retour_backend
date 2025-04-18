@@ -23,7 +23,7 @@ class ApiStatusMiddleware
       if ($userRole != 'active') {
         abort(response()->json([
           'status' => 0,
-          'message' => 'Inactive account.'
+          'message' => 'Forbidden'
         ], 403));
       }
 

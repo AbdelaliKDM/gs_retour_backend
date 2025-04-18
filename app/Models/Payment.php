@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use Exception;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Payment extends Model
 {
@@ -19,10 +18,14 @@ class Payment extends Model
     'status',
     'account',
     'receipt',
-    'paid_at'
+    'paid_at',
+    'created_at'
   ];
 
-  protected $casts = ['paid_at' => 'datetime'];
+  protected $casts = [
+    'amount' => 'decimal:2',
+    'paid_at' => 'datetime',
+  ];
 
   public function payable()
   {
