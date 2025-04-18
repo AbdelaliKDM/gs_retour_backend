@@ -19,8 +19,8 @@ class Transaction extends Model
   ];
 
   protected $casts = [
-    'total_amount' => 'decimal:2',
-    'tax_amount' => 'decimal:2',
+    'total_amount' => 'double',
+    'tax_amount' => 'double',
   ];
 
   public function trip()

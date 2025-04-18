@@ -95,11 +95,11 @@ class OrderController extends Controller
         }
 
         if (auth()->id() != $order->created_by) {
-          throw new Exception('Prohibited action.');
+          throw new Exception('Only the user who created this order can delete it.');
         }
 
         if ($order->status != 'pending') {
-          throw new Exception('Prohibited action.');
+          throw new Exception('Orders can only be deleted while they are in pending status.');
         }
 
 

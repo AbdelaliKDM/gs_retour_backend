@@ -17,7 +17,7 @@ class Wallet extends Model
   ];
 
   protected $casts = [
-    'balance' => 'decimal:2',
+    'balance' => 'double',
   ];
 
   public function getChargesAttribute(){

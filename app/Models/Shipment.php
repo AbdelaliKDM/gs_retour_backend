@@ -35,7 +35,7 @@ class Shipment extends Model
   protected $casts = [
     'shipping_date' => 'datetime',
     'distance' => 'double',
-    'price' => 'decimal:2',
+    'price' => 'double',
     'weight' => 'double',
     'starting_point_longitude' => 'double',
     'starting_point_latitude' => 'double',
