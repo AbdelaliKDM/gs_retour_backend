@@ -20,8 +20,8 @@ class InvoiceInfoResource extends JsonResource
         'year' => $this->year,
         'total_amount' => $this->total_amount,
         'tax_amount' => $this->tax_amount,
-        'total_amount_money'=> number_format($this->total_amount) . __('app.currencies.dzd'),
-        'tax_amount_money'=> number_format($this->tax_amount) . __('app.currencies.dzd'),
+        'total_amount_money'=> $this->total_amount . __('app.currencies.dzd'),
+        'tax_amount_money'=> $this->tax_amount . __('app.currencies.dzd'),
         'status' => $this->status
       ];
     }

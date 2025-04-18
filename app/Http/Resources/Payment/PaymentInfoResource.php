@@ -23,7 +23,7 @@ class PaymentInfoResource extends JsonResource
         'payment_method' => $this->payment_method,
         'status' => $this->status,
         'type' => $this->type,
-        'amount_money'=> number_format($this->amount) . __('app.currencies.dzd'),
+        'amount_money'=> $this->amount . __('app.currencies.dzd'),
         'status_name' => __("payment.statuses.{$this->status}"),
         'type_name' => __("payment.types.{$this->type}"),
         'payment_method_name' => __("payment.payment_methods.{$this->payment_method}"),
