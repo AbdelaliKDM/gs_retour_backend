@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TruckType extends Model
 {
-    use HasFactory, SoftDeletes, SoftCascadeTrait, BelongsToThrough;
+    use HasFactory, SoftDeletes, SoftCascadeTrait;
 
     protected $fillable = [
         'subcategory_id',
@@ -48,12 +47,12 @@ class TruckType extends Model
       };
     }
 
-    public function subcategory(){
-      return $this->belongsTo(Subcategory::class);
+    public function getCategoryAttribute(){
+      return $this->subcategory->category;
     }
 
-    public function category(){
-      return $this->belongsToThrough(Category::class, Subcategory::class);
+    public function subcategory(){
+      return $this->belongsTo(Subcategory::class);
     }
 
     public function trucks(){

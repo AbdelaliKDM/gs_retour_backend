@@ -4,7 +4,7 @@ return [
   'title' => [
     'renter' => 'المستأجرين',
     'driver' => 'السائقين',
-    'incative' => 'غير نشط',
+    'inactive' => 'غير نشط',
     'suspended' => 'معلق',
   ],
   'breadcrumb' => 'المستخدمين',

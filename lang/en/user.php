@@ -4,7 +4,7 @@ return [
   'title' => [
     'renter' => 'Renters',
     'driver' => 'Drivers',
-    'incative' => 'Inactive',
+    'inactive' => 'Inactive',
     'suspended' => 'Suspended',
   ],
   'breadcrumb' => 'Users',

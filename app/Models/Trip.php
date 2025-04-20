@@ -5,7 +5,6 @@ namespace App\Models;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Trip extends Model
 {
-  use HasFactory, SoftDeletes, SoftCascadeTrait, BelongsToThrough;
+  use HasFactory, SoftDeletes, SoftCascadeTrait;
 
   protected $fillable = [
     'driver_id',

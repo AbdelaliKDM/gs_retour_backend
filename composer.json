@@ -16,7 +16,6 @@
     "laravel/framework": "^11.0",
     "laravel/sanctum": "^4.0",
     "laravel/tinker": "^2.9",
-    "staudenmeir/belongs-to-through": "^2.16",
     "yajra/laravel-datatables": "^11.1"
   },
   "require-dev": {

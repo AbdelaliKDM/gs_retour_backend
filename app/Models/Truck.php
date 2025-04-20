@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Truck extends Model
 {
-  use HasFactory, SoftDeletes, BelongsToThrough;
+  use HasFactory, SoftDeletes;
 
   protected $fillable = [
     'user_id',
@@ -60,6 +59,16 @@ class Truck extends Model
       ? Storage::disk('upload')->url($this->agency_document)
       : null;
   }
+
+  public function getSubcategoryAttribute()
+  {
+    return $this->truckType->subcategory;
+  }
+
+  public function getCategoryAttribute()
+  {
+    return $this->subcategory->category;
+  }
   public function user()
   {
     return $this->belongsTo(User::class);
@@ -68,16 +77,6 @@ class Truck extends Model
   public function truckType()
   {
     return $this->belongsTo(TruckType::class);
-  }
-
-  public function subcategory()
-  {
-    return $this->belongsToThrough(Subcategory::class, TruckType::class);
-  }
-
-  public function category()
-  {
-    return $this->belongsToThrough(Category::class, [Subcategory::class, TruckType::class]);
   }
 
   public function truckImages()

@@ -4,7 +4,7 @@ return [
   'title' => [
     'renter' => 'Locataires',
     'driver' => 'Chauffeurs',
-    'incative' => 'Inactifs',
+    'inactive' => 'Inactifs',
     'suspended' => 'Suspendus',
   ],
   'breadcrumb' => 'Utilisateurs',

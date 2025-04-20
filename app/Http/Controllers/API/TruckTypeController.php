@@ -31,7 +31,7 @@ class TruckTypeController extends Controller
         return $this->successResponse(data: new TruckTypeResource($truck_type));
       }
 
-      $truck_types = TruckType::latest();
+      $truck_types = TruckType::latest()->with('subcategory','subcategory.category');
 
       if ($request->has('category_id')) {
         $truck_types = $truck_types->whereHas('subcategory', function ($query) use ($request) {
