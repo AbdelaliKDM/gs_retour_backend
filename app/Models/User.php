@@ -211,7 +211,7 @@ class User extends Authenticatable
         'suspended_for' => $suspended_for
       ]);
 
-      $notice = Notice::ProfileNotice($newStatus, $reason ?? 'default');
+      $notice = Notice::ProfileNotice($newStatus, $suspended_for ?? 'default');
 
       $this->notify($notice);
     }
