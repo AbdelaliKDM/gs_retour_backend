@@ -21,4 +21,4 @@ use Illuminate\Support\Facades\Artisan;
 
 Schedule::job(new SuspendDriversWithUnpaidInvoices())->daily();
 
-Artisan::command('queue:restart', function() {})->daily();
+Artisan::command('queue:restart', function() {})->hourly();
