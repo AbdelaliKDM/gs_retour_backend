@@ -185,6 +185,14 @@ class TruckController extends Controller
 
   public function get(Request $request)
   {
-    return $this->successResponse(data: new TruckResource($request->user()->truck));
+
+    $truck = auth()->user()->truck;
+
+    if($truck){
+      return $this->successResponse(data: new TruckResource($truck));
+    }else{
+      return $this->errorResponse('User has no truck', 406);
+    }
+
   }
 }
