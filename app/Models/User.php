@@ -205,17 +205,16 @@ class User extends Authenticatable
       'suspended' => ['active', 'inactive'],
     ];
 
-    if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
-      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.", 406);
+    if (in_array($newStatus, $allowedTransitions[$currentStatus])) {
+      $this->update([
+        'status' => $newStatus,
+        'suspended_for' => $suspended_for
+      ]);
+
+      $notice = Notice::ProfileNotice($newStatus, $reason ?? 'default');
+
+      $this->notify($notice);
     }
 
-    $this->update([
-      'status' => $newStatus,
-      'suspended_for' => $suspended_for
-    ]);
-
-    $notice = Notice::ProfileNotice($newStatus, $reason ?? 'default');
-
-    $this->notify($notice);
   }
 }
