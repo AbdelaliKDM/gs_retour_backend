@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Exception;
 use App\Traits\Firebase;
-use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
