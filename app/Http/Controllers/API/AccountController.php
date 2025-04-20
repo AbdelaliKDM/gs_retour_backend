@@ -63,6 +63,10 @@ class AccountController extends Controller
 
         $user->save();
 
+        if($request->hasAny('email','phone','id_card','id_card_selfie')){
+          $user->updateStatus('inactive','profile');
+        }
+
         return $this->successResponse(data: new UserResource($user));
 
       } catch (Exception $e) {

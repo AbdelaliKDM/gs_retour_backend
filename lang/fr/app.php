@@ -5,6 +5,8 @@ return [
   'renters' => 'Locataires',
   'drivers' => 'Chauffeurs',
   'users' => 'Utilisateurs',
+  'inactive_users' => 'Utilisateurs inactifs',
+  'suspended_users' => 'Utilisateurs suspendus',
   'categories' => 'Catégories',
   'subcategories' => 'Sous-catégories',
   'trucks' => 'Camions',

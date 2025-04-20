@@ -26,10 +26,10 @@ class TruckController extends Controller
       DB::beginTransaction();
 
       $user = auth()->user();
-      $user->update([
+      /* $user->update([
         'role' => 'driver',
         'status' => 'inactive'
-      ]);
+      ]); */
 
       $truck = $user->truck()->create([
         'user_id' => $user->id,
@@ -89,6 +89,9 @@ class TruckController extends Controller
 
         TruckImage::insert($images);
       }
+
+
+      $user->updateStatus('inactive','truck');
 
       DB::commit();
 
@@ -165,6 +168,10 @@ class TruckController extends Controller
       }
 
       $truck->save();
+
+      if($request->hasAny(Setting::required_truck_fields())) {
+        $user->updateStatus('inactive','truck');
+      }
 
       DB::commit();
 

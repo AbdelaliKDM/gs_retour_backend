@@ -80,11 +80,15 @@ class InvoiceController extends Controller
         $wallet->balance -= $payment->amount;
         $payment->save();
         $wallet->save();
+
+        $user->updateStatus('active', null);
       }else{
         $payment->status = 'failed';
         $payment->save();
         throw new Exception('Unsufficiant balance.', 406);
       }
+    }else{
+      $user->updateStatus('inactive', 'invoice');
     }
 
       return $this->successResponse(data:new PaymentResource($payment));

@@ -4,13 +4,15 @@ return [
   'title' => [
     'renter' => 'Renters',
     'driver' => 'Drivers',
-    'user' => 'Unselected'
+    'incative' => 'Inactive',
+    'suspended' => 'Suspended',
   ],
   'breadcrumb' => 'Users',
   'browse' => [
     'renter' => 'Renters',
     'driver' => 'Drivers',
-    'user' => 'Unselected'
+    'inactive' => 'Inactive',
+   'suspended' => 'Suspended'
   ],
   'actions' => [
     'create' => 'Create',
@@ -25,7 +27,8 @@ return [
     'header' => [
       'renter' => 'Renters table',
       'driver' => 'Drivers table',
-      'user' => 'Unselected users table'
+      'inactive' => 'Inactive users table',
+      'suspended' => 'Suspended users table'
     ],
     'name' => 'Name',
     'email' => 'Email',

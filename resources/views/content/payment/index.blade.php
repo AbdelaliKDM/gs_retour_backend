@@ -412,8 +412,9 @@
                                     icon: 'success',
                                     confirmButtonText: 'Ok'
                                 }).then((result) => {
-                                    $('#laravel_datatable').DataTable().ajax
-                                        .reload();
+                                    /* $('#laravel_datatable').DataTable().ajax
+                                        .reload(); */
+                                        location.reload();
                                 });
                             } else {
                                 Swal.fire(
@@ -464,8 +465,9 @@
                                     icon: 'success',
                                     confirmButtonText: 'Ok'
                                 }).then((result) => {
-                                    $('#laravel_datatable').DataTable().ajax
-                                        .reload();
+                                    /* $('#laravel_datatable').DataTable().ajax
+                                        .reload(); */
+                                        location.reload();
                                 });
                             } else {
                                 Swal.fire(

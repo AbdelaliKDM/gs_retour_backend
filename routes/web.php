@@ -69,8 +69,8 @@ Route::middleware(['auth:sanctum', 'api.role:admin'])->group(function () {
 
   Route::name('user.')->group(function () {
     Route::get('user/index', [UserController::class, 'index'])->name('user');
-    Route::get('renter/index', [UserController::class, 'index'])->name('renter');
-    Route::get('driver/index', [UserController::class, 'index'])->name('driver');
+    //Route::get('renter/index', [UserController::class, 'index'])->name('renter');
+    //Route::get('driver/index', [UserController::class, 'index'])->name('driver');
     Route::get('user/{id}/info', [UserController::class, 'info'])->name('info');
     /*     Route::get('renter/{id}/info', [UserController::class, 'info'])->name('info');
         Route::get('driver/{id}/info', [UserController::class, 'info'])->name('info'); */

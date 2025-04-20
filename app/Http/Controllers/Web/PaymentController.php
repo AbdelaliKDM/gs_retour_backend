@@ -20,7 +20,7 @@ class PaymentController extends Controller
   public function index(Request $request)
   {
     return view("content.payment.index")->with([
-      'type' => explode('.',$request->route()->getName())[1]
+      'type' => explode('.', $request->route()->getName())[1]
     ]);
   }
 
@@ -29,17 +29,17 @@ class PaymentController extends Controller
     $payment = Payment::with('payable', 'payable.user')->findOrFail($id);
 
     return view("content.payment.info")->with([
-      'payment'=> $payment,
+      'payment' => $payment,
     ]);
   }
 
   public function list(Request $request)
   {
 
-    $data = Payment::orderBy('status','ASC')->orderBy('updated_at','DESC');
+    $data = Payment::orderBy('status', 'ASC')->orderBy('updated_at', 'DESC');
 
-//dd($data->get());
-    $type = match($request->type){
+    //dd($data->get());
+    $type = match ($request->type) {
       'wallet' => Wallet::class,
       'invoice' => Invoice::class,
       default => null
@@ -109,14 +109,22 @@ class PaymentController extends Controller
 
     try {
       $payment = Payment::findOrFail($request->id);
+      $user = $payment->payable->user;
 
-      if($payment->payment_method == 'wallet'){
+      if ($payment->payment_method == 'wallet') {
         throw new Exception('The payment method is wallet.', 406);
       }
 
       if ($request->has('status')) {
-        if($request->has('confirmed')){
+        if ($request->has('confirmed')) {
           $payment->updateStatus($request->status);
+
+          if ($payment->type == 'invoice') {
+            $user->updateStatus(
+              $payment->status == 'paid' ? 'active' : 'suspended',
+              $payment->status == 'paid' ? null : 'invoice'
+            );
+          }
         }
       }
 
@@ -139,13 +147,13 @@ class PaymentController extends Controller
 
       $payment = Payment::findOrFail($request->id);
 
-      if($request->has('confirmed')){
+      if ($request->has('confirmed')) {
 
         $payment->delete();
 
         return $this->successResponse();
 
-      }else{
+      } else {
 
         return $this->successResponse(data: []);
       }

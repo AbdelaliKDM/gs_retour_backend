@@ -193,15 +193,27 @@ class User extends Authenticatable
 
   }
 
-  public function updateStatus($status, $suspended_for)
+  public function updateStatus($newStatus, $suspended_for)
   {
 
+    $currentStatus = $this->status;
+
+    $allowedTransitions = [
+      'active' => ['inactive', 'suspended'],
+      'inactive' => ['active', 'suspended'],
+      'suspended' => ['active', 'inactive'],
+    ];
+
+    if (!in_array($newStatus, $allowedTransitions[$currentStatus])) {
+      throw new Exception("Cannot change status from {$currentStatus} to {$newStatus}.", 406);
+    }
+
     $this->update([
-      'status' => $status,
+      'status' => $newStatus,
       'suspended_for' => $suspended_for
     ]);
 
-    $notice = Notice::ProfileNotice($status, $reason ?? 'default');
+    $notice = Notice::ProfileNotice($newStatus, $reason ?? 'default');
 
     $this->notify($notice);
   }

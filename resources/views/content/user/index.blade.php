@@ -1,12 +1,12 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', __("user.title.{$role}"))
+@section('title', __("user.title.{$type}"))
 
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
         <div class="col-md-auto">
-            <span class="text-muted fw-light">{{ __("user.breadcrumb") }} /</span> {{ __("user.browse.{$role}") }}
+            <span class="text-muted fw-light">{{ __("user.breadcrumb") }} /</span> {{ __("user.browse.{$type}") }}
         </div>
         {{-- <div class="col-md-auto">
             <button type="button" class="btn btn-primary" id="create">
@@ -19,7 +19,7 @@
     <div class="card">
         <div class="table-responsive text-nowrap">
             <div class="table-header row justify-content-between">
-                <h5 class="col-md-auto">{{ __("user.table.header.{$role}") }}</h5>
+                <h5 class="col-md-auto">{{ __("user.table.header.{$type}") }}</h5>
             </div>
             <table class="table" id="laravel_datatable">
                 <thead>
@@ -66,7 +66,8 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         data: {
-                            role: "{{ $role }}"
+                            role: "{{ request('role') }}",
+                            status: "{{ request('status') }}"
                         },
                         type: 'POST',
                     },
@@ -418,8 +419,9 @@
                                     icon: 'success',
                                     confirmButtonText: 'Ok'
                                 }).then((result) => {
-                                    $('#laravel_datatable').DataTable().ajax
-                                        .reload();
+                                    /* $('#laravel_datatable').DataTable().ajax
+                                        .reload(); */
+                                        location.reload();
                                 });
                             } else {
                                 Swal.fire(
@@ -470,8 +472,9 @@
                                     icon: 'success',
                                     confirmButtonText: 'Ok'
                                 }).then((result) => {
-                                    $('#laravel_datatable').DataTable().ajax
-                                        .reload();
+                                    /* $('#laravel_datatable').DataTable().ajax
+                                        .reload(); */
+                                        location.reload();
                                 });
                             } else {
                                 Swal.fire(

@@ -23,9 +23,21 @@ class UserController extends Controller
   use ApiResponse, Firebase, MiscHelper;
   public function index(Request $request)
   {
-    return view("content.user.index")->with([
-      'role' => explode('.',$request->route()->getName())[1]
-    ]);
+
+    try{
+      $request->validate([
+        'role' => 'missing_with:status|in:driver,renter',
+        'status' =>'missing_with:role|in:inactive,suspended',
+      ]);
+
+      return view("content.user.index")->with([
+        'type' => $request->role ?? $request->status,
+      ]);
+    }catch (Exception $e){
+      return redirect()->route('pages-misc-error');
+    }
+
+
   }
 
   public function info($id)
@@ -45,11 +57,11 @@ class UserController extends Controller
 
     $data = User::latest()->whereNot('id', auth()->id());
 
-    if(in_array($request->role, ['renter','driver','admin'])){
+    if($request->role){
       $data = $data->where('role', $request->role);
-    }else{
-      $data = $data->whereNull('role');
     }
+
+    $data = $data->where('status', $request->status ?? 'active');
 
     $data = $data->get();
 
@@ -66,10 +78,11 @@ class UserController extends Controller
 
         $btn .= '<a href="' . url("user/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("user.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
-        if ($row->status == 'active') {
-          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("user.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
-        } else {
-          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("user.actions.activate") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+        if ($row->status != 'suspended') {
+          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("user.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+        }
+        if ($row->status != 'active') {
+          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("user.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;

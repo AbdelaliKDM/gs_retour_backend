@@ -5,6 +5,8 @@ return [
   'renters' => 'Renters',
   'drivers' => 'Drivers',
   'users' => 'Users',
+  'inactive_users' => 'Inactive users',
+  'suspended_users' => 'Suspended users',
   'categories' => 'Categories',
   'subcategories' => 'Subcategories',
   'trucks' => 'Trucks',

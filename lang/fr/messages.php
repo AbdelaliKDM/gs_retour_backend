@@ -9,7 +9,7 @@ return [
         'content' => 'Votre profil est maintenant actif et entièrement fonctionnel.',
       ],
       'suspended' => [
-        'default' => [
+        'admin' => [
           'title' => 'Profil Suspendu par un Administrateur',
           'content' => 'Votre profil a été suspendu par un administrateur. Veuillez contacter le support pour plus d\'informations.',
         ],
@@ -25,6 +25,20 @@ return [
           'title' => 'Profil Suspendu - Informations sur le Véhicule Manquantes',
           'content' => 'Votre profil est suspendu en raison d\'informations incomplètes sur le véhicule. Veuillez fournir les détails requis du véhicule pour réactiver votre compte.',
         ],
+        'inactive' => [
+            'profile' => [
+              'title' => 'Profil Inactif - En Attente d\'Approbation',
+              'content' => 'Votre compte est temporairement inactif jusqu\'à ce que l\'administrateur approuve vos informations de profil mises à jour. Merci pour votre patience.',
+            ],
+            'truck' => [
+              'title' => 'Profil Inactif - Informations du Camion en Attente',
+              'content' => 'Votre compte est temporairement inactif jusqu\'à ce que l\'administrateur approuve les informations mises à jour de votre camion. Merci pour votre patience.',
+            ],
+            'payment' => [
+              'title' => 'Profil Inactif - Vérification de Paiement',
+              'content' => 'Votre compte est temporairement inactif jusqu\'à ce que l\'administrateur vérifie votre paiement récent. Merci pour votre patience.',
+            ],
+          ],
       ],
     ],
 

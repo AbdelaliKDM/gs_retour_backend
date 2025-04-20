@@ -34,6 +34,7 @@ class AuthController extends Controller
           'name' => $firebase_user->displayName ?? 'user#' . uuid_create(),
           'phone' => $firebase_user->phoneNumber,
           'image' => $firebase_user->photoUrl,
+          'status' => 'suspended'
         ]
       )->refresh();
 

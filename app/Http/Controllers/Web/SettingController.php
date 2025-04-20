@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Jobs\SuspendDriversWithMissingDocuments;
 
 class SettingController extends Controller
 {
@@ -22,8 +23,19 @@ class SettingController extends Controller
   }
   public function update(Request $request)
   {
+
+    $current = Setting::required_truck_fields();
+
+    $new = array_keys ($request->all(),'required');
+
+    $changed = array_diff($new, $current);
+
     foreach ($request->all() as $key => $value) {
       Setting::updateOrInsert(['name' => $key], ['value' => $value]);
+    }
+
+    if (!empty($changed)) {
+      SuspendDriversWithMissingDocuments::dispatch($changed);
     }
 
     return $this->successResponse();

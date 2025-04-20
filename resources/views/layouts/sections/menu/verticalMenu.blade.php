@@ -1,76 +1,183 @@
+@php
+    $pending_payments = DB::table('payments')->where('status', 'pending')->count();
+    $inactive_users = DB::table('users')->where('status', 'inactive')->count();
+@endphp
+
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
 
-  <!-- ! Hide app brand if navbar-full -->
-  <div class="app-brand demo">
-    <a href="{{url('/')}}" class="app-brand-link">
-      <img src="{{ asset((session('theme') ?? 'light').'.png')}}" class="w-auto h-px-40">
-      {{-- <span class="app-brand-logo demo">
-        @include('_partials.macros',["width"=>25,"withbg"=>'#696cff'])
-      </span>
-      <span class="app-brand-text demo menu-text fw-bold ms-2">{{config('variables.templateName')}}</span> --}}
-    </a>
+    <div class="app-brand demo">
+        <a href="{{ route('dashboard-analytics') }}" class="app-brand-link"></a>
 
-    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-autod-block d-xl-none">
-      <i class="bx bx-chevron-left bx-sm align-middle"></i>
-    </a>
-  </div>
+        <img src="{{ asset((session('theme') ?? 'light') . '.png') }}" class="w-auto h-px-40">
 
-  <div class="menu-inner-shadow"></div>
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-autod-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
 
-  <ul class="menu-inner py-1">
-    @foreach ($menuData[0]->menu as $menu)
+    <div class="menu-divider mt-0"></div>
 
-    {{-- adding active and open class if child is active --}}
+    <div class="menu-inner-shadow"></div>
 
-    {{-- menu headers --}}
-    @if (isset($menu->menuHeader))
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text">{{ $menu->menuHeader }}</span>
-    </li>
+    <ul class="menu-inner py-1">
 
-    @else
+        <li class="menu-item {{ request()->is('/') ? 'active' : '' }}">
+            <a href="/" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div>{{ __('app.dashboard') }}</div>
+            </a>
+        </li>
 
-    {{-- active menu method --}}
-    @php
-    $activeClass = null;
-    $currentRouteName = Route::currentRouteName();
+        <li class="menu-item {{ request()->is('user/*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                @if ($inactive_users)
+                    <i class="menu-icon tf-icons bx bx-user bx-tada bx-rotate-180" style="color:#ff8001"></i>
+                @else
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                @endif
+                <div>{{ __('app.users') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('user/index') && request('role') == 'renter' ? 'active' : '' }}">
+                    <a href="/user/index?role=renter" class="menu-link">
+                        <div>{{ __('app.renters') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('user/index') && request('role') == 'driver' ? 'active' : '' }}">
+                    <a href="/user/index?role=driver" class="menu-link">
+                        <div>{{ __('app.drivers') }}</div>
+                    </a>
+                </li>
+                <li
+                    class="menu-item {{ request()->is('user/index') && request('status') == 'inactive' ? 'active' : '' }}">
+                    <a href="/user/index?status=inactive" class="menu-link">
+                        <div>{{ __('app.inactive_users') }}</div>
+                    </a>
+                </li>
+                <li
+                    class="menu-item {{ request()->is('user/index') && request('status') == 'suspended' ? 'active' : '' }}">
+                    <a href="/user/index?status=suspended" class="menu-link">
+                        <div>{{ __('app.suspended_users') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
-    if ($currentRouteName === $menu->slug) {
-    $activeClass = 'active';
-    }
-    elseif (isset($menu->submenu)) {
-    if (gettype($menu->slug) === 'array') {
-    foreach($menu->slug as $slug){
-    if (str_contains($currentRouteName,$slug) and strpos($currentRouteName,$slug) === 0) {
-    $activeClass = 'active open';
-    }
-    }
-    }
-    else{
-    if (str_contains($currentRouteName,$menu->slug) and strpos($currentRouteName,$menu->slug) === 0) {
-    $activeClass = 'active open';
-    }
-    }
+        <li class="menu-item {{ request()->is('category/*') ? 'active' : '' }}">
+            <a href="/category/index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category"></i>
+                <div>{{ __('app.categories') }}</div>
+            </a>
+        </li>
 
-    }
-    @endphp
+        <li class="menu-item {{ request()->is('subcategory/*') ? 'active' : '' }}">
+            <a href="/subcategory/index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-category-alt"></i>
+                <div>{{ __('app.subcategories') }}</div>
+            </a>
+        </li>
 
-    {{-- main menu --}}
-    <li class="menu-item {{$activeClass}}">
-      <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0);' }}" class="{{ isset($menu->submenu) ? 'menu-link menu-toggle' : 'menu-link' }}" @if (isset($menu->target) and !empty($menu->target)) target="_blank" @endif>
-        @isset($menu->icon)
-        <i class="{{ $menu->icon }}"></i>
-        @endisset
-        <div>{{ isset($menu->name) ? __($menu->name) : '' }}</div>
-      </a>
+        <li class="menu-item {{ request()->is('truckType/*') ? 'active' : '' }}">
+            <a href="/truckType/index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bus"></i>
+                <div>{{ __('app.truckTypes') }}</div>
+            </a>
+        </li>
 
-      {{-- submenu --}}
-      @isset($menu->submenu)
-      @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
-      @endisset
-    </li>
-    @endif
-    @endforeach
-  </ul>
+        <li class="menu-item {{ request()->is('shipmentType/*') ? 'active' : '' }}">
+            <a href="/shipmentType/index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-package"></i>
+                <div>{{ __('app.shipmentTypes') }}</div>
+            </a>
+        </li>
 
+        <li class="menu-item {{ request()->is('trip/*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-trip"></i>
+                <div>{{ __('app.trips') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('trip/pending') ? 'active' : '' }}">
+                    <a href="/trip/pending" class="menu-link">
+                        <div>{{ __('app.pending_trips') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('trip/ongoing') ? 'active' : '' }}">
+                    <a href="/trip/ongoing" class="menu-link">
+                        <div>{{ __('app.ongoing_trips') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('trip/paused') ? 'active' : '' }}">
+                    <a href="/trip/paused" class="menu-link">
+                        <div>{{ __('app.paused_trips') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('trip/canceled') ? 'active' : '' }}">
+                    <a href="/trip/canceled" class="menu-link">
+                        <div>{{ __('app.canceled_trips') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('trip/completed') ? 'active' : '' }}">
+                    <a href="/trip/completed" class="menu-link">
+                        <div>{{ __('app.completed_trips') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ request()->is('payment/*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              @if ($pending_payments)
+              <i class="menu-icon tf-icons bx bx-credit-card bx-tada bx-rotate-180" style="color:#ff8001"></i>
+              @else
+              <i class="menu-icon tf-icons bx bx-credit-card"></i>
+              @endif
+
+                <div>{{ __('app.payments') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('payment/wallet') ? 'active' : '' }}">
+                    <a href="/payment/wallet" class="menu-link">
+                        <div>{{ __('app.wallet_payments') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('payment/invoice') ? 'active' : '' }}">
+                    <a href="/payment/invoice" class="menu-link">
+                        <div>{{ __('app.invoice_payments') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item {{ request()->is('notice/*') ? 'active' : '' }}">
+            <a href="/notice/index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-bell"></i>
+                <div>{{ __('app.notices') }}</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->is('documentation/*') ? 'active open' : '' }}">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-info-square"></i>
+                <div>{{ __('app.documentation') }}</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('documentation/privacy_policy') ? 'active' : '' }}">
+                    <a href="/documentation/privacy_policy" class="menu-link">
+                        <div>{{ __('app.privacy_policy') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('documentation/about_app') ? 'active' : '' }}">
+                    <a href="/documentation/about_app" class="menu-link">
+                        <div>{{ __('app.about_app') }}</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('documentation/terms_of_use') ? 'active' : '' }}">
+                    <a href="/documentation/terms_of_use" class="menu-link">
+                        <div>{{ __('app.terms_of_use') }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
 </aside>

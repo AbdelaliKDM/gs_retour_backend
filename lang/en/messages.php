@@ -9,7 +9,7 @@ return [
         'content' => 'Your profile is now active and fully functional.',
       ],
       'suspended' => [
-        'default' => [
+        'admin' => [
           'title' => 'Profile Suspended by Administrator',
           'content' => 'Your profile has been suspended by an administrator. Please contact support for more information.',
         ],
@@ -24,6 +24,20 @@ return [
         'truck' => [
           'title' => 'Profile Suspended - Truck Information Missing',
           'content' => 'Your profile is suspended due to incomplete truck information. Please provide the required truck details to reactivate your account.',
+        ],
+      ],
+      'inactive' => [
+        'profile' => [
+          'title' => 'Profile Inactive - Pending Approval',
+          'content' => 'Your account is temporarily inactive until the administrator approves your updated profile information. Thank you for your patience.',
+        ],
+        'truck' => [
+          'title' => 'Profile Inactive - Truck Information Pending',
+          'content' => 'Your account is temporarily inactive until the administrator approves your updated truck information. Thank you for your patience.',
+        ],
+        'payment' => [
+          'title' => 'Profile Inactive - Payment Verification',
+          'content' => 'Your account is temporarily inactive until the administrator verifies your recent payment. Thank you for your patience.',
         ],
       ],
     ],

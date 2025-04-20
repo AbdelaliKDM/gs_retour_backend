@@ -4,13 +4,15 @@ return [
   'title' => [
     'renter' => 'Locataires',
     'driver' => 'Chauffeurs',
-    'user' => 'Non sélectionné'
+    'incative' => 'Inactifs',
+    'suspended' => 'Suspendus',
   ],
   'breadcrumb' => 'Utilisateurs',
   'browse' => [
     'renter' => 'Locataires',
     'driver' => 'Chauffeurs',
-    'user' => 'Non sélectionné'
+    'inactive' => 'Inactifs',
+    'suspended' => 'Suspendus'
   ],
   'actions' => [
     'create' => 'Créer',
@@ -25,7 +27,8 @@ return [
     'header' => [
       'renter' => 'Tableau des locataires',
       'driver' => 'Tableau des chauffeurs',
-      'user' => 'Tableau des utilisateurs non sélectionnés'
+      'inactive' => 'Tableau des utilisateurs inactifs',
+      'suspended' => 'Tableau des utilisateurs suspendus'
     ],
     'name' => 'Nom',
     'email' => 'Email',

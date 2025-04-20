@@ -5,6 +5,8 @@ return [
   'renters' => 'المستأجرون',
   'drivers' => 'السائقون',
   'users' => 'المستخدمون',
+  'inactive_users' => 'المستخدمون غير النشطون',
+  'suspended_users' => 'المستخدمون المعلقون',
   'categories' => 'الفئات',
   'subcategories' => 'الفئات الفرعية',
   'trucks' => 'الشاحنات',

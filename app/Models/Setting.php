@@ -36,4 +36,8 @@ class Setting extends Model
     public static function getTaxRatio(){
       return self::where('name','tax_ratio')->value('value') ?? 0;
     }
+
+    public static function required_truck_fields(){
+      return self::where('value','required')->pluck('name')->toArray();
+    }
 }
