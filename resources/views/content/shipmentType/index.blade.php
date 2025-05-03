@@ -50,7 +50,7 @@
             function load_data() {
                 //$.fn.dataTable.moment( 'YYYY-M-D' );
                 var table = $('#laravel_datatable').DataTable({
-                    language: {!! file_get_contents(base_path('lang/' . session('locale', 'en') . '/datatable.json')) !!},
+                    language: {{ Js::from(__('datatable')) }},
                     responsive: true,
                     processing: true,
                     serverSide: true,

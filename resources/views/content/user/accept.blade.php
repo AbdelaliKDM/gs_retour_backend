@@ -10,6 +10,7 @@
 
           <input type="hidden" name="id">
           <input type="hidden" name="status" value="active">
+          <input type="hidden" name="types[]">
 
           <div class="alert alert-teal mb-4">
             <h5 class="text-center">{{ __('user.accept.confirmation') }}</h5>

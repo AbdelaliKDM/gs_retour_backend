@@ -44,7 +44,7 @@
         </div>
 
         <div class="col-md-auto">
-            @if ($user->status == 'active')
+            {{-- @if ($user->status == 'active')
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#reject-modal"
                     data-id="{{ $user->id }}">
                     <i class="bx bx-x me-1"></i> {{ __('user.actions.reject') }}
@@ -54,7 +54,7 @@
                     data-id="{{ $user->id }}">
                     <i class="bx bx-check me-1"></i> {{ __('user.actions.accept') }}
                 </button>
-            @endif
+            @endif --}}
 
             <button type="button" class="btn btn-danger delete" data-id="{{ $user->id }}">
                 <i class="bx bx-trash me-1"></i> {{ __('user.actions.delete') }}
@@ -65,6 +65,23 @@
     <div class="row">
         <!-- User Profile Details -->
         <div class="col-xl-4 col-lg-5 col-md-5">
+            @if ($user->profile_status == 'inactive')
+            <div class="alert alert-warning d-flex align-items-center flex-wrap gap-1" role="alert">
+                <span class="alert-icon rounded-circle"><i class="icon-base bx bx-error icon-sm"></i></span>
+                {{ __('user.profile_message') }}
+                <div class="ms-auto">
+                    
+                        <button type="button" class="btn btn-sm btn-icon btn-label-danger" data-bs-toggle="modal" data-bs-target="#reject-modal" data-id="{{ $user->id }}" data-type="profile" title="{{ __('user.actions.reject') }}">
+                            <i class="bx bx-x"></i>
+                        </button>
+                    
+                        <button type="button" class="btn btn-sm btn-icon btn-label-teal" data-bs-toggle="modal" data-bs-target="#accept-modal" data-id="{{ $user->id }}" data-type="profile" title="{{ __('user.actions.accept') }}">
+                            <i class="bx bx-check"></i>
+                        </button>
+                    
+                </div>
+            </div>
+            @endif
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex align-items-start align-items-sm-center gap-4 mb-4">
@@ -132,6 +149,23 @@
         <!-- Truck Information (for drivers only) -->
         @if ($user->role == 'driver' && $user->truck)
             <div class="col-xl-8 col-lg-7 col-md-7">
+                @if ($user->truck_status == 'inactive')
+                <div class="alert alert-warning d-flex align-items-center flex-wrap gap-1" role="alert">
+                    <span class="alert-icon rounded-circle"><i class="icon-base bx bx-error icon-sm"></i></span>
+                    {{ __('user.truck_message') }}
+                    <div class="ms-auto">
+                        
+                            <button type="button" class="btn btn-sm btn-icon btn-label-danger" data-bs-toggle="modal" data-bs-target="#reject-modal" data-id="{{ $user->id }}" data-type="truck" title="{{ __('user.actions.reject') }}">
+                                <i class="bx bx-x"></i>
+                            </button>
+                        
+                            <button type="button" class="btn btn-sm btn-icon btn-label-teal" data-bs-toggle="modal" data-bs-target="#accept-modal" data-id="{{ $user->id }}" data-type="truck" title="{{ __('user.actions.accept') }}">
+                                <i class="bx bx-check"></i>
+                            </button>
+                        
+                    </div>
+                </div>
+                @endif
                 <div class="card mb-4">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="mb-0">{{ __('user.truck.truck_information') }}</h5>
@@ -261,7 +295,6 @@
                                             <div class="swiper-button-next"></div>
                                             <div class="swiper-button-prev"></div>
                                         </div>
-                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -429,7 +462,9 @@
             $('#accept-modal, #reject-modal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('id');
+                var type = button.data('type');
                 $(this).find('input[name="id"]').val(id);
+                $(this).find('input[name="types[]"]').val(type);
             });
 
             // Delete button click handler

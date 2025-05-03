@@ -22,7 +22,7 @@ class Analytics extends Controller
     $last_month = User::where('role', 'driver')->whereMonth('created_at', now()->subMonth(1)->month)->count();
     $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
-    $active = User::where('role', 'driver')->where('status', 'active')->count();
+    $active = User::where('role', 'driver')->whereDoesntHave('statuses')->count();
     $activePercentage = number_format(($total > 0 ? ($active / $total) : 0) * 100, 0);
 
     $driverStats = [
@@ -40,7 +40,7 @@ class Analytics extends Controller
     $last_month = User::where('role', 'renter')->whereMonth('created_at', now()->subMonth(1)->month)->count();
     $percentageChange = number_format(($this_month - $last_month) / max($last_month,1) * 100 , 0);
     $percentageClass = $percentageChange >= 0 ? 'success' : 'danger';
-    $active = User::where('role', 'renter')->where('status', 'active')->count();
+    $active = User::where('role', 'renter')->whereDoesntHave('statuses')->count();
     $activePercentage = number_format(($total > 0 ? ($active / $total) : 0) * 100, 0);
 
     $renterStats = [

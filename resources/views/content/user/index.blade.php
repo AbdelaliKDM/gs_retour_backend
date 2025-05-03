@@ -2,6 +2,14 @@
 
 @section('title', __("user.title.{$type}"))
 
+@section('vendor-style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/css/bootstrap-select.css" integrity="sha512-JWw0M82pi7GIUtAZX0w+zrER725lLReU7KprmCWGJejW4k/ZAtGR6Veij9DoTcUvHTLn1OzpaDr2fkop/lJICw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endsection
+
+@section('vendor-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.js" integrity="sha512-ndehf3lK6GqdbSjARTyQyamMu2k6VcKG9yG+uza6TBtFX40SALRDvbw/CsdxgqSk5p3k9gvZnbzmcP1JOcRUGQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+@endsection
+
 @section('content')
 
     <h4 class="fw-bold py-3 mb-3 row justify-content-between">
@@ -41,20 +49,21 @@
     @include("content.user.create")
     @include("content.user.update")
     @include("content.user.delete")
-    @include("content.user.accept")
-    @include("content.user.reject")
+    @include("content.user.suspend")
+    @include("content.user.activate")
 @endsection
 
 
 @section('page-script')
     <script>
         $(document).ready(function() {
+            
             load_data();
-
+            $('.selectpicker').selectpicker();
             function load_data() {
                 //$.fn.dataTable.moment( 'YYYY-M-D' );
                 var table = $('#laravel_datatable').DataTable({
-                    language: {!! file_get_contents(base_path('lang/' . session('locale', 'en') . '/datatable.json')) !!},
+                    language: {{ Js::from(__('datatable')) }},
                     responsive: true,
                     processing: true,
                     serverSide: true,
@@ -373,33 +382,100 @@
             });
 
 
-            $(document.body).on('click', '.accept', function() {
+            $(document.body).on('click', '.activate', function() {
 
                 var id = $(this).data('id');
-                var modal = $('#accept-modal');
+                var modal = $('#activate-modal');
                 modal.find('input[name="id"]').val(id);
-                modal.modal('show');
+                
+                $.ajax({
+                    url: '{{ url("user/update") }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: 'active'
+                    },
+                    dataType: 'JSON',
+                    success: function(response) {
+                        if (response.data) {
 
+                            modal.find('select').selectpicker('destroy');
+
+                            modal.find('option[value="profile"]').prop('disabled', !response.data.profile);
+                            modal.find('option[value="truck"]').prop('disabled', !response.data.truck);
+                            modal.find('option[value="invoice"]').prop('disabled', !response.data.invoice);
+                            
+                            modal.find('select').selectpicker('render');
+                            
+                            
+                            modal.modal('show');
+                        }
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        Swal.fire(
+                            "{{ __('Error') }}",
+                            errors.message,
+                            'error'
+                        );
+                    }
+                });
             });
 
-            $(document.body).on('click', '.reject', function() {
+            $(document.body).on('click', '.suspend', function() {
 
                 var id = $(this).data('id');
-                var modal = $('#reject-modal');
+                var modal = $('#suspend-modal');
                 modal.find('input[name="id"]').val(id);
-                modal.modal('show');
+                
+                $.ajax({
+                    url: '{{ url("user/update") }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        status: 'suspended'
+                    },
+                    dataType: 'JSON',
+                    success: function(response) {
+                        if (response.data) {
 
+                            modal.find('select').selectpicker('destroy');
+
+                            modal.find('option[value="profile"]').prop('disabled', !response.data.profile);
+                            modal.find('option[value="truck"]').prop('disabled', !response.data.truck);
+                            modal.find('option[value="invoice"]').prop('disabled', !response.data.invoice);
+                            
+                            modal.find('select').selectpicker('render');
+
+                            modal.modal('show');
+                        }
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        Swal.fire(
+                            "{{ __('Error') }}",
+                            errors.message,
+                            'error'
+                        );
+                    }
+                });
             });
 
-            $('#accept-submit').on('click', function() {
+            $('#activate-submit').on('click', function() {
 
-                var modal = $("#accept-modal");
+                var modal = $("#activate-modal");
 
                 if (modal.find('input[name="confirmed"]').prop('checked')) {
 
                     modal.modal("hide");
 
-                    var formdata = new FormData($("#accept-form")[0]);
+                    var formdata = new FormData($("#activate-form")[0]);
 
                     $.ajax({
                         url: '{{ url("user/update") }}',
@@ -444,16 +520,17 @@
                 }
             });
 
-            $('#reject-submit').on('click', function() {
+            $('#suspend-submit').on('click', function() {
 
-                var modal = $("#reject-modal");
+                var modal = $("#suspend-modal");
 
                 if (modal.find('input[name="confirmed"]').prop('checked')) {
 
                     modal.modal("hide");
 
-                    var formdata = new FormData($("#reject-form")[0]);
-
+                    var formdata = new FormData($("#suspend-form")[0]);
+/* formdata.append('types', modal.find('.selectpicker').val()); */
+  
                     $.ajax({
                         url: '{{ url("user/update") }}',
                         headers: {

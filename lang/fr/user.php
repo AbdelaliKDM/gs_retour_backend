@@ -46,6 +46,8 @@ return [
     'info' => 'Informations utilisateur',
     'accept' => 'Activer l\'utilisateur',
     'reject' => 'Suspendre l\'utilisateur',
+    'activate' => 'Activer l\'utilisateur',
+    'suspend' => 'Suspendre l\'utilisateur',
   ],
   'labels' => [
     'name' => 'Nom',
@@ -124,4 +126,19 @@ return [
   ],
 
   'documents' => 'Documents d\'utilisateur',
+
+  'activate' => [
+    'confirmation' => 'Confirmer l\'activation de l\'utilisateur',
+    'notice' => 'L\'activation rétablira l\'accès complet de l\'utilisateur à toutes les fonctionnalités.',
+    'confirm_checkbox' => 'Je confirme que je souhaite activer cet utilisateur',
+  ],
+
+  'suspend' => [
+    'confirmation' => 'Confirmer la suspension de l\'utilisateur',
+    'warning' => 'La suspension entraînera un accès limité aux fonctionnalités pour cet utilisateur.',
+    'confirm_checkbox' => 'Je confirme que je souhaite suspendre cet utilisateur',
+  ],
+
+  'profile_message' => 'Cet utilisateur a un profil incomplet qui doit être examiné.',
+  'truck_message' => 'Cet utilisateur a des informations de camion incomplètes qui doivent être examinées.',
 ];

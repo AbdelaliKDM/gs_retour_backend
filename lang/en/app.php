@@ -70,6 +70,7 @@ return [
     'arabic' => 'Arabic'
   ],
 
-  'km' => ' km'
+  'km' => ' km',
+  'not_selected' => 'Not selected',
 
 ];

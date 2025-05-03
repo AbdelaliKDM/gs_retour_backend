@@ -18,12 +18,14 @@
   color: #fff;
   background-color: var(--bs-blue);
   border-color: var(--bs-blue);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-blue:hover {
   color: #fff;
   background-color: #0069d9;
   border-color: #0062cc;
+  transform: translateY(-1px);
 }
 
 .btn-outline-blue {
@@ -55,12 +57,14 @@
   color: #fff;
   background-color: var(--bs-indigo);
   border-color: var(--bs-indigo);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-indigo:hover {
   color: #fff;
   background-color: #560dcf;
   border-color: #510bc4;
+  transform: translateY(-1px);
 }
 
 .btn-outline-indigo {
@@ -92,12 +96,14 @@
   color: #fff;
   background-color: var(--bs-purple);
   border-color: var(--bs-purple);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-purple:hover {
   color: #fff;
   background-color: #5f61e6;
   border-color: #5658e0;
+  transform: translateY(-1px);
 }
 
 .btn-outline-purple {
@@ -129,12 +135,14 @@
   color: #fff;
   background-color: var(--bs-pink);
   border-color: var(--bs-pink);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-pink:hover {
   color: #fff;
   background-color: #e5277e;
   border-color: #d91a72;
+  transform: translateY(-1px);
 }
 
 .btn-outline-pink {
@@ -166,12 +174,14 @@
   color: #fff;
   background-color: var(--bs-red);
   border-color: var(--bs-red);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-red:hover {
   color: #fff;
   background-color: #ff2c08;
   border-color: #fa2600;
+  transform: translateY(-1px);
 }
 
 .btn-outline-red {
@@ -203,12 +213,14 @@
   color: #fff;
   background-color: var(--bs-orange);
   border-color: var(--bs-orange);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-orange:hover {
   color: #fff;
   background-color: #e96b02;
   border-color: #dc6502;
+  transform: translateY(-1px);
 }
 
 .btn-outline-orange {
@@ -240,12 +252,14 @@
   color: #000;
   background-color: var(--bs-yellow);
   border-color: var(--bs-yellow);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-yellow:hover {
   color: #000;
   background-color: #ffb61f;
   border-color: #ffb419;
+  transform: translateY(-1px);
 }
 
 .btn-outline-yellow {
@@ -277,12 +291,14 @@
   color: #000;
   background-color: var(--bs-green);
   border-color: var(--bs-green);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-green:hover {
   color: #000;
   background-color: #84e251;
   border-color: #7de14b;
+  transform: translateY(-1px);
 }
 
 .btn-outline-green {
@@ -314,12 +330,14 @@
   color: #000;
   background-color: var(--bs-teal);
   border-color: var(--bs-teal);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-teal:hover {
   color: #000;
   background-color: #3dd0a7;
   border-color: #36cea2;
+  transform: translateY(-1px);
 }
 
 .btn-outline-teal {
@@ -351,12 +369,14 @@
   color: #000;
   background-color: var(--bs-cyan);
   border-color: var(--bs-cyan);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-cyan:hover {
   color: #000;
   background-color: #25cdef;
   border-color: #1ccaee;
+  transform: translateY(-1px);
 }
 
 .btn-outline-cyan {
@@ -388,12 +408,14 @@
   color: #000;
   background-color: var(--bs-white);
   border-color: var(--bs-white);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-white:hover {
   color: #000;
   background-color: #f2f2f2;
   border-color: #e6e6e6;
+  transform: translateY(-1px);
 }
 
 .btn-outline-white {
@@ -425,12 +447,14 @@
   color: #fff;
   background-color: var(--bs-gray);
   border-color: var(--bs-gray);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-gray:hover {
   color: #fff;
   background-color: rgba(54, 71, 90, 0.6);
   border-color: rgba(47, 62, 79, 0.6);
+  transform: translateY(-1px);
 }
 
 .btn-outline-gray {
@@ -462,12 +486,14 @@
   color: #fff;
   background-color: var(--bs-gray-dark);
   border-color: var(--bs-gray-dark);
+  box-shadow: 0 0.125rem 0.25rem 0 rgba(113, 221, 55, 0.4);
 }
 
 .btn-gray-dark:hover {
   color: #fff;
   background-color: rgba(54, 71, 90, 0.8);
   border-color: rgba(47, 62, 79, 0.8);
+  transform: translateY(-1px);
 }
 
 .btn-outline-gray-dark {

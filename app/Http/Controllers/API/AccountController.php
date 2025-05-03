@@ -41,6 +41,13 @@ class AccountController extends Controller
 
         if(empty($user->role) && $request->has('role')){
           $user->role = $request->role;
+
+          if ($request->role == 'driver' && empty($user->truck)) {
+            $user->statuses()->create([
+              'name' => 'suspended',
+              'type' => 'truck'
+            ]);
+          }
         }
 
         $user->image = $this->handleFileUpload(

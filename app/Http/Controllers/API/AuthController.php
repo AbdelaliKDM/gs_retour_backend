@@ -34,9 +34,15 @@ class AuthController extends Controller
           'name' => $firebase_user->displayName ?? 'user#' . uuid_create(),
           'phone' => $firebase_user->phoneNumber,
           'image' => $firebase_user->photoUrl,
-          'status' => 'suspended'
         ]
       )->refresh();
+
+      if (empty($user->role)) {
+        $user->statuses()->create([
+          'name' => 'suspended',
+          'type' => 'profile'
+        ]);
+      }
 
       if ($request->has('device_token')) {
         $user->device_token = $request->device_token;

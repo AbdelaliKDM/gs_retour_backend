@@ -46,6 +46,8 @@ return [
     'info' => 'User Info',
     'accept' => 'Activate user',
     'reject' => 'Suspend user',
+    'activate' => 'Activate user',
+    'suspend' => 'Suspend user',
   ],
   'labels' => [
     'name' => 'Name',
@@ -60,6 +62,7 @@ return [
   'placeholders' => [
     'name' => 'Enter your name',
     'email' => 'Enter your email',
+    'phone' => 'Enter your phone number',
   ],
 
   'roles' => [
@@ -115,6 +118,21 @@ return [
     'reason' => 'Deactivation Reason',
     'confirm_checkbox' => 'I confirm that I want to deactivate this user',
   ],
+
+  'activate' => [
+    'confirmation' => 'Confirm User Activation',
+    'notice' => 'Activating will restore the user to full access to all functionalities.',
+    'confirm_checkbox' => 'I confirm that I want to activate this user',
+  ],
+
+  'suspend' => [
+    'confirmation' => 'Confirm User Suspension',
+    'warning' => 'Suspending will result in limited access to functionalities for this user.',
+    'confirm_checkbox' => 'I confirm that I want to suspend this user',
+  ],
+
+  'profile_message' => 'This user has an incomplete profile that needs to be reviewed.',
+  'truck_message' => 'This user has an incomplete truck information that needs to be reviewed.',
 
   'reasons' => [
     'admin' => 'Admin decision',

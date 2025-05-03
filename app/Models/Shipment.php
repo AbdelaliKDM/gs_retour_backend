@@ -9,6 +9,81 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $renter_id
+ * @property int|null $trip_id
+ * @property int $truck_type_id
+ * @property int $shipment_type_id
+ * @property int $starting_wilaya_id
+ * @property int $arrival_wilaya_id
+ * @property float $starting_point_longitude
+ * @property float $starting_point_latitude
+ * @property float $arrival_point_longitude
+ * @property float $arrival_point_latitude
+ * @property \Illuminate\Support\Carbon $shipping_date
+ * @property string $waiting_hours
+ * @property float $distance
+ * @property float $price
+ * @property float $weight
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Wilaya $arrivalWilaya
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Favorite> $favorites
+ * @property-read int|null $favorites_count
+ * @property-read mixed $arrival_wilaya_name
+ * @property-read mixed $current_status
+ * @property-read mixed $is_favored
+ * @property-read int|null $orders_count
+ * @property-read mixed $shipment_type_name
+ * @property-read mixed $starting_wilaya_name
+ * @property-read mixed $truck_type_name
+ * @property-read mixed $waiting_duration
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $incoming_orders
+ * @property-read int|null $incoming_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $outgoing_orders
+ * @property-read int|null $outgoing_orders_count
+ * @property-read \App\Models\User $renter
+ * @property-read \App\Models\ShipmentType $shipmentType
+ * @property-read \App\Models\Wilaya $startingWilaya
+ * @property-read \App\Models\ShipmentStatus|null $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ShipmentStatus> $statuses
+ * @property-read int|null $statuses_count
+ * @property-read \App\Models\Trip|null $trip
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Trip> $trips
+ * @property-read int|null $trips_count
+ * @property-read \App\Models\TruckType $truckType
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereArrivalPointLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereArrivalPointLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereArrivalWilayaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereDistance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereRenterId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereShipmentTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereShippingDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereStartingPointLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereStartingPointLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereStartingWilayaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereTruckTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereWaitingHours($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment whereWeight($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Shipment withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Shipment extends Model
 {
   use HasFactory, SoftDeletes, SoftCascadeTrait;

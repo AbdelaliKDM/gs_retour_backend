@@ -61,7 +61,7 @@
             var table = $('#laravel_datatable');
             table ? table.DataTable().destroy() : null;
             table.DataTable({
-                language: {!! file_get_contents(base_path('lang/' . session('locale', 'en') . '/datatable.json')) !!},
+                language: {{ Js::from(__('datatable')) }},
                 responsive: true,
                 processing: true,
                 serverSide: true,

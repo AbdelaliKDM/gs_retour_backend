@@ -24,16 +24,16 @@ class UserController extends Controller
   public function index(Request $request)
   {
 
-    try{
+    try {
       $request->validate([
         'role' => 'missing_with:status|in:driver,renter',
-        'status' =>'missing_with:role|in:inactive,suspended',
+        'status' => 'missing_with:role|in:inactive,suspended',
       ]);
 
       return view("content.user.index")->with([
         'type' => $request->role ?? $request->status,
       ]);
-    }catch (Exception $e){
+    } catch (Exception $e) {
       return redirect()->route('pages-misc-error');
     }
 
@@ -47,8 +47,8 @@ class UserController extends Controller
     $invoices = $user->invoices()->latest()->paginate(10, ['*'], 'invoice_page');
     return view("content.user.info")->with([
       'user' => $user,
-      'payments'=> $payments,
-      'invoices'=> $invoices
+      'payments' => $payments,
+      'invoices' => $invoices
     ]);
   }
 
@@ -57,11 +57,17 @@ class UserController extends Controller
 
     $data = User::latest()->whereNot('id', auth()->id());
 
-    if($request->role){
+    if ($request->role) {
       $data = $data->where('role', $request->role);
     }
 
-    $data = $data->where('status', $request->status ?? 'active');
+    $data = match ($request->status) {
+      'suspended', 'inactive' => $data->whereHas('statuses', function ($query) use ($request) {
+          $query->where('name', $request->status);
+        }),
+      default => $data->doesntHave('statuses'),
+
+    };
 
     $data = $data->get();
 
@@ -72,17 +78,17 @@ class UserController extends Controller
       ->addColumn('action', function ($row) {
         $btn = '';
 
-/*         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("user.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';  */
+        /*         $btn .= '<button class="btn btn-icon btn-label-info inline-spacing update" title="' . __("user.actions.update") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-edit"></span></button>';  */
 
         /* $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing delete" title="' . __("user.actions.delete") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-trash"></span></button>'; */
 
         $btn .= '<a href="' . url("user/{$row->id}/info") . '" class="btn btn-icon btn-label-purple inline-spacing" title="' . __("user.actions.info") . '"><span class="tf-icons bx bx-info-circle"></span></a>';
 
         if ($row->status != 'suspended') {
-          $btn .= '<button class="btn btn-icon btn-label-warning inline-spacing reject" title="' . __("user.actions.reject") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-danger inline-spacing suspend" title="' . __("user.actions.suspend") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-x-circle"></span></button>';
         }
         if ($row->status != 'active') {
-          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing accept" title="' . __("user.actions.accept") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
+          $btn .= '<button class="btn btn-icon btn-label-teal inline-spacing activate" title="' . __("user.actions.activate") . '" data-id="' . $row->id . '"><span class="tf-icons bx bx-check-circle"></span></button>';
         }
 
         return $btn;
@@ -94,10 +100,16 @@ class UserController extends Controller
 
       })
 
-
       ->addColumn('email', function ($row) {
 
         return $row->email;
+
+      })
+
+
+      ->addColumn('status', function ($row) {
+
+        return $row->status;
 
       })
 
@@ -156,27 +168,37 @@ class UserController extends Controller
   }
   public function update(Request $request)
   {
-
+    //dd($request->all());
     $this->validateRequest($request, [
       'id' => 'required|exists:users',
       'name' => 'sometimes|string',
       'email' => ['sometimes', 'email', Rule::unique('users')->ignore($request->id)],
       'phone' => ['sometimes', new ValidPhoneNumber(), Rule::unique('users')->ignore($request->id)],
       'status' => 'sometimes|in:active,suspended',
-      'suspended_for' => 'sometimes|in:admin,invoice,profile,truck',
+      'types' => 'required_with:confirmed|array',
+      'types.*' => 'in:invoice,profile,truck',
     ]);
 
     try {
 
       $user = User::find($request->id);
 
-      $user->update($request->only('name','email','phone'));
+      $user->update($request->only('name', 'email', 'phone'));
 
-      if($request->has('status')){
-        if($request->has('confirmed')){
-          $user->updateStatus($request->status, $request->suspended_for);
+      if ($request->has('status')) {
+        if ($request->has('confirmed')) {
+
+          foreach ($request->types as $type) {
+            $user->updateStatus($request->status, $type);
+          }
+        } else {
+          $data = [
+            'profile' => $user->profile_status != $request->status,
+            'truck' => $user->role == 'driver' ? $user->truck_status != $request->status : false,
+            'invoice' => $user->role == 'driver' ? $user->invoice_status != $request->status : false,
+          ];
+          return $this->successResponse(data: $data);
         }
-
       }
 
       return $this->successResponse(data: new UserResource($user));
@@ -199,7 +221,7 @@ class UserController extends Controller
 
       $user = User::findOrFail($request->id);
 
-      if($request->has('confirmed')){
+      if ($request->has('confirmed')) {
 
         $user->update([
           'email' => null,
@@ -213,7 +235,7 @@ class UserController extends Controller
         $user->delete();
 
         return $this->successResponse();
-      }else{
+      } else {
 
         $trucks = $user->truck()->count();
         $trips = $user->trips()->count();
@@ -233,8 +255,8 @@ class UserController extends Controller
         empty($wallet_payments) ?: $data[__('app.wallet_payments')] = $wallet_payments;
 
 
-      return $this->successResponse(data: $data);
-    }
+        return $this->successResponse(data: $data);
+      }
 
     } catch (Exception $e) {
       return $this->errorResponse($e->getMessage());

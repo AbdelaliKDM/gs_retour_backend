@@ -9,6 +9,44 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $payable_type
+ * @property int $payable_id
+ * @property float $amount
+ * @property string|null $payment_method
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $paid_at
+ * @property string|null $account
+ * @property string|null $receipt
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $receipt_url
+ * @property-read mixed $type
+ * @property-read Model|\Eloquent $payable
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereAccount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment wherePayableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment wherePayableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereReceipt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Payment extends Model
 {
   use HasFactory, SoftDeletes, SoftCascadeTrait;

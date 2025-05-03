@@ -8,6 +8,47 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $title_ar
+ * @property string $title_en
+ * @property string $title_fr
+ * @property string $content_ar
+ * @property string $content_en
+ * @property string $content_fr
+ * @property int $type
+ * @property int $priority
+ * @property string|null $metadata
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $content
+ * @property-read mixed $title
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notification> $notifications
+ * @property-read int|null $notifications_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereContentAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereContentEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereContentFr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereMetadata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice wherePriority($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereTitleAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereTitleEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereTitleFr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notice withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Notice extends Model
 {
   use HasFactory, SoftDeletes, SoftCascadeTrait, Firebase;

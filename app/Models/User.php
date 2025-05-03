@@ -14,6 +14,79 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $email
+ * @property string|null $phone
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string|null $password
+ * @property string|null $image
+ * @property string|null $id_card
+ * @property string|null $id_card_selfie
+ * @property string|null $role
+ * @property string|null $device_token
+ * @property string|null $suspended_for
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Favorite> $favorites
+ * @property-read int|null $favorites_count
+ * @property-read mixed $balance
+ * @property-read mixed $card_url
+ * @property-read mixed $image_url
+ * @property-read mixed $rating
+ * @property-read mixed $selfie_url
+ * @property-read mixed $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invoice> $invoices
+ * @property-read int|null $invoices_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
+ * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Shipment> $shipments
+ * @property-read int|null $shipments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserStatus> $statuses
+ * @property-read int|null $statuses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
+ * @property-read \App\Models\Trip|null $trip
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Trip> $trips
+ * @property-read int|null $trips_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $trips_reviews
+ * @property-read int|null $trips_reviews_count
+ * @property-read \App\Models\Truck|null $truck
+ * @property-read \App\Models\Wallet|null $wallet
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeviceToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIdCard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIdCardSelfie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSuspendedFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
   use HasApiTokens, HasFactory, /* Notifiable, */ Authorizable, SoftDeletes, SoftCascadeTrait, Firebase;
@@ -68,7 +141,8 @@ class User extends Authenticatable
     'reviews',
     'favorites',
     'wallet',
-    'invoices'
+    'invoices',
+    'statuses'
   ];
 
   public function role(){
@@ -194,27 +268,57 @@ class User extends Authenticatable
 
   }
 
-  public function updateStatus($newStatus, $suspended_for)
+  public function statuses()
   {
+    return $this->hasMany(UserStatus::class);
+  }
 
-    $currentStatus = $this->status;
-
-    $allowedTransitions = [
-      'active' => ['inactive', 'suspended'],
-      'inactive' => ['active', 'suspended'],
-      'suspended' => ['active', 'inactive'],
-    ];
-
-    if (in_array($newStatus, $allowedTransitions[$currentStatus])) {
-      $this->update([
-        'status' => $newStatus,
-        'suspended_for' => $suspended_for
-      ]);
-
-      $notice = Notice::ProfileNotice($newStatus, $suspended_for ?? 'default');
-
-      $this->notify($notice);
+  public function getStatusAttribute()
+  {
+    if ($this->statuses()->count() === 0) {
+      return 'active';
     }
 
+    if ($this->statuses()->where('name', 'suspended')->exists()) {
+      return 'suspended';
+    }
+
+    return 'inactive';
+  }
+
+  public function getProfileStatusAttribute(){
+    return $this->statuses()->where('type','profile')->first()?->name ?? 'active';
+  }
+  public function getTruckStatusAttribute(){
+    return $this->statuses()->where('type','truck')->first()?->name ?? 'active';
+  }
+
+  public function getInvoiceStatusAttribute(){
+    return $this->statuses()->where('type','invoice')->first()?->name ?? 'active';
+  }
+
+  public function updateStatus($newStatus, $type)
+  {
+    if ($newStatus == 'active') {
+
+      $this->statuses()->where('type', $type)->delete();
+
+      if($this->status == 'active'){
+        $notice = Notice::ProfileNotice('active', 'default');
+      }
+    } else {
+
+      $this->statuses()->updateOrCreate(
+        ['type' => $type],
+        ['name' => $newStatus]
+      );
+
+      $notice = Notice::ProfileNotice($newStatus, $type);
+      
+    }
+
+    if(isset($notice)){
+      $this->notify($notice);
+    }  
   }
 }

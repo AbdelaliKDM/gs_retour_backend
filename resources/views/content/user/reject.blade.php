@@ -10,20 +10,11 @@
 
           <input type="hidden" name="id">
           <input type="hidden" name="status" value="suspended">
+          <input type="hidden" name="types[]">
 
-          <div class="alert alert-warning mb-4">
+          <div class="alert alert-danger mb-4">
             <h5 class="text-center">{{ __('user.reject.confirmation') }}</h5>
             <p class="text-center mb-0">{{ __('user.reject.warning') }}</p>
-          </div>
-
-          <div class="mb-3">
-            <label for="rejection_reason" class="form-label">{{ __('user.reject.reason') }} </label>
-            <select class="form-select" name="suspended_for">
-              <option value="admin">{{ __('user.reasons.admin') }}</option>
-              <option value="profile">{{ __('user.reasons.profile') }}</option>
-              <option value="truck">{{ __('user.reasons.truck') }}</option>
-              <option value="invoice">{{ __('user.reasons.invoice') }}</option>
-            </select>
           </div>
 
           <div class="mb-3">
@@ -39,7 +30,7 @@
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
               {{ __('app.cancel') }}
             </button>
-            <button type="submit" id="reject-submit" name="submit" class="btn btn-warning reject-submit">
+            <button type="submit" id="reject-submit" name="submit" class="btn btn-danger reject-submit">
               {{ __('app.submit') }}
             </button>
           </div>

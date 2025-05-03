@@ -10,6 +10,80 @@ use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $driver_id
+ * @property int $truck_id
+ * @property int $starting_wilaya_id
+ * @property int $arrival_wilaya_id
+ * @property float $starting_point_longitude
+ * @property float $starting_point_latitude
+ * @property float $arrival_point_longitude
+ * @property float $arrival_point_latitude
+ * @property float $distance
+ * @property \Illuminate\Support\Carbon $starts_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\Wilaya $arrivalWilaya
+ * @property-read \App\Models\User $driver
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Favorite> $favorites
+ * @property-read int|null $favorites_count
+ * @property-read mixed $arrival_wilaya_name
+ * @property-read mixed $category_name
+ * @property-read mixed $current_status
+ * @property-read mixed $is_favored
+ * @property-read int|null $orders_count
+ * @property-read int|null $shipments_count
+ * @property-read mixed $starting_wilaya_name
+ * @property-read mixed $subcategory_name
+ * @property-read mixed $total_price
+ * @property-read mixed $truck_type_name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $incoming_orders
+ * @property-read int|null $incoming_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $outgoing_orders
+ * @property-read int|null $outgoing_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $pending_orders
+ * @property-read int|null $pending_orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Shipment> $pending_shipments
+ * @property-read int|null $pending_shipments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $renters
+ * @property-read int|null $renters_count
+ * @property-read \App\Models\Review|null $review
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
+ * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Shipment> $shipments
+ * @property-read \App\Models\Wilaya $startingWilaya
+ * @property-read \App\Models\TripStatus|null $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TripStatus> $statuses
+ * @property-read int|null $statuses_count
+ * @property-read \App\Models\Transaction|null $transaction
+ * @property-read \App\Models\Truck $truck
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereArrivalPointLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereArrivalPointLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereArrivalWilayaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereDistance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereDriverId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereStartingPointLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereStartingPointLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereStartingWilayaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereStartsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereTruckId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Trip withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Trip extends Model
 {
   use HasFactory, SoftDeletes, SoftCascadeTrait;

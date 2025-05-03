@@ -8,6 +8,39 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $month
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read mixed $month_name
+ * @property-read mixed $status
+ * @property-read mixed $tax_amount
+ * @property-read mixed $total_amount
+ * @property-read mixed $year
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereMonth($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Invoice extends Model
 {
   use HasFactory, SoftDeletes, SoftCascadeTrait;

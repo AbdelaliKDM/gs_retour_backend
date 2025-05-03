@@ -8,6 +8,42 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $trip_id
+ * @property int $shipment_id
+ * @property string $status
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $receiver
+ * @property-read mixed $sender
+ * @property-read mixed $type
+ * @property-read \App\Models\Shipment $shipment
+ * @property-read \App\Models\Trip $trip
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereShipmentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTripId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Order extends Model
 {
   use HasFactory, SoftDeletes, SoftCascadeTrait;

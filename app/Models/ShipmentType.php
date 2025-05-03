@@ -7,6 +7,34 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $name_ar
+ * @property string $name_en
+ * @property string $name_fr
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Shipment> $shipments
+ * @property-read int|null $shipments_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereNameFr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ShipmentType withoutTrashed()
+ * @mixin \Eloquent
+ */
 class ShipmentType extends Model
 {
     use HasFactory, SoftDeletes, SoftCascadeTrait;

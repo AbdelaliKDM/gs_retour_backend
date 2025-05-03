@@ -1,6 +1,9 @@
 @php
-    $pending_payments = DB::table('payments')->where('status', 'pending')->count();
-    $inactive_users = DB::table('users')->where('status', 'inactive')->count();
+    $pending_payments = \App\Models\Payment::where('status', 'pending')->count();
+    $inactive_users = \App\Models\User::whereHas('statuses', function($query){
+        $query->where('name', 'inactive')
+        ->whereIn('type', ['profile', 'truck']);
+    })->count();
 @endphp
 
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
